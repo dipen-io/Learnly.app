@@ -158,10 +158,20 @@ function CourseCard({ course }: { course: Course }) {
                                 backgroundColor: BrandColors.forest,
                                 opacity: pressed ? 0.7 : 1,
                                 transform: pressed ? [{ scale: 0.95 }] : [{ scale: 1 }],
+
                             },
                         ]}
                     >
-                        <Text style={[styles.badgeText2]}>add to cart</Text>
+                        <Text style={[styles.badgeText2, { marginHorizontal: spacing.xs }]}>Add</Text>
+                        {/* <ThemedText
+                            style={{
+                                fontSize: fontSizes.xs,
+                                color: isInCart ? '#FFFFFF' : colors.buttonText,
+                                fontWeight: '700',
+                            }}
+                        >
+                            Add
+                        </ThemedText> */}
                     </Pressable>
                 )}
             </View>
@@ -306,7 +316,7 @@ const styles = StyleSheet.create({
         top: spacing.xs,
         right: spacing.xs,
         paddingHorizontal: spacing.sm,
-        paddingVertical: 14,
+        paddingVertical: spacing.sm,
         borderRadius: radii.md,
     },
 
@@ -321,6 +331,7 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.bodySemiBold,
         fontSize: 10,
         color: '#FFFFFF',
+        fontWeight: '700',
         letterSpacing: 0.5,
         textTransform: 'uppercase',
     },

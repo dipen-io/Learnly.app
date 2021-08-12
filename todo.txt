@@ -12,3 +12,4 @@ Done
    * login/signup screen
 
 Todo: 
+   * not internel connection show an page in whole ap
