@@ -20,9 +20,10 @@ export function CartSummary({ total, itemCount, onCheckout }: CartSummaryProps) 
                 {
                     borderTopWidth: StyleSheet.hairlineWidth,
                     borderTopColor: colors.border,
-                    backgroundColor: colors.surfaceElevated,
+                    backgroundColor: colors.surface,
                     padding: spacing.md,
                     paddingBottom: spacing.xl,
+                    borderRadius: spacing.lg
                 },
             ]}
         >

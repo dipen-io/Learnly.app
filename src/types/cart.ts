@@ -1,6 +1,7 @@
 // src/types/cart.ts
 
 export type CartItem = {
+    quantity: number;
     courseId: string;
     title: string;
     price: number;
