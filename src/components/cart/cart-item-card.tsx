@@ -58,6 +58,7 @@ export function CartItemCard({ item, onRemove, onPress }: CartItemCardProps) {
                             hitSlop={12}
                             style={({ pressed }) => [
                                 styles.qtyButton,
+                                { backgroundColor: colors.background },
                                 pressed && { opacity: 0.5 }
                             ]}
                         >
@@ -73,6 +74,7 @@ export function CartItemCard({ item, onRemove, onPress }: CartItemCardProps) {
                             hitSlop={12}
                             style={({ pressed }) => [
                                 styles.qtyButton,
+                                { backgroundColor: colors.warning },
                                 pressed && { opacity: 0.5 }
                             ]}
                         >
@@ -128,12 +130,13 @@ const styles = StyleSheet.create({
         paddingVertical: 1,
         gap: 8,
         borderWidth: 1,
-        borderColor: '#6C3172',
+        borderColor: '#eddfef',
     },
     qtyButton: {
         padding: 4,
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: radii.full,
     },
     qtyText: {
         fontSize: 14,
