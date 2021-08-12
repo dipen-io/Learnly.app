@@ -1,4 +1,4 @@
-//src/features/home/trending-courses.tsx
+//src/features/home/new-arrival-courses.tsx
 
 import { BrandColors, Fonts, radii, spacing, useTheme } from "@/constants/theme";
 import { SectionHeader } from "@/src/components/section-header";
@@ -9,7 +9,7 @@ import React from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useTrendingCourses } from "./use-home-sections";
 
-const THUMB_SIZE = 80;
+const THUMB_SIZE = 110;
 
 function NewArrival({ course }: { course: TrendingCourse }) {
     const router = useRouter();
@@ -35,7 +35,7 @@ function NewArrival({ course }: { course: TrendingCourse }) {
             ]}
         >
             {/* Big rank number */}
-            <Text style={[styles.rank, { color: colors.border }]}>
+            <Text style={[styles.rank, { color: colors.borderStrong }]}>
                 {String(course.rank).padStart(2, '0')}
             </Text>
 
@@ -107,7 +107,6 @@ function SkeletonCard() {
 
 
 export function NewArrivalCourses() {
-    const { colors, fontSizes } = useTheme();
     const { data: courses, isLoading, isError } = useTrendingCourses();
     const router = useRouter();
 
@@ -146,34 +145,6 @@ const styles = StyleSheet.create({
         marginBottom: spacing.xs,
     },
 
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: spacing.md,
-        marginBottom: spacing.md,
-    },
-
-    titleRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: spacing.xs,
-    },
-
-    icon: {
-        fontSize: 18,
-        fontFamily: Fonts.bodySemiBold,
-    },
-
-    sectionTitle: {
-        fontFamily: Fonts.display,
-        lineHeight: 28,
-    },
-
-    seeAll: {
-        fontFamily: Fonts.bodySemiBold,
-    },
-
     scrollContent: {
         paddingHorizontal: spacing.md,
         gap: spacing.md,
@@ -194,6 +165,7 @@ const styles = StyleSheet.create({
         fontSize: 28,
         lineHeight: 32,
         minWidth: 36,
+        margin: 0
     },
 
     thumbWrap: {
