@@ -1,9 +1,7 @@
 import { OnboardingProvider, useOnboarding } from '@/src/context/onboarding-context';
-import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { useResolvedTheme } from '@/src/hooks/use-resolved-theme';
 import { QueryProvider } from '@/src/providers/query-provider';
 import { useAuthStore } from '@/src/store/auth-store';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useResolvedTheme } from '@/src/hooks/use-resolved-theme';
 import { ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -85,23 +83,33 @@ function RootLayoutNav() {
   }
 
   return (
-      <>
+    <>
       <NavThemeProvider value={navigationTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="course/[id]" options={{ headerShown: true, title: '' }} />
-        <Stack.Screen name="player/[lessonId]" options={{ headerShown: true, title: '' }} />
-        <Stack.Screen name="cart/index" options={{ headerShown: true, title: 'Cart' }} />
-        <Stack.Screen name="checkout/index" options={{ headerShown: true, title: 'Checkout' }} />
-        <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </NavThemeProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="course/[id]" options={{ headerShown: true, title: '' }} />
+          <Stack.Screen name="player/[lessonId]" options={{ headerShown: true, title: '' }} />
+          <Stack.Screen name="cart/index" options={{ headerShown: true, title: '' }} />
+          {/* <Stack.Screen
+            name="cart/index"
+            options={{
+              headerShown: true,
+              title: 'Cart',
+              headerTitleAlign: 'center',
+              headerShadowVisible: false,
+              animation: 'slide_from_right', // Ensures smooth native slide
+            }}
+          /> */}
+          <Stack.Screen name="checkout/index" options={{ headerShown: true, title: 'Checkout' }} />
+          <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        </Stack>
+        <StatusBar style="auto" />
+      </NavThemeProvider>
 
       {/* StatusBar now follows YOUR theme, not the system */}
-       <StatusBar style={isDark ? 'light' : 'dark'} />
+      <StatusBar style={isDark ? 'light' : 'dark'} />
     </>
   );
 }

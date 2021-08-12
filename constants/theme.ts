@@ -1,7 +1,7 @@
 // constants/theme.ts
 
-import { Platform, useColorScheme } from 'react-native';
 import { useThemeStore } from '@/src/store/theme-store';
+import { Platform, useColorScheme } from 'react-native';
 
 // =============================================================================
 // BRAND
@@ -124,13 +124,19 @@ export interface ThemeColors {
   icon: string;
   tabIconDefault: string;
   tabIconSelected: string;
+
+  white?: string;
 }
 
 export const LightColors: ThemeColors = {
-  background: '#FFFFFF',
+  white: '#FFFFFF',
+  // background: '#FAFAF9',
+  // background: '#F7F7F5',
+  background: '#f3f4f9',
   foreground: '#1C2321',
 
-  surface: '#EEF0EA',
+  // surface: '#EEF0EA',
+  surface: '#FFFFFF',
   surfaceElevated: '#FFFFFF',
 
   text: '#1C2321',
