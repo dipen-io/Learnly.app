@@ -45,6 +45,7 @@ export function FreeCourseCard({ course }: FreeCoursesProp) {
                             styles.freeBadge,
                             {
                                 backgroundColor: colors.success,
+                                borderRadius: spacing.sm
                             },
                         ]}
                     >
@@ -86,7 +87,7 @@ export function FreeCourseCard({ course }: FreeCoursesProp) {
                         style={[
                             styles.ctaButton,
                             {
-                                backgroundColor: colors.success + '12',
+                                backgroundColor: colors.success,
                                 borderRadius: radii.md,
                                 marginTop: spacing.sm,
                                 paddingVertical: 6,
@@ -96,7 +97,7 @@ export function FreeCourseCard({ course }: FreeCoursesProp) {
                         <ThemedText
                             style={{
                                 fontSize: fontSizes.xs,
-                                color: colors.success,
+                                color: colors.background,
                                 fontWeight: '700',
                                 textAlign: 'center',
                             }}
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
         left: 8,
         paddingHorizontal: 8,
         paddingVertical: 3,
-        borderRadius: 999,
+        // borderRadius: 999,
     },
     ctaButton: {
         alignItems: 'center',
