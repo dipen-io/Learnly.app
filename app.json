@@ -4,7 +4,7 @@
     "slug": "studyLab",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/splash.png",
+    "icon": "./assets/images/lgo.png",
     "scheme": "learn",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -30,13 +30,13 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logoo.png",
+          "image": "./assets/images/lgo.png",
           "imageWidth": 200,
           "resizeMode": "cover",
           "backgroundColor": "#ffffff",
           "dark": {
             "backgroundColor": "#000000",
-            "image": "./assets/images/darklogo.png"
+            "image": "./assets/images/lgo.png"
           }
         }
       ],
