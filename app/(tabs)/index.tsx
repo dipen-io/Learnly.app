@@ -19,7 +19,7 @@ export default function HomeScreen() {
         <TouchableOpacity style={styles.avatarContainer}>
           {/* Replace with user profile image */}
           <View style={styles.avatarPlaceholder}>
-            <Text style={styles.avatarText}>DB</Text>
+            <Text style={styles.avatarText}onPress={() => router.push('/profile')}>DB</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -27,7 +27,8 @@ export default function HomeScreen() {
       {/* 2. Search Bar Trigger (Navigates to search tab on press) */}
       <TouchableOpacity
         style={styles.searchBar}
-        onPress={() => router.push('/(tabs)/search')}
+        // onPress={() => router.push('/(tabs)/search')}
+        onPress={() => router.push('/explore')}
         activeOpacity={0.8}
       >
         <Text style={styles.searchText}>Search for courses, skills...</Text>
@@ -38,7 +39,8 @@ export default function HomeScreen() {
         <Text style={styles.sectionTitle}>Continue Learning</Text>
         <TouchableOpacity
           style={styles.resumeCard}
-          onPress={() => router.push('/course/lessons/1')} // Navigate to lesson player
+          // onPress={() => router.push('/course/lessons/1')} // Navigate to lesson player
+          onPress={() => router.push('/explore')} // Navigate to lesson player
         >
           <View style={styles.resumeInfo}>
             <Text style={styles.courseTag}>CHAPTER 3</Text>
@@ -77,7 +79,8 @@ export default function HomeScreen() {
           renderItem={({ item }) => (
               <TouchableOpacity
               style={styles.courseCard}
-              onPress={() => router.push(`/course/${item}`)}
+              // onPress={() => router.push(`/course/${item}`)}
+              onPress={() => router.push(`/explore`)}
               >
               <View style={styles.courseThumbnailPlaceholder}>
               <Image
