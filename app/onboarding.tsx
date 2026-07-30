@@ -2,7 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet,  Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const { width, height } = Dimensions.get('window');
@@ -13,7 +14,6 @@ const onboardingData = [
         title: "Master New Skills",
         description: 'Learn top-tier courses from industry experts at your own pace.',
         image: require('../assets/images/skill-intro.jpg'),
-        // /home/dinesh/mob_dev/learnly/assets/images/skill-intro.jpg
     },
     {
         id: 2,
@@ -49,7 +49,7 @@ export default function OnboardingScreen() {
     const item = onboardingData[currentIndex];
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {/* Skip Button */}
             <TouchableOpacity
                 style={styles.skipButton}
@@ -66,7 +66,6 @@ export default function OnboardingScreen() {
                 <Image
                     source={item.image}
                     style={styles.imageStyle}
-                    resizeMode="contain"
                 />
             </View>
 
@@ -94,29 +93,59 @@ export default function OnboardingScreen() {
                     </Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 24, paddingTop: 60 },
-    skipButton: { alignSelf: 'flex-end', padding: 8 },
-    skipText: { fontSize: 16, color: '#6C757D', fontWeight: '500' },
-    imageContainer: { flex: 0.5, justifyContent: 'center', alignItems: 'center' },
+    container: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        // paddingHorizontal: 24,
+        // paddingTop: 50,
+    },
+    skipButton: {
+        alignSelf: 'flex-end',
+        paddingHorizontal: 15,
+        paddingVertical: 3,
+        borderRadius: 20,
+        backgroundColor: '#27D3F5',
+        marginTop: 10,
+        marginRight: 10,
+    },
+    skipText: { fontSize: 16, color: '#FFFFFF', fontWeight: '500' },
+
+    imageContainer: {
+        width: '100%',
+        flex: 1,
+        marginTop: 10,
+        // height: '55%',
+        // justifyContent: 'center',
+        // alignItems: 'center',
+    },
     imagePlaceholder: { width: width * 0.75, height: height * 0.35, backgroundColor: '#F1F3F5', borderRadius: 24, justifyContent: 'center', alignItems: 'center' },
     placeholderText: { color: '#ADB5BD', fontWeight: '600' },
-    footerContainer: { flex: 0.4, justifyContent: 'space-between', paddingBottom: 40 },
+    footerContainer: {
+        flex: 0.4,
+        justifyContent: 'space-between',
+        marginTop: 10,
+        paddingBottom: 40 
+    },
     textContainer: { alignItems: 'center' },
-    title: { fontSize: 24, fontWeight: 'bold', color: '#212529', marginBottom: 12, textAlign: 'center' },
+    title: { fontSize: 24, fontWeight: 'bold', color: '#0D6EFD', marginBottom: 12, textAlign: 'center' },
     description: { fontSize: 15, color: '#6C757D', textAlign: 'center', lineHeight: 22 },
     paginationRow: { flexDirection: 'row', justifyContent: 'center', gap: 8, marginBottom: 20 },
     dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#DEE2E6' },
     activeDot: { width: 24, backgroundColor: '#0D6EFD' },
-    button: { backgroundColor: '#0D6EFD', paddingVertical: 16, borderRadius: 14, alignItems: 'center' },
+    button: {
+        backgroundColor: '#0D6EFD', paddingVertical: 16, borderRadius: 14, alignItems: 'center', 
+        marginHorizontal: 20,
+    },
     buttonText: { color: '#FFFFFF', fontSize: 16, fontWeight: 'bold' },
+
     imageStyle: {
-        width: width * 0.75,
-        height: height * 0.35,
-        borderRadius: 24,
+        width: '100%',
+        height: '100%',
+        borderRadius: 20,
     }
 });
