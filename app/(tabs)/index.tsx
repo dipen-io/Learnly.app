@@ -11,7 +11,6 @@ export default function HomeScreen() {
       {/* 1. Header Section */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.welcomeText}>Welcome back,</Text>
           <Text style={styles.usernameText}>Dipen 👋</Text>
         </View>
         <TouchableOpacity style={styles.avatarContainer}>
@@ -93,9 +92,9 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8F9FA', paddingHorizontal: 16, paddingTop: 20 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
-  welcomeText: { fontSize: 14, color: '#6C757D' },
-  usernameText: { fontSize: 20, fontWeight: 'bold', color: '#212529' },
-  avatarContainer: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#E9ECEF', justifyContent: 'center', alignItems: 'center' },
+  // welcomeText: { fontSize: 14, color: '#6C757D', marginTop: 12 },
+  usernameText: { fontSize: 20, fontWeight: 'bold', color: '#212529', paddingLeft: 4 },
+  avatarContainer: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#E9ECEF', justifyContent: 'center', alignItems: 'center', marginTop: 10 },
   avatarPlaceholder: { justifyContent: 'center', alignItems: 'center' },
   avatarText: { fontWeight: 'bold', color: '#495057' },
 

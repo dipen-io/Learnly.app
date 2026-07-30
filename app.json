@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "learnly",
-    "slug": "learnly",
+    "name": "Learnly",
+    "slug": "Learnly",
     "version": "1.0.0",
     "orientation": "portrait",
-    //"icon": "./assets/images/icon.png",
-    "icon": "./assets/images/lgo.png",
+    "icon": "./assets/images/icon.png",
+    //"icon": "./assets/images/lgo.png",
     "scheme": "learn",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
