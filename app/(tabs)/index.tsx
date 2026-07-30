@@ -1,12 +1,15 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image }from "expo-image"
 
 export default function HomeScreen() {
   const router = useRouter();
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView style={styles.container}
+    contentContainerStyle = {{ paddingTop: 20, paddingBottom: 24}}
+    showsVerticalScrollIndicator={false}>
 
       {/* 1. Header Section */}
       <View style={styles.header}>
@@ -72,15 +75,24 @@ export default function HomeScreen() {
           data={[1, 2, 3]} // Mock data array
           keyExtractor={(item) => item.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity
+              <TouchableOpacity
               style={styles.courseCard}
-              onPress={() => router.push(`/course/${item}`)} // Navigate to course details
-            >
-              <View style={styles.courseThumbnailPlaceholder} />
-              <Text style={styles.cardTitle} numberOfLines={2}>Mastering Modern Web & System Design</Text>
+              onPress={() => router.push(`/course/${item}`)}
+              >
+              <View style={styles.courseThumbnailPlaceholder}>
+              <Image
+              source={require('../../assets/images/learn.png')}
+              style={styles.courseThumbnailImage}
+              contentFit="cover"
+              />
+              </View>
+
+              <Text style={styles.cardTitle} numberOfLines={2}>
+              Mastering Modern Web & System Design
+              </Text>
               <Text style={styles.cardInstructor}>John Doe</Text>
               <Text style={styles.cardPrice}>$49.99</Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
           )}
         />
       </View>
@@ -120,9 +132,20 @@ const styles = StyleSheet.create({
   activeCategoryText: { color: '#FFFFFF' },
 
   courseCard: { width: 200, backgroundColor: '#FFFFFF', borderRadius: 12, padding: 10, marginRight: 14, borderWidth: 1, borderColor: '#E9ECEF' },
-  courseThumbnailPlaceholder: { width: '100%', height: 110, backgroundColor: '#CED4DA', borderRadius: 8, marginBottom: 8 },
+courseThumbnailPlaceholder: {
+  width: '100%',
+  height: 110,
+  borderRadius: 8,
+  marginBottom: 8,
+  overflow: 'hidden',
+  backgroundColor: '#CED4DA',
+},
+courseThumbnailImage: {
+  width: '100%',
+  height: '100%',
+},
   cardTitle: { fontSize: 14, fontWeight: '600', color: '#212529', marginBottom: 4 },
   cardInstructor: { fontSize: 12, color: '#6C757D', marginBottom: 6 },
   cardPrice: { fontSize: 14, fontWeight: 'bold', color: '#0D6EFD' },
-  seeAllText: { color: '#0D6EFD', fontWeight: '600' }
+  seeAllText: { color: '#0D6EFD', fontWeight: '600' },
 });
