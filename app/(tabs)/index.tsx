@@ -1,98 +1,129 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/src/components/hello-wave';
-import ParallaxScrollView from '@/src/components/parallax-scroll-view';
-import { ThemedText } from '@/src/components/themed-text';
-import { ThemedView } from '@/src/components/themed-view';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome vro!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const router = useRouter();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  return (
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+
+      {/* 1. Header Section */}
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.welcomeText}>Welcome back,</Text>
+          <Text style={styles.usernameText}>Dipen 👋</Text>
+        </View>
+        <TouchableOpacity style={styles.avatarContainer}>
+          {/* Replace with user profile image */}
+          <View style={styles.avatarPlaceholder}>
+            <Text style={styles.avatarText}>DB</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      {/* 2. Search Bar Trigger (Navigates to search tab on press) */}
+      <TouchableOpacity
+        style={styles.searchBar}
+        onPress={() => router.push('/(tabs)/search')}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.searchText}>Search for courses, skills...</Text>
+      </TouchableOpacity>
+
+      {/* 3. Continue Learning Card (Dynamic - shows up if user is taking a course) */}
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionTitle}>Continue Learning</Text>
+        <TouchableOpacity
+          style={styles.resumeCard}
+          onPress={() => router.push('/course/lessons/1')} // Navigate to lesson player
+        >
+          <View style={styles.resumeInfo}>
+            <Text style={styles.courseTag}>CHAPTER 3</Text>
+            <Text style={styles.resumeCourseTitle}>Advanced Full-Stack Architectures</Text>
+            {/* Simple Progress Bar */}
+            <View style={styles.progressBarBackground}>
+              <View style={[styles.progressBarFill, { width: '65%' }]} />
+            </View>
+            <Text style={styles.progressText}>65% Completed</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      {/* 4. Categories Horizontal Scroll */}
+      <View style={styles.categoriesContainer}>
+        {['All', 'Development', 'Design', 'Business', 'Marketing', 'Data Science'].map((category, index) => (
+          <TouchableOpacity key={index} style={[styles.categoryChip, index === 0 && styles.activeChip]}>
+            <Text style={[styles.categoryText, index === 0 && styles.activeCategoryText]}>{category}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* 5. Popular Courses Section (Horizontal List) */}
+      <View style={styles.sectionContainer}>
+        <View style={styles.sectionHeaderRow}>
+          <Text style={styles.sectionTitle}>Most Popular</Text>
+          <TouchableOpacity><Text style={styles.seeAllText}>See All</Text></TouchableOpacity>
+        </View>
+
+        {/* Horizontal FlatList for course cards */}
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={[1, 2, 3]} // Mock data array
+          keyExtractor={(item) => item.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.courseCard}
+              onPress={() => router.push(`/course/${item}`)} // Navigate to course details
+            >
+              <View style={styles.courseThumbnailPlaceholder} />
+              <Text style={styles.cardTitle} numberOfLines={2}>Mastering Modern Web & System Design</Text>
+              <Text style={styles.cardInstructor}>John Doe</Text>
+              <Text style={styles.cardPrice}>$49.99</Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+  container: { flex: 1, backgroundColor: '#F8F9FA', paddingHorizontal: 16, paddingTop: 20 },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+  welcomeText: { fontSize: 14, color: '#6C757D' },
+  usernameText: { fontSize: 20, fontWeight: 'bold', color: '#212529' },
+  avatarContainer: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#E9ECEF', justifyContent: 'center', alignItems: 'center' },
+  avatarPlaceholder: { justifyContent: 'center', alignItems: 'center' },
+  avatarText: { fontWeight: 'bold', color: '#495057' },
+
+  searchBar: { backgroundColor: '#FFFFFF', padding: 14, borderRadius: 12, borderWidth: 1, borderColor: '#DEE2E6', marginBottom: 20 },
+  searchText: { color: '#ADB5BD' },
+
+  sectionContainer: { marginBottom: 24 },
+  sectionHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
+  sectionTitle: { fontSize: 18, fontWeight: 'bold', color: '#212529', marginBottom: 12 },
+
+  resumeCard: { backgroundColor: '#1A1D20', borderRadius: 16, padding: 16 },
+  resumeInfo: {},
+  courseTag: { color: '#4CC9F0', fontSize: 11, fontWeight: 'bold', marginBottom: 4 },
+  resumeCourseTitle: { color: '#FFFFFF', fontSize: 16, fontWeight: '600', marginBottom: 12 },
+  progressBarBackground: { height: 6, backgroundColor: '#343A40', borderRadius: 3, marginBottom: 6 },
+  progressBarFill: { height: '100%', backgroundColor: '#4CC9F0', borderRadius: 3 },
+  progressText: { color: '#ADB5BD', fontSize: 11 },
+
+  categoriesContainer: { flexDirection: 'row', marginBottom: 24, gap: 8 },
+  categoryChip: { paddingHorizontal: 16, paddingVertical: 8, backgroundColor: '#E9ECEF', borderRadius: 20, height: 36 },
+  activeChip: { backgroundColor: '#0D6EFD' },
+  categoryText: { color: '#495057', fontWeight: '500' },
+  activeCategoryText: { color: '#FFFFFF' },
+
+  courseCard: { width: 200, backgroundColor: '#FFFFFF', borderRadius: 12, padding: 10, marginRight: 14, borderWidth: 1, borderColor: '#E9ECEF' },
+  courseThumbnailPlaceholder: { width: '100%', height: 110, backgroundColor: '#CED4DA', borderRadius: 8, marginBottom: 8 },
+  cardTitle: { fontSize: 14, fontWeight: '600', color: '#212529', marginBottom: 4 },
+  cardInstructor: { fontSize: 12, color: '#6C757D', marginBottom: 6 },
+  cardPrice: { fontSize: 14, fontWeight: 'bold', color: '#0D6EFD' },
+  seeAllText: { color: '#0D6EFD', fontWeight: '600' }
 });
