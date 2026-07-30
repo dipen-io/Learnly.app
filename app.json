@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "tt",
-    "slug": "tt",
+    "name": "learnly",
+    "slug": "learnly",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "tt",
+    "scheme": "learn",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
