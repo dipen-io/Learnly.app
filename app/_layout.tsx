@@ -23,7 +23,7 @@ export default function RootLayout() {
     async function checkOnboarding() {
       try {
         const value = await AsyncStorage.getItem('@has_seen_onboarding');
-        if (value === 'false') {
+        if (value === 'true') {
           setHasSeenOnboarding(true);
         }
       } catch (error) {
