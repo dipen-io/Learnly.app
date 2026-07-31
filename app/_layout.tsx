@@ -8,12 +8,6 @@ import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
-import * as SplashScreen from 'expo-splash-screen';
-
-SplashScreen.setOptions({
-  duration: 1000,
-  fade: true,
-})
 
 export const unstable_settings = {
   anchor: '(tabs)',
