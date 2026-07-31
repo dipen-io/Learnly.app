@@ -3,42 +3,23 @@ import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
+import { OnboardingProvider, useOnboarding } from '@/src/context/onboarding-context';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
 export const unstable_settings = {
   anchor: '(tabs)',
 };
 
-export default function RootLayout() {
+function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasSeenOnboarding, setHasSeenOnboarding] = useState(false);
+  const { hasSeenOnboarding, isLoading } = useOnboarding();
   const router = useRouter();
   const segments = useSegments();
 
   useEffect(() => {
-    async function checkOnboarding() {
-      try {
-        const value = await AsyncStorage.getItem('@has_seen_onboarding');
-        if (value === 'true') {
-          setHasSeenOnboarding(true);
-        }
-      } catch (error) {
-        console.error('Error checking onboarding status', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    checkOnboarding();
-  }, []);
-
-  useEffect(() => {
     if (isLoading) return;
-
     const inOnboarding = segments[0] === 'onboarding';
 
     if (!hasSeenOnboarding && !inOnboarding) {
@@ -60,11 +41,18 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-         <Stack.Screen name="onboarding" options={{headerShown: false}}/>
-        {/* <Stack.Screen name="(tabs)" /> */}
+        <Stack.Screen name="onboarding" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <OnboardingProvider>
+      <RootLayoutNav />
+    </OnboardingProvider>
   );
 }

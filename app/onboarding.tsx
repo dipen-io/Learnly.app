@@ -1,8 +1,8 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useOnboarding } from '@/src/context/onboarding-context';
 import { Image } from 'expo-image';
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Dimensions, StyleSheet,  Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -32,18 +32,14 @@ const onboardingData = [
 export default function OnboardingScreen() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const router = useRouter();
+    const { completeOnboarding } = useOnboarding();
 
     const handleNext = async () => {
         if (currentIndex < onboardingData.length - 1) {
             setCurrentIndex(currentIndex + 1);
         } else {
-            try {
-                await AsyncStorage.setItem('@has_seen_onboarding', 'true');
-                // router.replace('/(tabs)/home');
-                router.replace('/(tabs)/');
-            } catch (error) {
-                console.error('Failed to save onboardingstate', error);
-            }
+            await completeOnboarding();
+            router.replace('/(tabs)/');
         }
     };
 
@@ -55,8 +51,8 @@ export default function OnboardingScreen() {
             <TouchableOpacity
                 style={styles.skipButton}
                 onPress={async () => {
-                    await AsyncStorage.setItem('@has_seen_onboarding', 'true');
-                    router.replace('/(tabs)/home');
+                    await completeOnboarding();
+                    router.replace('/(tabs)/');
                 }}
             >
                 <Text style={styles.skipText}>Skip</Text>
@@ -130,7 +126,7 @@ const styles = StyleSheet.create({
         flex: 0.4,
         justifyContent: 'space-between',
         marginTop: 10,
-        paddingBottom: 40 
+        paddingBottom: 40
     },
     textContainer: { alignItems: 'center' },
     title: { fontSize: 24, fontWeight: 'bold', color: '#0D6EFD', marginBottom: 12, textAlign: 'center' },
@@ -139,7 +135,7 @@ const styles = StyleSheet.create({
     dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#DEE2E6' },
     activeDot: { width: 24, backgroundColor: '#0D6EFD' },
     button: {
-        backgroundColor: '#0D6EFD', paddingVertical: 16, borderRadius: 14, alignItems: 'center', 
+        backgroundColor: '#0D6EFD', paddingVertical: 16, borderRadius: 14, alignItems: 'center',
         marginHorizontal: 20,
     },
     buttonText: { color: '#FFFFFF', fontSize: 16, fontWeight: 'bold' },
