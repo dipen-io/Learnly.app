@@ -4,7 +4,7 @@
     "slug": "studyLab",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/splash.jpg",
     "scheme": "learn",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,8 +14,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/lgo.png",
+        "backgroundColor": "#ffffff",
+        "foregroundImage": "./assets/images/lgo.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -35,6 +35,10 @@
           "backgroundColor": "#ffffff",
           "dark": {
             "backgroundColor": "#000000"
+          },
+          "android": {
+            "image": "./assets/images/splash.jpg",
+            "resizeMode": "cover"
           }
         }
       ]
