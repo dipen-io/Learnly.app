@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dipen.io.studyLab"
     },
     "android": {
       "adaptiveIcon": {
@@ -31,9 +32,8 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash.jpg", 
-          "imageWidth": 200,
-          "resizeMode": "contain",
+          "image": "./assets/images/splash.jpg",
+          "resizeMode": "cover",
           "backgroundColor": "#ffffff",
           "dark": {
             "backgroundColor": "#000000"
