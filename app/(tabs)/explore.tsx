@@ -1,9 +1,9 @@
 import { Image } from 'expo-image';
-import { StyleSheet,ScrollView, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
+import { Fonts } from '@/constants/theme';
 import { ThemedText } from '@/src/components/themed-text';
 import { ThemedView } from '@/src/components/themed-view';
-import { Fonts } from '@/constants/theme';
 
 const courses = [
   {
@@ -64,13 +64,14 @@ export default function ExploreScreen() {
         {courses.map((course) => (
           <View key={course.id} style={styles.card}>
             <Image source={require('@/assets/images/learn.png')}
-            style={styles.image}
-            contentFit="cover" />
-            <View style={styles.content}> 
-            <ThemedText type="subtitle" style={styles.courseTitle} >
-            {course.title} 
-            </ThemedText> 
-            <ThemedText> {course.subtitle} </ThemedText> </View>
+              style={styles.image}
+              contentFit="cover" />
+            <View style={styles.content}>
+              <ThemedText type="subtitle" style={styles.courseTitle}>
+                {course.title}
+              </ThemedText>
+              <ThemedText>{course.subtitle}</ThemedText>
+            </View>
           </View>
 
         ))}
@@ -81,16 +82,16 @@ export default function ExploreScreen() {
 
 const styles = StyleSheet.create({
 
-container: {
+  container: {
     flex: 1
-},
-scroll: {
+  },
+  scroll: {
     flex: 1
-},
-scrollContent: {
+  },
+  scrollContent: {
     padding: 16,
     paddingBottom: 30
-},
+  },
   titleContainer: {
     marginBottom: 16,
     padding: 7,
@@ -131,7 +132,7 @@ scrollContent: {
   },
 
   header: {
-      width: '100%',
-      height: 220,
+    width: '100%',
+    height: 220,
   },
 });
