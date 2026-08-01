@@ -3,9 +3,10 @@ import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
+import CustomSplashScreen from '@/src/components/CustomSplashScreen';
 import { OnboardingProvider, useOnboarding } from '@/src/context/onboarding-context';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
 
@@ -18,8 +19,14 @@ function RootLayoutNav() {
   const { hasSeenOnboarding, isLoading } = useOnboarding();
   const router = useRouter();
   const segments = useSegments();
+  const [showSplace, setShowSplace] = useState(true);
 
   useEffect(() => {
+
+    const timer = setTimeout(() => {
+      setShowSplace(false);
+    }, 2000);
+
     if (isLoading) return;
     const inOnboarding = segments[0] === 'onboarding';
 
@@ -28,7 +35,13 @@ function RootLayoutNav() {
     } else if (hasSeenOnboarding && inOnboarding) {
       router.replace('/(tabs)');
     }
+
+    return () => clearImmediate(timer);
   }, [isLoading, hasSeenOnboarding, segments]);
+
+  if (showSplace) {
+    return <CustomSplashScreen />
+  }
 
   if (isLoading) {
     return (
