@@ -1,64 +1,58 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-reanimated';
-
-import CustomSplashScreen from '@/src/components/CustomSplashScreen';
 import { OnboardingProvider, useOnboarding } from '@/src/context/onboarding-context';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
-import { useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
-
+import { useEffect, useCallback } from 'react';
+import { View } from 'react-native';
 
 export const unstable_settings = {
   anchor: '(tabs)',
 };
+
+// Module scope — must run before any component mounts
+SplashScreen.preventAutoHideAsync();
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const { hasSeenOnboarding, isLoading } = useOnboarding();
   const router = useRouter();
   const segments = useSegments();
-  const [showSplace, setShowSplace] = useState(true);
 
   useEffect(() => {
-
-    const timer = setTimeout(() => {
-      setShowSplace(false);
-    }, 2000);
-
     if (isLoading) return;
     const inOnboarding = segments[0] === 'onboarding';
-
     if (!hasSeenOnboarding && !inOnboarding) {
       router.replace('/onboarding' as any);
     } else if (hasSeenOnboarding && inOnboarding) {
       router.replace('/(tabs)');
     }
-
-    return () => clearImmediate(timer);
   }, [isLoading, hasSeenOnboarding, segments]);
 
-  if (showSplace) {
-    return <CustomSplashScreen />
-  }
+  const onLayoutRootView = useCallback(async () => {
+    // Only hide once onboarding state is actually resolved
+    if (!isLoading) {
+      await SplashScreen.hideAsync();
+    }
+  }, [isLoading]);
 
   if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF' }}>
-        <ActivityIndicator size="large" color="#0D6EFD" />
-      </View>
-    );
+    // native splash is still visible — render nothing, no custom component
+    return null;
   }
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        </Stack>
+        <StatusBar style="auto" />
+      </View>
     </ThemeProvider>
   );
 }
