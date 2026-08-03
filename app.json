@@ -39,7 +39,8 @@
             "image": "./assets/images/darklogo.png"
           }
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
