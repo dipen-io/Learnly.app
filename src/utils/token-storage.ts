@@ -7,16 +7,32 @@
 
 import * as SecureStore from 'expo-secure-store';
 
-const TOKEN_KEY = 'auth_token';
+const REFRESH_TOKEN_KEY = 'refresh_token';
+const ACCESS_TOKEN_KEY = 'access-token'
 
-export async function saveToken(token: string): Promise<void> {
-    await SecureStore.setItemAsync(TOKEN_KEY, token);
+export async function saveToken(accessToken: string, refreshToken: string): Promise<void> {
+    await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, refreshToken);
+    await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, accessToken);
 }
 
-export async function getToken(): Promise<string | null> {
-    return SecureStore.getItemAsync(TOKEN_KEY);
+export async function getAccessToken(): Promise<string | null> {
+    return SecureStore.getItemAsync(ACCESS_TOKEN_KEY);
 }
 
-export async function deleteToken(): Promise<void> {
-    await SecureStore.deleteItemAsync(TOKEN_KEY);
+export async function getRefreshToken(): Promise<string | null> {
+    return SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
+}
+
+// update access token
+// Called after a successfull refresh
+export async function updateAccessToken(accessToken: string): Promise<void> {
+    await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, accessToken)
+}
+
+export async function deleteTokens(): Promise<void> {
+    await Promise.all([
+        SecureStore.deleteItemAsync(ACCESS_TOKEN_KEY),
+        SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY),
+    ])
+
 }
