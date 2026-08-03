@@ -1,20 +1,55 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import {Image} from "expo-image"
+// app/(tabs)/profile.tsx
 
-export default function Profile() {
+import { useAuthStore } from "@/src/store/auth-store";
+import { Image } from "expo-image";
+import { useRouter } from "expo-router";
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+export default function ProfileScreen() {
+  const router = useRouter();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
+
+  if (!isAuthenticated) {
+    return (
+      <View style={styles.stubContainer}>
+        <Text style={styles.stubTitle}>You're browsing as a guest</Text>
+        <Text style={styles.stubSubtitle}>
+          Log in to track your courses, save progress, and access your
+          purchases from any device.
+        </Text>
+
+        <Pressable
+          style={styles.primaryButton}
+          onPress={() => router.push('/(auth)/login')}
+        >
+          <Text style={styles.primaryButtonText}>Log In</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.secondaryButton}
+          onPress={() => router.push('/(auth)/signup')}
+        >
+          <Text style={styles.secondaryButtonText}>Sign Up</Text>
+        </Pressable>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.avatar}>
-            <Image
-              source={require('../../assets/images/learn.png')}
-              style={{ width: 100, height: 100, borderRadius: 50 }}
-            />
-          </View>
-
-          <Text style={styles.name}>Dinesh Boro</Text>
-          <Text style={styles.email}>borod9200@gmail.com</Text>
+      <View style={styles.header}>
+        <View style={styles.avatar}>
+          <Image
+            source={require('../../assets/images/learn.png')}
+            style={{ width: 100, height: 100, borderRadius: 50 }}
+          />
         </View>
+
+        <Text style={styles.name}>Dinesh Boro</Text>
+        <Text style={styles.email}>borod9200@gmail.com</Text>
+      </View>
 
       <View style={styles.statsRow}>
         <View style={styles.statCard}>
@@ -44,7 +79,9 @@ export default function Profile() {
           <Text style={styles.menuText}>Settings</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.menuItem, styles.logout]}>
+        <TouchableOpacity style={[styles.menuItem, styles.logout]}
+          onPress={() => logout()}
+        >
           <Text style={[styles.menuText, styles.logoutText]}>Logout</Text>
         </TouchableOpacity>
       </View>
@@ -58,6 +95,53 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
     padding: 20,
   },
+  stubContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  stubTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  stubSubtitle: {
+    fontSize: 14,
+    color: '#6b7280',
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  primaryButton: {
+    backgroundColor: '#1a1a1a',
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  primaryButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 15,
+  },
+  secondaryButton: {
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+    width: '100%',
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
+    color: '#1a1a1a',
+    fontWeight: '600',
+    fontSize: 15,
+  },
+
   header: {
     alignItems: 'center',
     marginTop: 40,
