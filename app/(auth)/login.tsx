@@ -1,10 +1,13 @@
 // app/(auth)/login.tsx
 
+import { Colors, Fonts, radii, spacing } from '@/constants/theme';
+import { NotebookField } from '@/src/components/notebook-field';
+import { RuledPaperBackground } from '@/src/components/ruled-paper-background';
 import { useAuthStore } from '@/src/store/auth-store';
 import { usePendingActionStore } from '@/src/store/pending-action-store';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function LoginScreen() {
     const router = useRouter();
@@ -21,87 +24,157 @@ export default function LoginScreen() {
         setIsSubmitting(true);
         try {
             await login(email, password);
-
-            // If the user got here via a gated action (e.g. tapped Wishlist as
-            // a guest), this fires that action now that they're authenticated.
-            // If they navigated to login directly (e.g. from the Profile stub),
-            // pendingAction is null and this is a no-op.
             await runPendingAction();
 
-            // router.back() returns them to whatever screen triggered the
-            // gated action (or wherever they were before tapping Login).
-            // If there's no back history (e.g. deep-linked straight to login),
-            // fall back to Home.
             if (router.canGoBack()) {
                 router.back();
             } else {
                 router.replace('/(tabs)');
             }
-        } catch (err) {
-            setError('Invalid email or password.');
+        } catch {
+            setError('That email or password doesn\'t match our records.');
         } finally {
             setIsSubmitting(false);
         }
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Log In</Text>
-
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                value={email}
-                onChangeText={setEmail}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                secureTextEntry
-                value={password}
-                onChangeText={setPassword}
-            />
-
-            {error && <Text style={styles.error}>{error}</Text>}
-
-            <Pressable
-                style={styles.primaryButton}
-                onPress={handleLogin}
-                disabled={isSubmitting}
+        <RuledPaperBackground>
+            <KeyboardAvoidingView
+                style={styles.flex}
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
             >
-                <Text style={styles.primaryButtonText}>
-                    {isSubmitting ? 'Logging in...' : 'Log In'}
-                </Text>
-            </Pressable>
+                <View style={styles.content}>
+                    <View style={styles.header}>
+                        <Text style={styles.eyebrow}>StudyLab</Text>
+                        <Text style={styles.headline}>Welcome back.</Text>
+                        <View style={styles.headlineSwash} />
+                    </View>
 
-            <Pressable onPress={() => router.push('/(auth)/signup')}>
-                <Text style={styles.link}>Don't have an account? Sign up</Text>
-            </Pressable>
-        </View>
+                    <View style={styles.form}>
+                        <NotebookField
+                            label="Email"
+                            autoCapitalize="none"
+                            keyboardType="email-address"
+                            placeholder="you@example.com"
+                            value={email}
+                            onChangeText={setEmail}
+                        />
+                        <NotebookField
+                            label="Password"
+                            secureTextEntry
+                            placeholder="••••••••"
+                            value={password}
+                            onChangeText={setPassword}
+                        />
+
+                        {error && <Text style={styles.error}>{error}</Text>}
+
+                        <Pressable
+                            style={({ pressed }) => [
+                                styles.primaryButton,
+                                pressed && styles.primaryButtonPressed,
+                            ]}
+                            onPress={handleLogin}
+                            disabled={isSubmitting}
+                        >
+                            <Text style={styles.primaryButtonText}>
+                                {isSubmitting ? 'Signing in…' : 'Log In'}
+                            </Text>
+                        </Pressable>
+
+                        <Pressable onPress={() => router.push('/(auth)/forgot-password')}>
+                            <Text style={styles.link}>Forgot your password?</Text>
+                        </Pressable>
+                    </View>
+
+                    <Pressable
+                        style={styles.footer}
+                        onPress={() => router.push('/(auth)/signup')}
+                    >
+                        <Text style={styles.footerText}>
+                            New here? <Text style={styles.footerLink}>Create an account</Text>
+                        </Text>
+                    </Pressable>
+                </View>
+            </KeyboardAvoidingView>
+        </RuledPaperBackground>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 24, justifyContent: 'center' },
-    title: { fontSize: 24, fontWeight: '600', marginBottom: 24 },
-    input: {
-        borderWidth: 1,
-        borderColor: '#d1d5db',
-        borderRadius: 8,
-        padding: 14,
-        marginBottom: 12,
-        fontSize: 15,
+    flex: { flex: 1 },
+    content: {
+        flex: 1,
+        paddingHorizontal: spacing.xl,
+        paddingLeft: spacing.xl + 16, // clears the red margin line
+        justifyContent: 'center',
     },
-    error: { color: '#dc2626', marginBottom: 12, fontSize: 13 },
+    header: {
+        marginBottom: spacing.xxl,
+    },
+    eyebrow: {
+        fontFamily: Fonts.bodySemiBold,
+        fontSize: 12,
+        letterSpacing: 1.5,
+        color: Colors.forest,
+        marginBottom: spacing.sm,
+    },
+    headline: {
+        fontFamily: Fonts.display,
+        fontSize: 34,
+        color: Colors.ink,
+    },
+    headlineSwash: {
+        width: 56,
+        height: 3,
+        backgroundColor: Colors.marigold,
+        borderRadius: 2,
+        marginTop: spacing.sm,
+    },
+    form: {
+        marginBottom: spacing.xl,
+    },
+    error: {
+        fontFamily: Fonts.body,
+        color: Colors.clay,
+        fontSize: 13,
+        marginTop: -spacing.sm,
+        marginBottom: spacing.md,
+    },
     primaryButton: {
-        backgroundColor: '#1a1a1a',
-        paddingVertical: 14,
-        borderRadius: 8,
+        backgroundColor: Colors.ink,
+        paddingVertical: spacing.md + 2,
+        borderRadius: radii.md,
         alignItems: 'center',
-        marginTop: 8,
+        marginTop: spacing.sm,
     },
-    primaryButtonText: { color: '#fff', fontWeight: '600', fontSize: 15 },
-    link: { textAlign: 'center', marginTop: 16, color: '#6b7280' },
+    primaryButtonPressed: {
+        backgroundColor: Colors.forest,
+    },
+    primaryButtonText: {
+        fontFamily: Fonts.bodySemiBold,
+        color: Colors.paper,
+        fontSize: 16,
+    },
+    link: {
+        fontFamily: Fonts.bodyMedium,
+        color: Colors.forest,
+        fontSize: 14,
+        textAlign: 'center',
+        marginTop: spacing.lg,
+    },
+    footer: {
+        alignItems: 'center',
+        paddingBottom: spacing.xl,
+    },
+    footerText: {
+        fontFamily: Fonts.body,
+        color: Colors.inkMuted,
+        fontSize: 14,
+    },
+    footerLink: {
+        fontFamily: Fonts.bodySemiBold,
+        color: Colors.ink,
+    },
 });

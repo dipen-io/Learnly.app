@@ -25,7 +25,30 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
   },
+  paper: '#EEF0EA',
+  ink: '#1C2321',
+  inkMuted: '#5B645F',
+  marigold: '#F2A93B',
+  forest: '#2F4F3E',
+  rule: '#D3D6CC',
+  clay: '#C4432B',
+  white: '#FFFFFF',
+
 };
+
+export const spacing = {
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+  xxl: 48
+};
+
+export const radii = {
+  sm: 4,
+  md: 8,
+}
 
 export const Fonts = Platform.select({
   ios: {
@@ -43,7 +66,16 @@ export const Fonts = Platform.select({
     serif: 'serif',
     rounded: 'normal',
     mono: 'monospace',
+
+    // new added
+    display: 'Fraunces_600SemiBold_Italic',
+    displayRegular: 'Fraunces_500Medium',
+    body: 'Inter_400Regular',
+    bodyMedium: 'Inter_500Medium',
+    bodySemiBold: 'Inter_600SemiBold',
+
   },
+
   web: {
     sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
     serif: "Georgia, 'Times New Roman', serif",

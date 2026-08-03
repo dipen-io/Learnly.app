@@ -8,10 +8,7 @@ Done
    * CardContext(loal cart for guest + mergeOnLogin)
    * Root layout auth redirect(where to which to show(app/layout))
    * tab bar swap login(tab/layout)
+   * gated-action 
+   * login/signup screen
 
 Todo: 
-    
-   
-   
-    * gated-action 
-    * login/signup screen
