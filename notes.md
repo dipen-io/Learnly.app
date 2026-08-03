@@ -43,6 +43,7 @@ Cart screen as a stack, not a tab switch.
 - Open Course Detail — see full curriculum, instructor, reviews, price
 - Watch the free preview lesson of a course
 - Add courses to Cart (stored locally/session — no account needed)
+- After login/signup merge the local cart item in db(clear local storage)
 - Reach the Checkout screen and see the order summary
 
 **Cannot do (triggers login modal instead):**
