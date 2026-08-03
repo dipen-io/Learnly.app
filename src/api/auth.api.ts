@@ -34,7 +34,7 @@ export const authApi = {
     },
 
     ////////////////////// ME
-    me: async (): Promise<User> {
+    me: async (): Promise<User> => {
         const { data } = await apiClient.get<User>('/me');
         return data;
     },

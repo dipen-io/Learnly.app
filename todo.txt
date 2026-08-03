@@ -1,0 +1,13 @@
+Done 
+   * env vars + configs
+   * axios client (skeleton)
+
+Todo: 
+    * Secure token storage(expo-secure-store)
+    * Axios interceptor (attact token to request, handle 401)
+    * AuthContext(login/signup,logout,curentuser,isAuthenticated)
+    * CardContext(loal cart for guest + mergeOnLogin)
+    * Root layout auth redirect(where to which to show(app/layout))
+    * tab bar swap login(tab/layout)
+    * gated-action 
+    * login/signup screen
