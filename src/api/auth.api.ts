@@ -7,9 +7,14 @@ import type { User } from "../types/user";
 import { apiClient } from "./client";
 
 type AuthResponse = {
-    token: string;
+    refreshToken: string;
     user: User;
+    accessToken: string;
 };
+
+type RefreshResponse = {
+    accessToken: string;
+}
 
 export const authApi = {
 
@@ -29,6 +34,18 @@ export const authApi = {
     ): Promise<AuthResponse> => {
         const { data } = await apiClient.post<AuthResponse>('/auth/register', {
             name, email, password
+        });
+        return data;
+    },
+
+    ////////////////////// REFRESH 
+    refresh: async (refreshToken: string): Promise<RefreshResponse> => {
+        /*
+        Note: intentionally NOt using the shared apiClient here - that
+        instance/s interceptor is what called refresh() in the first place.
+        */
+        const { data } = await apiClient.post<RefreshResponse>('/api/refresh', {
+            refreshToken,
         });
         return data;
     },
