@@ -85,7 +85,6 @@ export default function LoginScreen() {
                         </View>
 
                         {/* Form */}
-                        {/* Form */}
                         <View
                             style={[
                                 styles.formCard,
@@ -156,6 +155,19 @@ export default function LoginScreen() {
                                     ]}
                                 >
                                     {isSubmitting ? 'Signing in…' : 'Sign In'}
+                                </Text>
+                            </Pressable>
+
+                            {/* login with OTP */}
+                            <Pressable
+                                onPress={() =>
+                                    router.push('/(auth)/login-with-otp')
+                                }
+                                style={styles.forgotWrap}
+                            >
+                                <Text
+                                    style={[styles.link, { color: colors.primary }]}>
+                                    Login With Otp
                                 </Text>
                             </Pressable>
 
