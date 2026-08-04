@@ -28,12 +28,11 @@ export const authApi = {
 
     ////////////////// REGISTER,
     signup: async (
-        name: string,
         email: string,
         password: string
     ): Promise<AuthResponse> => {
         const { data } = await apiClient.post<AuthResponse>('/auth/register', {
-            name, email, password
+            email, password
         });
         return data;
     },

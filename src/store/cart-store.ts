@@ -1,15 +1,23 @@
 // src/store/cart-store.ts
+//
+// Guest: cart lives ONLY in local storage (AsyncStorage, via zustand's
+//   persist middleware) — survives app restart, no account needed.
+// Logged-in: every add/remove also calls the server, local state just
+//   mirrors it for fast reads.
+//
+// This file imports auth-store (one direction only). At the bottom, it
+// SUBSCRIBES to auth-store's isAuthenticated changes — merge fires when
+// it flips false -> true (any login path: password, OTP, Google, all
+// route through the same isAuthenticated flag), clear fires when it
+// flips true -> false (logout, or a forced session-clear from the 401
+// interceptor). auth-store itself has zero knowledge this file exists.
 
-// Guest: cart lives ONLY in local storage(AsyncStorage, via zustand perisist middleware) -no acount needed
-//Logged-in: every add/remove also calls the server , local state just mirros it for fast reads
-
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { create } from "zustand";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { cartApi } from "../api/cart.api";
-import type { CartItem } from "../types/cart";
-import { useAuthStore } from "./auth-store";
+import { cartApi } from '../api/cart.api';
+import type { CartItem } from '../types/cart';
+import { useAuthStore } from './auth-store';
 
 type CartState = {
     items: CartItem[];
@@ -19,13 +27,10 @@ type CartState = {
     removeItem: (courseId: string) => Promise<void>;
     clearCart: () => void;
     isInCart: (courseId: string) => boolean;
-
-    // Called right after auto-store's login/signup resolve,
     mergeOnLogin: () => Promise<void>;
-
 };
 
-export const useCartSore = create<CartState>()(
+export const useCartStore = create<CartState>()(
     persist(
         (set, get) => ({
             items: [],
@@ -34,56 +39,85 @@ export const useCartSore = create<CartState>()(
             addItem: async (item) => {
                 set((state) => {
                     if (state.items.some((i) => i.courseId === item.courseId)) {
-                        return state; // already in cart , no dublicate
+                        return state;
                     }
                     return { items: [...state.items, item] };
                 });
+
                 const { isAuthenticated } = useAuthStore.getState();
                 if (isAuthenticated) {
                     try {
                         await cartApi.add(item.courseId);
-
-                    } catch (error) {
+                    } catch (err) {
                         set((state) => ({
-                            items: state.items.filter((i) => i.courseId !== item.courseId)
+                            items: state.items.filter((i) => i.courseId !== item.courseId),
                         }));
-                        throw error;
+                        throw err;
                     }
                 }
             },
 
-            removeItem: async (couseId) => {
+            removeItem: async (courseId) => {
                 const previousItems = get().items;
                 set((state) => ({
-                    items: state.items.filter((i) => i.courseId !== couseId),
-                }))
+                    items: state.items.filter((i) => i.courseId !== courseId),
+                }));
 
                 const { isAuthenticated } = useAuthStore.getState();
                 if (isAuthenticated) {
                     try {
-                        await cartApi.remove(couseId);
-                    } catch (error) {
+                        await cartApi.remove(courseId);
+                    } catch (err) {
                         set({ items: previousItems });
-                        throw error;
+                        throw err;
                     }
                 }
             },
 
             clearCart: () => set({ items: [] }),
 
-            isInCart: (courseId) => get().items.some((i) => i.courseId === courseId),
+            isInCart: (courseId) =>
+                get().items.some((i) => i.courseId === courseId),
 
-            mergeOnLogin: async () => { }
+            mergeOnLogin: async () => {
+                const localItems = get().items;
+                set({ isSyncing: true });
+                try {
+                    const mergedItems =
+                        localItems.length > 0
+                            ? await cartApi.merge(localItems)
+                            : await cartApi.get();
+                    set({ items: mergedItems });
+                } finally {
+                    set({ isSyncing: false });
+                }
+            },
         }),
         {
-            name: 'card-storage', // AsyncStorage key
+            name: 'cart-storage',
             storage: createJSONStorage(() => AsyncStorage),
-            // Only persist guest cars to disk - once logged in ,sever is the 
-            // source of thuth and we don't need a local disk copy
-            partialize: (state) => {
-                useAuthStore.getState().isAuthenticated ? { items: [] } : state
-            }
+            partialize: (state) =>
+                useAuthStore.getState().isAuthenticated ? { items: [] } : state,
         }
-
     )
-)
+);
+
+// --- Auth reactivity ----------------------------------------------------
+// This replaces the old approach where auth-store manually called into
+// cart-store after login/logout. Now cart-store just watches auth state
+// and reacts on its own — works identically for every auth path
+// (password, OTP, Google) with zero duplication, and auth-store doesn't
+// need to know cart-store exists.
+let wasAuthenticated = useAuthStore.getState().isAuthenticated;
+
+useAuthStore.subscribe((state) => {
+    const isAuthenticated = state.isAuthenticated;
+
+    if (isAuthenticated && !wasAuthenticated) {
+        useCartStore.getState().mergeOnLogin();
+    } else if (!isAuthenticated && wasAuthenticated) {
+        useCartStore.getState().clearCart();
+    }
+
+    wasAuthenticated = isAuthenticated;
+});
