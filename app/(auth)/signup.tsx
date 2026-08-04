@@ -3,7 +3,6 @@
 import { Fonts, radii, spacing, useTheme } from '@/constants/theme';
 import { NotebookField } from '@/src/components/notebook-field';
 import { PasswordField } from '@/src/components/password-field';
-import { RuledPaperBackground } from '@/src/components/ruled-paper-background';
 import { useAuthStore } from '@/src/store/auth-store';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -60,14 +59,16 @@ export default function SignupScreen() {
 
         //TODO remove this 
         // for testing only
+        if (!email.trim()) {
+            setError('Email is required!')
+            return;
+        }
         router.push({
             pathname: "/(auth)/otp",
             params: {
-                email: "demo@example.com",
+                email: email,
             },
         });
-
-
 
         setError(null);
         if (!validateEmail()) return;
@@ -93,126 +94,126 @@ export default function SignupScreen() {
     };
 
     return (
-        <RuledPaperBackground>
-            <KeyboardAvoidingView
-                style={[styles.flex, { backgroundColor: colors.background }]}
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        // <RuledPaperBackground>
+        <KeyboardAvoidingView
+            style={[styles.flex, { backgroundColor: colors.background }]}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+            <ScrollView
+                style={{ backgroundColor: colors.background }}
+                contentContainerStyle={styles.scrollContent}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
             >
-                <ScrollView
-                    style={{ backgroundColor: colors.background }}
-                    contentContainerStyle={styles.scrollContent}
-                    keyboardShouldPersistTaps="handled"
-                    showsVerticalScrollIndicator={false}
-                >
-                    <View style={styles.content}>
-                        <View style={styles.header}>
-                            <Text style={[styles.eyebrow, { color: colors.primary }]}>
-                                StudyLab
-                            </Text>
-                            <Text style={[styles.headline, { color: colors.text }]}>
-                                Create your account
-                            </Text>
-                            <Text style={[styles.subheadline, { color: colors.textMuted }]}>
-                                Takes less than a minute
-                            </Text>
-                        </View>
-
-                        <View
-                            style={[
-                                styles.formCard,
-                                { backgroundColor: colors.surface, borderColor: colors.border },
-                            ]}
-                        >
-                            <NotebookField
-                                label="Email"
-                                autoCapitalize="none"
-                                keyboardType="email-address"
-                                placeholder="you@example.com"
-                                value={email}
-                                onChangeText={setEmail}
-                            />
-
-                            <PasswordField
-                                label="Password"
-                                placeholder="At least 8 characters"
-                                value={password}
-                                onChangeText={setPassword}
-                            />
-
-                            {error && (
-                                <View style={styles.errorRow}>
-                                    <View
-                                        style={[styles.errorDot, { backgroundColor: colors.error }]}
-                                    />
-                                    <Text style={[styles.error, { color: colors.error }]}>
-                                        {error}
-                                    </Text>
-                                </View>
-                            )}
-
-                            <Pressable
-                                style={({ pressed }) => [
-                                    styles.primaryButton,
-                                    { backgroundColor: colors.button },
-                                    pressed && { opacity: 0.85 },
-                                    isSubmitting && styles.disabled,
-                                ]}
-                                onPress={handlePasswordSignup}
-                                disabled={isSubmitting}
-                            >
-                                <Text
-                                    style={[styles.primaryButtonText, { color: colors.buttonText }]}
-                                >
-                                    {isSubmitting ? 'Creating account…' : 'Create Account'}
-                                </Text>
-                            </Pressable>
-                        </View>
-
-                        {/* Alternative paths */}
-                        <Pressable
-                            style={({ pressed }) => [
-                                styles.altButton,
-                                { borderColor: colors.border },
-                                pressed && { backgroundColor: colors.surface },
-                                isSendingOtp && styles.disabled,
-                            ]}
-                            onPress={handleEmailOtpSignup}
-                            disabled={isSendingOtp}
-                        >
-                            <Ionicons name="mail-outline" size={18} color={colors.text} />
-                            <Text style={[styles.altButtonText, { color: colors.text }]}>
-                                {isSendingOtp ? 'Sending code…' : 'Continue with Email'}
-                            </Text>
-                        </Pressable>
-
-                        <Pressable
-                            style={({ pressed }) => [
-                                styles.altButton,
-                                { borderColor: colors.border },
-                                pressed && { backgroundColor: colors.surface },
-                            ]}
-                            onPress={handleGoogleSignup}
-                        >
-                            <Ionicons name="logo-google" size={18} color={colors.text} />
-                            <Text style={[styles.altButtonText, { color: colors.text }]}>
-                                Continue with Google
-                            </Text>
-                        </Pressable>
-
-                        <View style={[styles.footer, { borderTopColor: colors.border }]}>
-                            <Pressable onPress={() => router.push('/(auth)/login')}>
-                                <Text style={[styles.footerText, { color: colors.textMuted }]}>
-                                    Already have an account?{' '}
-                                    <Text style={[styles.footerLink, { color: colors.text }]}>
-                                        Log in
-                                    </Text>
-                                </Text>
-                            </Pressable>
-                        </View>
+                <View style={styles.content}>
+                    <View style={styles.header}>
+                        <Text style={[styles.eyebrow, { color: colors.primary }]}>
+                            StudyLab
+                        </Text>
+                        <Text style={[styles.headline, { color: colors.text }]}>
+                            Create your account
+                        </Text>
+                        <Text style={[styles.subheadline, { color: colors.textMuted }]}>
+                            Takes less than a minute
+                        </Text>
                     </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </RuledPaperBackground>
+
+                    <View
+                        style={[
+                            styles.formCard,
+                            { backgroundColor: colors.surface, borderColor: colors.border },
+                        ]}
+                    >
+                        <NotebookField
+                            label="Email"
+                            autoCapitalize="none"
+                            keyboardType="email-address"
+                            placeholder="you@example.com"
+                            value={email}
+                            onChangeText={setEmail}
+                        />
+
+                        <PasswordField
+                            label="Password"
+                            placeholder="At least 8 characters"
+                            value={password}
+                            onChangeText={setPassword}
+                        />
+
+                        {error && (
+                            <View style={styles.errorRow}>
+                                <View
+                                    style={[styles.errorDot, { backgroundColor: colors.error }]}
+                                />
+                                <Text style={[styles.error, { color: colors.error }]}>
+                                    {error}
+                                </Text>
+                            </View>
+                        )}
+
+                        <Pressable
+                            style={({ pressed }) => [
+                                styles.primaryButton,
+                                { backgroundColor: colors.button },
+                                pressed && { opacity: 0.85 },
+                                isSubmitting && styles.disabled,
+                            ]}
+                            onPress={handlePasswordSignup}
+                            disabled={isSubmitting}
+                        >
+                            <Text
+                                style={[styles.primaryButtonText, { color: colors.buttonText }]}
+                            >
+                                {isSubmitting ? 'Creating account…' : 'Create Account'}
+                            </Text>
+                        </Pressable>
+                    </View>
+
+                    {/* Alternative paths */}
+                    <Pressable
+                        style={({ pressed }) => [
+                            styles.altButton,
+                            { borderColor: colors.border },
+                            pressed && { backgroundColor: colors.surface },
+                            isSendingOtp && styles.disabled,
+                        ]}
+                        onPress={handleEmailOtpSignup}
+                        disabled={isSendingOtp}
+                    >
+                        <Ionicons name="mail-outline" size={18} color={colors.text} />
+                        <Text style={[styles.altButtonText, { color: colors.text }]}>
+                            {isSendingOtp ? 'Sending code…' : 'Continue with Email'}
+                        </Text>
+                    </Pressable>
+
+                    <Pressable
+                        style={({ pressed }) => [
+                            styles.altButton,
+                            { borderColor: colors.border },
+                            pressed && { backgroundColor: colors.surface },
+                        ]}
+                        onPress={handleGoogleSignup}
+                    >
+                        <Ionicons name="logo-google" size={18} color={colors.text} />
+                        <Text style={[styles.altButtonText, { color: colors.text }]}>
+                            Continue with Google
+                        </Text>
+                    </Pressable>
+
+                    <View style={[styles.footer, { borderTopColor: colors.border }]}>
+                        <Pressable onPress={() => router.push('/(auth)/login')}>
+                            <Text style={[styles.footerText, { color: colors.textMuted }]}>
+                                Already have an account?{' '}
+                                <Text style={[styles.footerLink, { color: colors.text }]}>
+                                    Log in
+                                </Text>
+                            </Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
+        // </RuledPaperBackground>
     );
 }
 

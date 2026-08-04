@@ -3,7 +3,6 @@
 import { Fonts, radii, spacing, useTheme } from '@/constants/theme';
 import { NotebookField } from '@/src/components/notebook-field';
 import { PasswordField } from '@/src/components/password-field';
-import { RuledPaperBackground } from '@/src/components/ruled-paper-background';
 import { useAuthStore } from '@/src/store/auth-store';
 import { usePendingActionStore } from '@/src/store/pending-action-store';
 import { useRouter } from 'expo-router';
@@ -57,172 +56,171 @@ export default function LoginScreen() {
     };
 
     return (
-        <RuledPaperBackground>
-            <KeyboardAvoidingView
-                style={[styles.flex, { backgroundColor: colors.background }]}
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        // <RuledPaperBackground>
+        <KeyboardAvoidingView
+            style={[styles.flex, { backgroundColor: colors.background }]}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+            <ScrollView
+                style={{ backgroundColor: colors.background }}
+                contentContainerStyle={styles.scrollContent}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
             >
-                <ScrollView
-                    style={{ backgroundColor: colors.background }}
-                    contentContainerStyle={styles.scrollContent}
-                    keyboardShouldPersistTaps="handled"
-                    showsVerticalScrollIndicator={false}
-                >
-                    <View style={styles.content}>
-                        {/* Header */}
-                        <View style={styles.header}>
-                            <Text style={[styles.eyebrow, { color: colors.primary }]}>
-                                StudyLab
-                            </Text>
+                <View style={styles.content}>
+                    {/* Header */}
+                    <View style={styles.header}>
+                        <Text style={[styles.eyebrow, { color: colors.primary }]}>
+                            StudyLab
+                        </Text>
 
-                            <Text style={[styles.headline, { color: colors.text }]}>
-                                Welcome back
-                            </Text>
+                        <Text style={[styles.headline, { color: colors.text }]}>
+                            Welcome back
+                        </Text>
 
-                            <Text style={[styles.subheadline, { color: colors.textMuted }]}>
-                                Sign in to pick up where you left off
-                            </Text>
-                        </View>
-
-                        {/* Form */}
-                        <View
-                            style={[
-                                styles.formCard,
-                                {
-                                    backgroundColor: colors.surface,
-                                    borderColor: colors.border,
-                                },
-                            ]}
-                        >
-                            <NotebookField
-                                label="Email"
-                                autoCapitalize="none"
-                                keyboardType="email-address"
-                                placeholder="you@example.com"
-                                value={email}
-                                onChangeText={setEmail}
-                            />
-
-                            <View style={styles.fieldDivider}>
-                                <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
-                            </View>
-
-                            <PasswordField
-                                label="Password"
-                                placeholder="••••••••"
-                                value={password}
-                                onChangeText={setPassword}
-                            />
-
-                            {/* Error */}
-                            {error && (
-                                <View style={styles.errorRow}>
-                                    <View
-                                        style={[
-                                            styles.errorDot,
-                                            { backgroundColor: colors.error },
-                                        ]}
-                                    />
-                                    <Text
-                                        style={[
-                                            styles.error,
-                                            { color: colors.error },
-                                        ]}
-                                    >
-                                        {error}
-                                    </Text>
-                                </View>
-                            )}
-
-                            {/* Sign In Button */}
-                            <Pressable
-                                style={({ pressed }) => [
-                                    styles.primaryButton,
-                                    { backgroundColor: colors.button },
-                                    pressed && {
-                                        opacity: 0.85,
-                                        transform: [{ scale: 0.98 }],
-                                    },
-                                    isSubmitting && styles.primaryButtonDisabled,
-                                ]}
-                                onPress={handleLogin}
-                                disabled={isSubmitting}
-                            >
-                                <Text
-                                    style={[
-                                        styles.primaryButtonText,
-                                        { color: colors.buttonText },
-                                    ]}
-                                >
-                                    {isSubmitting ? 'Signing in…' : 'Sign In'}
-                                </Text>
-                            </Pressable>
-
-                            {/* login with OTP */}
-                            <Pressable
-                                onPress={() =>
-                                    router.push('/(auth)/login-with-otp')
-                                }
-                                style={styles.forgotWrap}
-                            >
-                                <Text
-                                    style={[styles.link, { color: colors.primary }]}>
-                                    Login With OTP
-                                </Text>
-                            </Pressable>
-
-                            {/* Forgot Password */}
-                            <Pressable
-                                onPress={() =>
-                                    router.push('/(auth)/forgot-password')
-                                }
-                                style={styles.forgotWrap}
-                            >
-                                <Text
-                                    style={[
-                                        styles.link,
-                                        { color: colors.primary },
-                                    ]}
-                                >
-                                    Forgot your password?
-                                </Text>
-                            </Pressable>
-                        </View>
-
-                        {/* Footer */}
-                        <View
-                            style={[
-                                styles.footer,
-                                { borderTopColor: colors.border },
-                            ]}
-                        >
-                            <Pressable
-                                onPress={() =>
-                                    router.push('/(auth)/signup')
-                                }
-                            >
-                                <Text
-                                    style={[
-                                        styles.footerText,
-                                        { color: colors.textMuted },
-                                    ]}
-                                >
-                                    New here?{' '}
-                                    <Text
-                                        style={[
-                                            styles.footerLink,
-                                            { color: colors.text },
-                                        ]}
-                                    >
-                                        Create an account
-                                    </Text>
-                                </Text>
-                            </Pressable>
-                        </View>
+                        <Text style={[styles.subheadline, { color: colors.textMuted }]}>
+                            Sign in to pick up where you left off
+                        </Text>
                     </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </RuledPaperBackground>
+
+                    {/* Form */}
+                    <View
+                        style={[
+                            styles.formCard,
+                            {
+                                backgroundColor: colors.surface,
+                                borderColor: colors.border,
+                            },
+                        ]}
+                    >
+                        <NotebookField
+                            label="Email"
+                            autoCapitalize="none"
+                            keyboardType="email-address"
+                            placeholder="you@example.com"
+                            value={email}
+                            onChangeText={setEmail}
+                        />
+
+                        <View style={styles.fieldDivider}>
+                            <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
+                        </View>
+
+                        <PasswordField
+                            label="Password"
+                            placeholder="••••••••"
+                            value={password}
+                            onChangeText={setPassword}
+                        />
+
+                        {/* Error */}
+                        {error && (
+                            <View style={styles.errorRow}>
+                                <View
+                                    style={[
+                                        styles.errorDot,
+                                        { backgroundColor: colors.error },
+                                    ]}
+                                />
+                                <Text
+                                    style={[
+                                        styles.error,
+                                        { color: colors.error },
+                                    ]}
+                                >
+                                    {error}
+                                </Text>
+                            </View>
+                        )}
+
+                        {/* Sign In Button */}
+                        <Pressable
+                            style={({ pressed }) => [
+                                styles.primaryButton,
+                                { backgroundColor: colors.button },
+                                pressed && {
+                                    opacity: 0.85,
+                                    transform: [{ scale: 0.98 }],
+                                },
+                                isSubmitting && styles.primaryButtonDisabled,
+                            ]}
+                            onPress={handleLogin}
+                            disabled={isSubmitting}
+                        >
+                            <Text
+                                style={[
+                                    styles.primaryButtonText,
+                                    { color: colors.buttonText },
+                                ]}
+                            >
+                                {isSubmitting ? 'Signing in…' : 'Sign In'}
+                            </Text>
+                        </Pressable>
+
+                        {/* login with OTP */}
+                        <Pressable
+                            onPress={() =>
+                                router.push('/(auth)/login-with-otp')
+                            }
+                            style={styles.forgotWrap}
+                        >
+                            <Text
+                                style={[styles.link, { color: colors.primary }]}>
+                                Login With OTP
+                            </Text>
+                        </Pressable>
+
+                        {/* Forgot Password */}
+                        <Pressable
+                            onPress={() =>
+                                router.push('/(auth)/forgot-password')
+                            }
+                            style={styles.forgotWrap}
+                        >
+                            <Text
+                                style={[
+                                    styles.link,
+                                    { color: colors.primary },
+                                ]}
+                            >
+                                Forgot your password?
+                            </Text>
+                        </Pressable>
+                    </View>
+
+                    {/* Footer */}
+                    <View
+                        style={[
+                            styles.footer,
+                            { borderTopColor: colors.border },
+                        ]}
+                    >
+                        <Pressable
+                            onPress={() =>
+                                router.push('/(auth)/signup')
+                            }
+                        >
+                            <Text
+                                style={[
+                                    styles.footerText,
+                                    { color: colors.textMuted },
+                                ]}
+                            >
+                                New here?{' '}
+                                <Text
+                                    style={[
+                                        styles.footerLink,
+                                        { color: colors.text },
+                                    ]}
+                                >
+                                    Create an account
+                                </Text>
+                            </Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 

@@ -1,7 +1,8 @@
 // src/components/ruled-paper-background.tsx
 
-import { View, StyleSheet, Dimensions } from 'react-native';
 import { useTheme } from '@/constants/theme';
+import React from 'react';
+import { Dimensions, StyleSheet, View } from 'react-native';
 
 const LINE_SPACING = 36;
 const MARGIN_OFFSET = 40;
@@ -38,18 +39,18 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   ruleLine: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 1,
+    // position: 'absolute',
+    // left: 0,
+    // right: 0,
+    // height: 1,
   },
   marginLine: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: MARGIN_OFFSET,
-    width: 1.5,
-    opacity: 0.35,
+    // position: 'absolute',
+    // top: 0,
+    // bottom: 0,
+    // left: MARGIN_OFFSET,
+    // width: 1.5,
+    // opacity: 0.35,
   },
 });
 
