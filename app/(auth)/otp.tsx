@@ -1,5 +1,14 @@
 // app/(auth)/otp.tsx
 
+/*
+    OTP SCREEN
+login + otp => HOME
+
+signup -- new account creation
+    email + password + otp => HOME
+    email -> send (OTP) -> verify (OTP) -> Account Creations
+*/
+
 import { Fonts, radii, spacing, useTheme } from '@/constants/theme';
 import { RuledPaperBackground } from '@/src/components/ruled-paper-background';
 import { useAuthStore } from '@/src/store/auth-store';
@@ -20,7 +29,7 @@ const RESEND_COOLDOWN_SECONDS = 30;
 export default function OtpScreen() {
     const router = useRouter();
     const { colors } = useTheme();
-    const { email } = useLocalSearchParams<{ email: string }>();
+    const { email, purpose } = useLocalSearchParams<{ email: string, purpose: string }>();
 
     const verifyEmailOtp = useAuthStore((s) => s.verifyEmailOtp);
     const requestEmailOtp = useAuthStore((s) => s.requestEmailOtp);
@@ -56,6 +65,21 @@ export default function OtpScreen() {
             if (router.canGoBack()) {
                 router.back();
             } else {
+                //NAVIGATION IS CRITICAL HERE 
+
+                // After OTP is verify go to home screen
+                if (purpose === 'login-with-otp') {
+                    router.replace('/(tabs)');
+                }
+
+                // for forgot-password navigate to set-new-password
+                if (purpose === 'forgot-password') {
+                    // not creation new page
+                    router.push({
+                        pathname: '/', // new-password(screen)
+                        params: { email: email } // no ned code i guess verified alreay
+                    })
+                }
                 router.replace('/(tabs)');
             }
         } catch {

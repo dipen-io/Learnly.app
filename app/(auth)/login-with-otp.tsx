@@ -43,7 +43,7 @@ export default function LoginWithOtpScreen() {
 
             router.push({
                 pathname: '/(auth)/otp',
-                params: { email: email.trim() },
+                params: { email: email.trim(), purpose: 'login-with-otp' },
             });
         } catch {
             setError('Unable to send verification code.');

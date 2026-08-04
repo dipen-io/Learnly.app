@@ -21,7 +21,7 @@ export default function ForgotPasswordScreen() {
     const { colors } = useTheme();
 
     const requestPasswordResetOtp = useAuthStore(
-        (s) => s.requestPasswordResetOtp
+        (s) => s.requestEmailOtp
     );
 
     const [email, setEmail] = useState('');
@@ -42,8 +42,8 @@ export default function ForgotPasswordScreen() {
             await requestPasswordResetOtp(email.trim());
 
             router.push({
-                pathname: '/(auth)/reset-password-otp',
-                params: { email: email.trim() },
+                pathname: '/(auth)/otp',
+                params: { email: email.trim(), purpose: 'forgot-password' },
             });
         } catch {
             setError('Unable to send verification code.');
