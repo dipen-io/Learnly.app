@@ -21,7 +21,7 @@ type AuthState = {
 
     hydrate: () => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
-    signup: (name: string, email: string, password: string) => Promise<void>;
+    signup: (email: string, password: string) => Promise<void>;
     requestEmailOtp: (email: string) => Promise<void>;
     verifyEmailOtp: (email: string, code: string) => Promise<void>;
     loginWithGoogle: (idToken: string) => Promise<void>;
