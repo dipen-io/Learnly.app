@@ -2,6 +2,7 @@
 
 import { Fonts, radii, spacing, useTheme } from '@/constants/theme';
 import { NotebookField } from '@/src/components/notebook-field';
+import { PasswordField } from '@/src/components/password-field';
 import { RuledPaperBackground } from '@/src/components/ruled-paper-background';
 import { useAuthStore } from '@/src/store/auth-store';
 import { usePendingActionStore } from '@/src/store/pending-action-store';
@@ -86,34 +87,33 @@ export default function LoginScreen() {
                         {/* Form */}
                         {/* Form */}
                         <View
-                        style={[
-                            styles.formCard,
-                            {
-                                backgroundColor: colors.surface,
-                                borderColor: colors.border,
-                            },
-                        ]}
+                            style={[
+                                styles.formCard,
+                                {
+                                    backgroundColor: colors.surface,
+                                    borderColor: colors.border,
+                                },
+                            ]}
                         >
-                        <NotebookField
-                        label="Email"
-                        autoCapitalize="none"
-                        keyboardType="email-address"
-                        placeholder="you@example.com"
-                        value={email}
-                        onChangeText={setEmail}
-                        />
+                            <NotebookField
+                                label="Email"
+                                autoCapitalize="none"
+                                keyboardType="email-address"
+                                placeholder="you@example.com"
+                                value={email}
+                                onChangeText={setEmail}
+                            />
 
-                        <View style={styles.fieldDivider}>
-                        <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
-                        </View>
+                            <View style={styles.fieldDivider}>
+                                <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
+                            </View>
 
-                        <NotebookField
-                        label="Password"
-                        secureTextEntry
-                        placeholder="••••••••"
-                        value={password}
-                        onChangeText={setPassword}
-                        />
+                            <PasswordField
+                                label="Password"
+                                placeholder="••••••••"
+                                value={password}
+                                onChangeText={setPassword}
+                            />
 
                             {/* Error */}
                             {error && (

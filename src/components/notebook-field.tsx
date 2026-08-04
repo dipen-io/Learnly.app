@@ -1,8 +1,8 @@
 // src/components/notebook-field.tsx
 
-import { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TextInputProps } from 'react-native';
-import { useTheme, spacing, Fonts } from '@/constants/theme';
+import { Fonts, spacing, useTheme } from '@/constants/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
 
 type NotebookFieldProps = TextInputProps & {
   label: string;
