@@ -55,4 +55,29 @@ export const authApi = {
         const { data } = await apiClient.get<User>('/me');
         return data;
     },
+
+
+    ///////////// PasswordLess Login(email, OTP)
+    // request OTP 6-digit code to the given email. Backends should create 
+    // account or hold the email until verify
+    requestOtp: async (email: string): Promise<void> => {
+        await apiClient.post('/auth/otp/request', { email });
+    },
+
+    verifyOtp: async (email: string, code: string): Promise<AuthResponse> => {
+        const { data } = await apiClient.post<AuthResponse>('/auth/otp/verify', {
+            email, code,
+        });
+        return data;
+    },
+
+    ////////////////Google 
+    //idToken comes from the Google sign-in flow on the client
+    googleLogin: async (idToken: string): Promise<AuthResponse> => {
+        const { data } = await apiClient.post<AuthResponse>('/auth/google', {
+            idToken
+        })
+
+        return data;
+    }
 };
