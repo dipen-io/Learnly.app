@@ -59,6 +59,7 @@ export default function OtpScreen() {
         setError(null);
         setIsVerifying(true);
         try {
+
             await verifyEmailOtp(email, code);
             await runPendingAction();
 
@@ -76,8 +77,8 @@ export default function OtpScreen() {
                 if (purpose === 'forgot-password') {
                     // not creation new page
                     router.push({
-                        pathname: '/', // new-password(screen)
-                        params: { email: email } // no ned code i guess verified alreay
+                        pathname: '/(auth)/forgot-password',
+                        params: { email: email }
                     })
                 }
                 router.replace('/(tabs)');

@@ -39,7 +39,9 @@ export default function ForgotPasswordScreen() {
         setIsSubmitting(true);
 
         try {
-            await requestPasswordResetOtp(email.trim());
+
+            //TODO: need to enable this API
+            // await requestPasswordResetOtp(email.trim());
 
             router.push({
                 pathname: '/(auth)/otp',
