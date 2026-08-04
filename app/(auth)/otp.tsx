@@ -79,7 +79,13 @@ export default function OtpScreen() {
 
     return (
         <RuledPaperBackground>
-            <View style={styles.content}>
+            <View
+                style={[
+                    styles.content,
+                    { backgroundColor: colors.background },
+                ]}
+
+            >
                 <Text style={[styles.eyebrow, { color: colors.primary }]}>
                     StudyLab
                 </Text>
