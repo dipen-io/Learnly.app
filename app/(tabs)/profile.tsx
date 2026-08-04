@@ -1,5 +1,6 @@
 // app/(tabs)/profile.tsx
 
+import { useTheme } from "@/constants/theme";
 import { useAuthStore } from "@/src/store/auth-store";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
@@ -7,34 +8,52 @@ import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-nativ
 
 export default function ProfileScreen() {
   const router = useRouter();
+
+  const {colors }= useTheme();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
 
+  
+
   if (!isAuthenticated) {
     return (
-      <View style={styles.stubContainer}>
-        <Text style={styles.stubTitle}>You're browsing as a guest</Text>
-        <Text style={styles.stubSubtitle}>
+  <View style={[styles.stubContainer, { backgroundColor: colors.background }]}>
+        <Text style={[styles.stubTitle, { color: colors.text }]}>
+          You're browsing as a guest
+        </Text>
+        <Text style={[styles.stubSubtitle, { color: colors.textMuted }]}>
           Log in to track your courses, save progress, and access your
           purchases from any device.
         </Text>
 
         <Pressable
-          style={styles.primaryButton}
+          style={({ pressed }) => [
+            styles.primaryButton,
+            { backgroundColor: colors.button },
+            pressed && { opacity: 0.85 },
+          ]}
           onPress={() => router.push('/(auth)/login')}
         >
-          <Text style={styles.primaryButtonText}>Log In</Text>
+          <Text style={[styles.primaryButtonText, { color: colors.buttonText }]}>
+            Log In
+          </Text>
         </Pressable>
 
         <Pressable
-          style={styles.secondaryButton}
+          style={({ pressed }) => [
+            styles.secondaryButton,
+            { borderColor: colors.border },
+            pressed && { backgroundColor: colors.surface },
+          ]}
           onPress={() => router.push('/(auth)/signup')}
         >
-          <Text style={styles.secondaryButtonText}>Sign Up</Text>
+          <Text style={[styles.secondaryButtonText, { color: colors.text }]}>
+            Sign Up
+          </Text>
         </Pressable>
       </View>
-    )
+    );
   }
 
   return (
