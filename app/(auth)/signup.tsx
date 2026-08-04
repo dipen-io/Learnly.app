@@ -57,6 +57,18 @@ export default function SignupScreen() {
     };
 
     const handleEmailOtpSignup = async () => {
+
+        //TODO remove this 
+        // for testing only
+        router.push({
+            pathname: "/(auth)/otp",
+            params: {
+                email: "demo@example.com",
+            },
+        });
+
+
+
         setError(null);
         if (!validateEmail()) return;
 

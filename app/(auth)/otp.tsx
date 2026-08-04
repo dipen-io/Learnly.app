@@ -99,11 +99,12 @@ export default function OtpScreen() {
                     </Text>
                 </Text>
 
-                <Pressable onPress={() => inputRef.current?.focus()}>
+                <View style={styles.codeContainer}>
                     <View style={styles.codeRow}>
                         {Array.from({ length: CODE_LENGTH }).map((_, i) => {
                             const digit = code[i] ?? '';
                             const isActiveCursor = i === code.length;
+
                             return (
                                 <View
                                     key={i}
@@ -120,19 +121,20 @@ export default function OtpScreen() {
                             );
                         })}
                     </View>
-                </Pressable>
 
-                <TextInput
-                    ref={inputRef}
-                    value={code}
-                    onChangeText={(text) =>
-                        setCode(text.replace(/[^0-9]/g, '').slice(0, CODE_LENGTH))
-                    }
-                    keyboardType="number-pad"
-                    maxLength={CODE_LENGTH}
-                    autoFocus
-                    style={styles.hiddenInput}
-                />
+                    <TextInput
+                        ref={inputRef}
+                        value={code}
+                        onChangeText={(text) =>
+                            setCode(text.replace(/[^0-9]/g, '').slice(0, CODE_LENGTH))
+                        }
+                        keyboardType="number-pad"
+                        maxLength={CODE_LENGTH}
+                        autoFocus
+                        style={styles.overlayInput}
+                        caretHidden
+                    />
+                </View>
 
                 {error && (
                     <Text style={[styles.error, { color: colors.error }]}>{error}</Text>
@@ -201,11 +203,13 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.bodySemiBold,
         fontSize: 22,
     },
-    hiddenInput: {
-        position: 'absolute',
+    codeContainer: {
+        position: 'relative',
+    },
+
+    overlayInput: {
+        ...StyleSheet.absoluteFillObject,
         opacity: 0,
-        height: 0,
-        width: 0,
     },
     error: {
         fontFamily: Fonts.bodyMedium,
