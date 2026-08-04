@@ -1,59 +1,60 @@
-//src/components/notebook-field.tsx
+// src/components/notebook-field.tsx
 
-import { Colors, Fonts, spacing } from "@/constants/theme";
-import { useState } from "react";
-import { StyleSheet, Text, TextInput, TextInputProps, View } from "react-native";
+import { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, TextInputProps } from 'react-native';
+import { useTheme, spacing, Fonts } from '@/constants/theme';
 
 type NotebookFieldProps = TextInputProps & {
-    label: string;
+  label: string;
 };
 
-export function NotebookField({ label, ...rest }: NotebookFieldProps) {
-    const [isFocused, setIsFocused] = useState(false);
+export function NotebookField({ label, style, ...rest }: NotebookFieldProps) {
+  const { colors, brand } = useTheme();
+  const [isFocused, setIsFocused] = useState(false);
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.label}>{label.toUpperCase()}</Text>
-            <TextInput
-                style={[styles.input, isFocused && styles.inputFocused]}
-                placeholderTextColor={Colors.inkMuted}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                {...rest}
-            />
-            <View
-                style={[styles.underline, isFocused && styles.underlineFocused]}
-            />
-        </View>
-    )
+  return (
+    <View style={styles.container}>
+      <Text style={[styles.label, { color: colors.textMuted }]}>
+        {label.toUpperCase()}
+      </Text>
+      <TextInput
+        style={[styles.input, { color: colors.text }, style]}
+        placeholderTextColor={colors.textMuted}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        {...rest}
+      />
+      <View
+        style={[
+          styles.underline,
+          { backgroundColor: isFocused ? brand.marigold : colors.border },
+          isFocused && styles.underlineFocused,
+        ]}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        marginBottom: spacing.lg,
-    },
-    label: {
-        fontFamily: Fonts.bodySemiBold,
-        fontSize: 11,
-        letterSpacing: 1.2,
-        color: Colors.inkMuted,
-        marginBottom: spacing.xs,
-    },
-    input: {
-        fontFamily: Fonts.body,
-        fontSize: 17,
-        color: Colors.ink,
-        paddingVertical: spacing.sm,
-    },
-    inputFocused: {
-        color: Colors.ink,
-    },
-    underline: {
-        height: 1.5,
-        backgroundColor: Colors.rule,
-    },
-    underlineFocused: {
-        height: 2,
-        backgroundColor: Colors.marigold,
-    },
+  container: {
+    marginBottom: spacing.lg,
+  },
+  label: {
+    fontFamily: Fonts.bodySemiBold,
+    fontSize: 11,
+    letterSpacing: 1.2,
+    marginBottom: spacing.xs,
+  },
+  input: {
+    fontFamily: Fonts.body,
+    fontSize: 17,
+    paddingVertical: spacing.sm,
+  },
+  underline: {
+    height: 1.5,
+  },
+  underlineFocused: {
+    height: 2,
+  },
 });
+
