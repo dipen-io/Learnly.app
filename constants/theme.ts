@@ -8,8 +8,8 @@ import { Platform, useColorScheme } from 'react-native';
 
 export const BrandColors = {
   marigold: '#F2A93B',
-  forest:   '#2F4F3E',
-  clay:     '#C4432B',
+  forest: '#2F4F3E',
+  clay: '#C4432B',
 } as const;
 
 // =============================================================================
@@ -17,11 +17,11 @@ export const BrandColors = {
 // =============================================================================
 
 export const spacing = {
-  xs:  4,
-  sm:  8,
-  md:  16,
-  lg:  24,
-  xl:  32,
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
   xxl: 48,
   xxxl: 64,
 } as const;
@@ -31,10 +31,10 @@ export const spacing = {
 // =============================================================================
 
 export const radii = {
-  sm:   4,
-  md:   8,
-  lg:   12,
-  xl:   16,
+  sm: 4,
+  md: 8,
+  lg: 12,
+  xl: 16,
   full: 9999,
 } as const;
 
@@ -44,38 +44,40 @@ export const radii = {
 
 /** Custom loaded fonts (Expo/Google Fonts) */
 export const Fonts = {
-  display:        'Fraunces_600SemiBold_Italic',
+  display: 'Fraunces_600SemiBold_Italic',
   displayRegular: 'Fraunces_500Medium',
-  body:           'Inter_400Regular',
-  bodyMedium:     'Inter_500Medium',
-  bodySemiBold:   'Inter_600SemiBold',
+  body: 'Inter_400Regular',
+  bodyMedium: 'Inter_500Medium',
+  bodySemiBold: 'Inter_600SemiBold',
+  semibold: 'Inter_600SemiBold',
+  bold: 'Inter_700Bold',
 } as const;
 
 /** Platform-native font stacks for web fallback */
 export const PlatformFonts = Platform.select({
   ios: {
-    sans:   'system-ui',
-    serif:  'ui-serif',
-    rounded:'ui-rounded',
-    mono:   'ui-monospace',
+    sans: 'system-ui',
+    serif: 'ui-serif',
+    rounded: 'ui-rounded',
+    mono: 'ui-monospace',
   },
   android: {
-    sans:   'normal',
-    serif:  'serif',
-    rounded:'normal',
-    mono:   'monospace',
+    sans: 'normal',
+    serif: 'serif',
+    rounded: 'normal',
+    mono: 'monospace',
   },
   web: {
-    sans:   "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif:  "Georgia, 'Times New Roman', serif",
-    rounded:"'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono:   "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+    serif: "Georgia, 'Times New Roman', serif",
+    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
+    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
   default: {
-    sans:   'normal',
-    serif:  'serif',
-    rounded:'normal',
-    mono:   'monospace',
+    sans: 'normal',
+    serif: 'serif',
+    rounded: 'normal',
+    mono: 'monospace',
   },
 });
 
@@ -124,62 +126,62 @@ export interface ThemeColors {
 }
 
 export const LightColors: ThemeColors = {
-  background:  '#FFFFFF',
-  foreground:  '#1C2321',
+  background: '#FFFFFF',
+  foreground: '#1C2321',
 
-  surface:       '#EEF0EA',
-  surfaceElevated:'#FFFFFF',
+  surface: '#EEF0EA',
+  surfaceElevated: '#FFFFFF',
 
-  text:        '#1C2321',
-  textMuted:   '#5B645F',
+  text: '#1C2321',
+  textMuted: '#5B645F',
   textInverse: '#FFFFFF',
 
-  border:       '#D3D6CC',
+  border: '#D3D6CC',
   borderStrong: '#B8BDB5',
 
-  primary:          '#2F4F3E',
-  primaryForeground:'#FFFFFF',
+  primary: '#2F4F3E',
+  primaryForeground: '#FFFFFF',
 
-  button:     '#1C2321',
+  button: '#1C2321',
   buttonText: '#FFFFFF',
 
-  error:   '#C4432B',
+  error: '#C4432B',
   success: '#2F4F3E',
   warning: '#F2A93B',
 
-  tint:             '#0A7EA4',
-  icon:             '#687076',
-  tabIconDefault:   '#687076',
-  tabIconSelected:  '#0A7EA4',
+  tint: '#0A7EA4',
+  icon: '#687076',
+  tabIconDefault: '#687076',
+  tabIconSelected: '#0A7EA4',
 };
 
 export const DarkColors: ThemeColors = {
   background: '#151718',
   foreground: '#F5F5F5',
 
-  surface:        '#1C2321',
-  surfaceElevated:'#242927',
+  surface: '#1C2321',
+  surfaceElevated: '#242927',
 
-  text:        '#F5F5F5',
-  textMuted:   '#A8ADA9',
+  text: '#F5F5F5',
+  textMuted: '#A8ADA9',
   textInverse: '#151718',
 
-  border:       '#343A37',
+  border: '#343A37',
   borderStrong: '#4A524E',
 
-  primary:          '#6F947D',
-  primaryForeground:'#151718',
+  primary: '#6F947D',
+  primaryForeground: '#151718',
 
-  button:     '#F5F5F5',
+  button: '#F5F5F5',
   buttonText: '#151718',
 
-  error:   '#E0644E',
+  error: '#E0644E',
   success: '#6F947D',
   warning: '#F2A93B',
 
-  tint:            '#FFFFFF',
-  icon:            '#9BA1A6',
-  tabIconDefault:  '#9BA1A6',
+  tint: '#FFFFFF',
+  icon: '#9BA1A6',
+  tabIconDefault: '#9BA1A6',
   tabIconSelected: '#FFFFFF',
 };
 
@@ -263,5 +265,5 @@ export function useTheme() {
 
 export const Colors = {
   light: LightColors,
-  dark:  DarkColors,
+  dark: DarkColors,
 } as const;
