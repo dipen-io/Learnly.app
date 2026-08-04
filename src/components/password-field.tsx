@@ -6,10 +6,10 @@
 // and icon logic are specific to passwords and would just be dead
 // weight on every other text field.
 
-import { useState } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet, TextInputProps } from 'react-native';
+import { Fonts, spacing, useTheme } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme, spacing, Fonts } from '@/constants/theme';
+import React, { useState } from 'react';
+import { Pressable, StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
 
 type PasswordFieldProps = Omit<TextInputProps, 'secureTextEntry'> & {
   label: string;

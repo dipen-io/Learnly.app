@@ -78,5 +78,10 @@ export const authApi = {
         })
 
         return data;
+    },
+
+    //////////////Save New Password 
+    saveNewPass: async (email: string, password: string): Promise<void> => {
+        await apiClient.post('/auth/new-password/save', { email, password });
     }
 };

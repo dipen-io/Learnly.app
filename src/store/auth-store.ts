@@ -24,6 +24,7 @@ type AuthState = {
     signup: (email: string, password: string) => Promise<void>;
     requestEmailOtp: (email: string) => Promise<void>;
     verifyEmailOtp: (email: string, code: string) => Promise<void>;
+    saveNewPassword: (email: string, password: string) => Promise<void>;
     loginWithGoogle: (idToken: string) => Promise<void>;
     logout: () => Promise<void>;
     //called internally by client.ts 's interceptor when a refresh is fialed
@@ -85,6 +86,10 @@ export const useAuthStore = create<AuthState>((set) => {
                 code
             );
             await completeAuth(accessToken, refreshToken, user);
+        },
+
+        saveNewPassword: async (email, password) => {
+            await authApi.saveNewPass(email, password);
         },
 
         loginWithGoogle: async (idToken) => {
