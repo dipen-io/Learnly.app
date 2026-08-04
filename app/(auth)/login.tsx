@@ -167,7 +167,7 @@ export default function LoginScreen() {
                             >
                                 <Text
                                     style={[styles.link, { color: colors.primary }]}>
-                                    Login With Otp
+                                    Login With OTP
                                 </Text>
                             </Pressable>
 

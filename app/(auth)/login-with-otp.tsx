@@ -71,7 +71,7 @@ export default function LoginWithOtpScreen() {
                             </Text>
 
                             <Text style={[styles.headline, { color: colors.text }]}>
-                                Forgot Password
+                                Login with OTP
                             </Text>
 
                             <Text style={[styles.subheadline, { color: colors.textMuted }]}>
@@ -136,7 +136,7 @@ export default function LoginWithOtpScreen() {
                                 >
                                     {isSubmitting
                                         ? 'Sending...'
-                                        : 'Send Reset Code'}
+                                        : 'Get OTP'}
                                 </Text>
                             </Pressable>
                         </View>
