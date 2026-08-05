@@ -88,7 +88,7 @@ export function AccountMenu({
         {
             id: "resetPassword",
             label: "Forgot Password",
-            icon: "settings-outline",
+            icon: "lock-open-outline",
             route: "/forgot-password",
             destructive: false
         },
