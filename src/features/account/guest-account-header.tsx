@@ -11,7 +11,8 @@ export function GuestAccountHeader() {
 
     return (
         <View style={[styles.container, {
-            marginTop: spacing.md
+            // marginTop: spacing.md
+            marginBottom: spacing.md
         }]}>
             <Image
                 source={require('../../../assets/images/learn.png')}
@@ -31,6 +32,6 @@ const styles = StyleSheet.create({
 
     image: {
         width: "100%",
-        height: 180
+        height: 210
     }
 })

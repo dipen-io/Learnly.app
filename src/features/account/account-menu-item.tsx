@@ -3,7 +3,6 @@
 
 import { useTheme } from "@/constants/theme";
 import { ThemedText } from "@/src/components/themed-text";
-import { useWishlistStore } from "@/src/store/wishlist-store";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from 'expo-router';
 import React from "react";
@@ -12,7 +11,8 @@ import { Pressable, StyleSheet, View } from "react-native";
 export interface MenuItem {
     id: string;
     label: string;
-    icon: string;
+    icon: keyof typeof Ionicons.glyphMap;
+
     route?: string;
     destructive: boolean;
     onPress?: () => void;
@@ -62,7 +62,7 @@ export function AccountMenuItem({ item, isLast }: AccountMenuItemprops) {
                 <ThemedText style={{
                     flex: 1,
                     fontSize: fontSizes.md,
-                    color: item.destructive ? colors.error ? colors.text,
+                    color: item.destructive ? colors.error : colors.text
                 }}>
                     {item.label}
 
@@ -71,7 +71,7 @@ export function AccountMenuItem({ item, isLast }: AccountMenuItemprops) {
                 {
                     !item.destructive && (
                         <Ionicons
-                            name="chevron.right"
+                            name="chevron-forward"
                             size={16}
                             color={colors.icon}
                         />

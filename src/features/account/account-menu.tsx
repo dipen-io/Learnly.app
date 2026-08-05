@@ -43,28 +43,28 @@ export function AccountMenu({
         {
             id: "course",
             label: "My Course",
-            icon: "book.fill",
+            icon: "book-outline",
             route: "/course",
             destructive: false
         },
         {
             id: "wishlist",
             label: "Wishlist",
-            icon: "heart.fill",
+            icon: "heart-outline",
             route: "/wishlist",
             destructive: false
         },
         {
             id: "settings",
             label: "Settings",
-            icon: "gearshape.fill",
+            icon: "settings-outline",
             route: "/settings",
             destructive: false
         },
         {
             id: "logout",
             label: "Log Out",
-            icon: "arrow.right.square",
+            icon: "log-out-outline",
             destructive: true,
             onPress: handleLogout,
         },
@@ -74,21 +74,28 @@ export function AccountMenu({
         {
             id: "login",
             label: "Log In",
-            icon: "person.fill",
+            icon: "log-in-outline",
             route: "/(auth)/login",
             destructive: false
         },
         {
             id: "signup",
             label: "Create Account",
-            icon: "person.badge.plus",
+            icon: "person-add-outline",
             route: "/(auth)/signup",
+            destructive: false
+        },
+        {
+            id: "resetPassword",
+            label: "Forgot Password",
+            icon: "settings-outline",
+            route: "/forgot-password",
             destructive: false
         },
         {
             id: "settings",
             label: "Settings",
-            icon: "gearshape.fill",
+            icon: "settings-outline",
             route: "/settings",
             destructive: false
         },
