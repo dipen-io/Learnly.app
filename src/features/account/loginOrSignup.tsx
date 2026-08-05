@@ -23,12 +23,6 @@ export function LoginOrSignup({ onClose }: LoginOrSignupProps) {
             ]}
         >
 
-            <Pressable onPress={onClose}>
-                <Ionicons
-                    name="close"
-                    size={24}
-                />
-            </Pressable>
             <View style={styles.guestIcon}>
                 <IconSymbol name="person.circle" size={64} color={colors.textMuted} />
             </View>
@@ -97,9 +91,11 @@ export function LoginOrSignup({ onClose }: LoginOrSignupProps) {
                 ]}
                 onPress={onClose}
             >
-                <ThemedText type="defaultSemiBold" style={{ fontSize: 15 }}>
-                    Close
-                </ThemedText>
+                <Ionicons
+                    name="close"
+                    size={24}
+                    color={colors.straberry}
+                />
             </Pressable>
         </View>
     );
