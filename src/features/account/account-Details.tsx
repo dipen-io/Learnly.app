@@ -2,21 +2,32 @@
 
 import { useTheme } from "@/constants/theme";
 import { useAuthStore } from "@/src/store/auth-store";
-import React from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import { AccountHeader } from "./account-header";
 import { AccountMenu } from "./account-menu";
 import { GuestAccountHeader } from "./guest-account-header";
+import { LoginOrSignup } from "./loginOrSignup";
 import { useUsers } from "./use-account-section";
 
 
 export function AccountDetails() {
+    const [showLoginSignup, setShowLoginSignup] = useState(true)
     const { data: users, isError, isLoading } = useUsers();
     const { colors } = useTheme();
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
+
     if (isError) return null;
     if (!isLoading && (!users)) return null;
+
+    if (showLoginSignup && !isAuthenticated) {
+        return (
+            <LoginOrSignup
+                onClose={() => setShowLoginSignup(false)}
+            />
+        );
+    }
 
 
     return (
