@@ -4,10 +4,11 @@ import { useTheme } from "@/constants/theme";
 import { ThemedText } from "@/src/components/themed-text";
 import { IconSymbol } from "@/src/components/ui/icon-symbol";
 import { useAuthStore } from "@/src/store/auth-store";
-import { Image } from "expo-image";
 import { router, useRouter } from "expo-router";
 import React from "react";
 import { Alert, Pressable, StyleSheet, View } from "react-native";
+import { AccountHeader } from "./account-header";
+import { GuestAccountHeader } from "./guest-account-header";
 import { useUsers } from "./use-account-section";
 
 
@@ -207,7 +208,7 @@ export function AccountDetails() {
 
     const menuItems: MenuItem[] = [
         {
-            id: 'courses',
+            id: 'course',
             label: 'My Course',
             icon: 'book.fill',
             route: '/course',
@@ -241,43 +242,12 @@ export function AccountDetails() {
             {
                 isAuthenticated ? (
                     <>
-                        <View style={[styles.header, { marginTop: spacing.xl, marginBottom: spacing.lg }]}>
-                            <View
-                                style={[
-                                    styles.avatarRing,
-                                    {
-                                        borderRadius: radii.full,
-                                        padding: 3,
-                                        backgroundColor: colors.primary,
-                                        marginBottom: spacing.md,
-                                    },
-                                ]}
-                            >
-                                <Image
-                                    source={
-                                        users?.avatar
-                                            ? { uri: users.avatar }
-                                            : require('../../../assets/images/learn.png')
-                                    }
-                                    style={{
-                                        width: 88,
-                                        height: 88,
-                                        borderRadius: 44,
-                                        backgroundColor: colors.surface,
-                                    }}
-                                    contentFit="cover"
-                                    transition={200}
-                                />
-                            </View>
+                        <AccountHeader
+                            name={users.name}
+                            email={users.email}
+                            avatar={users.avatar}
 
-                            <ThemedText type="title" style={{ fontSize: 22 }}>
-                                {users?.name || 'Student'}
-                            </ThemedText>
-
-                            <ThemedText style={{ color: colors.textMuted, marginTop: 4 }}>
-                                {users?.email || 'No email'}
-                            </ThemedText>
-                        </View>
+                        />
 
                         {/* Stats */}
                         <View
@@ -297,34 +267,7 @@ export function AccountDetails() {
 
                     </>
                 ) : (
-                    <><View style={[styles.header, { marginTop: spacing.xl, marginBottom: spacing.lg }]}>
-                        <View
-                            style={[
-                                styles.avatarRing,
-                                {
-                                    borderRadius: radii.full,
-                                    padding: 3,
-                                    backgroundColor: colors.primary,
-                                    marginBottom: spacing.md,
-                                    marginTop: spacing.xxl
-                                },
-                            ]}
-                        >
-                            <Image
-                                source={users?.avatar
-                                    ? { uri: users.avatar }
-                                    : require('../../../assets/images/learn.png')}
-                                style={{
-                                    width: 88,
-                                    height: 88,
-                                    borderRadius: 44,
-                                    backgroundColor: colors.surface,
-                                }}
-                                contentFit="cover"
-                                transition={200} />
-                        </View>
-                    </View>
-                    </>
+                    <GuestAccountHeader />
                 )
             }
 

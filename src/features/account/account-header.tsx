@@ -1,3 +1,5 @@
+// src/features/account/account-header.tsx
+
 import { useTheme } from "@/constants/theme";
 import { ThemedText } from "@/src/components/themed-text";
 import { Image } from "expo-image";
