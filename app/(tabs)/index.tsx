@@ -1,5 +1,6 @@
 import { useTheme } from '@/constants/theme';
 import { BannerCarousel } from '@/src/features/home/banner-carousel';
+import { CategoryPillList } from '@/src/features/home/category-pill-list';
 import { HomeHeader } from '@/src/features/home/home-header';
 import { Image } from "expo-image";
 import { useRouter } from 'expo-router';
@@ -27,10 +28,15 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View> 
       */}
+
+      {/* Header  */}
       <HomeHeader />
 
       {/* Banner carousel  */}
       <BannerCarousel />
+
+      {/* Category Pill List  */}
+      <CategoryPillList />
 
       {/* 2. Search Bar Trigger (Navigates to search tab on press) */}
       {/* <TouchableOpacity
