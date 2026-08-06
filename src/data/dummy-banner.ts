@@ -22,7 +22,7 @@ export const dummyBanners: Banner[] = [
     },
     {
         id: 'banner-003',
-        imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
+        imageUrl: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%2Fid%2FOIP.FFMK3rTBCxEQ7kG84kH0LQHaDe%3Fr%3D0%26pid%3DApi&f=1&ipt=49b9f6170f150cdbdff7e5edaa1e16785c1fe7187a045032437303b83890d997&ipo=images',
         title: 'Summer Sale — 40% Off',
         subtitle: 'Limited time offer on all data science courses.',
         linkType: 'url',
@@ -30,7 +30,7 @@ export const dummyBanners: Banner[] = [
     },
     {
         id: 'banner-004',
-        imageUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80',
+        imageUrl: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.Uz9y8vXdykYQiIF7fWnL2gHaEJ%3Fr%3D0%26pid%3DApi&f=1&ipt=3ab766d888b771511349010e3e916a383b2e2ca5c9ec80b918db4a800b746daa&ipo=images',
 
         title: 'React Native Masterclass',
         subtitle: 'Build production-ready mobile apps with Expo.',

@@ -3,7 +3,7 @@
 import { radii, spacing, useTheme } from "@/constants/theme";
 import type { Banner } from "@/src/types/banner";
 import { useRouter } from "expo-router";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
     Dimensions,
     FlatList,
@@ -23,6 +23,7 @@ const SIDE_INSET = spacing.lg;
 const BANNER_WIDTH = SCREEN_WIDTH - SIDE_INSET * 2;
 const BANNER_HEIGHT = 150;
 const SNAP_INTERVAL = BANNER_WIDTH + GAP;
+const AUTO_PLAY_INTERVAL = 4000;
 
 export function BannerCarousel() {
     const router = useRouter();
@@ -30,13 +31,8 @@ export function BannerCarousel() {
     const { data: banners, isLoading, isError } = useBanners();
     const [activeIndex, setActiveIndex] = useState(0);
     const listRef = useRef<FlatList>(null);
+    const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-    // Explicit snap stops, one per card. Every stop except the last is a
-    // plain multiple of SNAP_INTERVAL — that's what produces the peek of
-    // the next card, and it's fine to leave those as-is. The LAST stop is
-    // calculated directly from the real content width instead, so it lands
-    // the final card flush with zero leftover dead space, regardless of
-    // how many banners there are or what SCREEN_WIDTH happens to be.
     const snapOffsets = useMemo(() => {
         if (!banners || banners.length === 0) return [];
 
@@ -49,6 +45,35 @@ export function BannerCarousel() {
             i === count - 1 ? maxScrollOffset : SNAP_INTERVAL * i
         );
     }, [banners]);
+
+    const stopAutoPlay = useCallback(() => {
+        if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
+    }, []);
+
+    const startAutoPlay = useCallback(() => {
+        stopAutoPlay();
+        if (!banners || banners.length <= 1) return;
+
+        timerRef.current = setInterval(() => {
+            setActiveIndex((prev) => {
+                const nextIndex = (prev + 1) % banners.length;
+                // Scroll directly here — no separate useEffect
+                listRef.current?.scrollToOffset({
+                    offset: snapOffsets[nextIndex],
+                    animated: true,
+                });
+                return nextIndex;
+            });
+        }, AUTO_PLAY_INTERVAL);
+    }, [banners, snapOffsets, stopAutoPlay]);
+
+    useEffect(() => {
+        startAutoPlay();
+        return () => stopAutoPlay();
+    }, [startAutoPlay, stopAutoPlay]);
 
     if (isError || (!isLoading && (!banners || banners.length === 0))) {
         return null;
@@ -86,8 +111,20 @@ export function BannerCarousel() {
 
     const handleScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
         const offset = e.nativeEvent.contentOffset.x;
-        // Find the closest snap stop rather than dividing by a fixed
-        // interval, since the last stop is no longer evenly spaced.
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+        snapOffsets.forEach((stop, i) => {
+            const distance = Math.abs(offset - stop);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = i;
+            }
+        });
+        setActiveIndex(closestIndex);
+    }, [snapOffsets]);
+
+    const handleMomentumScrollEnd = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
+        const offset = e.nativeEvent.contentOffset.x;
         let closestIndex = 0;
         let closestDistance = Infinity;
         snapOffsets.forEach((stop, i) => {
@@ -115,8 +152,11 @@ export function BannerCarousel() {
                     paddingRight: SIDE_INSET,
                 }}
                 ItemSeparatorComponent={() => <View style={{ width: GAP }} />}
-                onScroll={handleScroll}
+                // onScroll={handleScroll}
+                onMomentumScrollEnd={handleMomentumScrollEnd}
                 scrollEventThrottle={16}
+                onScrollBeginDrag={stopAutoPlay}
+                // onMomentumScrollEnd={startAutoPlay}
                 renderItem={({ item }) => (
                     <Pressable onPress={() => handlePress(item)}>
                         <Image
