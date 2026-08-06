@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.lg,
         paddingTop: spacing.sm,
         paddingBottom: spacing.md,
+        fontFamily: Fonts.bodySemiBold
     },
     greeting: {
         fontFamily: Fonts.display,

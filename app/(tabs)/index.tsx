@@ -1,28 +1,32 @@
+import { useTheme } from '@/constants/theme';
+import { HomeHeader } from '@/src/features/home/home-header';
+import { Image } from "expo-image";
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Image }from "expo-image"
 
 export default function HomeScreen() {
+  const { colors } = useTheme();
   const router = useRouter();
 
   return (
-    <ScrollView style={styles.container}
-    contentContainerStyle = {{ paddingTop: 20, paddingBottom: 24}}
-    showsVerticalScrollIndicator={false}>
+    <ScrollView style={[styles.container]}
+      contentContainerStyle={{ paddingTop: 20, paddingBottom: 24 }}
+      showsVerticalScrollIndicator={false}>
 
       {/* 1. Header Section */}
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <View>
           <Text style={styles.usernameText}>Dipen 👋</Text>
         </View>
         <TouchableOpacity style={styles.avatarContainer}>
-          {/* Replace with user profile image */}
           <View style={styles.avatarPlaceholder}>
             <Text style={styles.avatarText}onPress={() => router.push('/profile')}>DB</Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </View> 
+      */}
+      <HomeHeader />
 
       {/* 2. Search Bar Trigger (Navigates to search tab on press) */}
       <TouchableOpacity
@@ -77,25 +81,25 @@ export default function HomeScreen() {
           data={[1, 2, 3]} // Mock data array
           keyExtractor={(item) => item.toString()}
           renderItem={({ item }) => (
-              <TouchableOpacity
+            <TouchableOpacity
               style={styles.courseCard}
               // onPress={() => router.push(`/course/${item}`)}
               onPress={() => router.push(`/explore`)}
-              >
+            >
               <View style={styles.courseThumbnailPlaceholder}>
-              <Image
-              source={require('../../assets/images/learn.png')}
-              style={styles.courseThumbnailImage}
-              contentFit="cover"
-              />
+                <Image
+                  source={require('../../assets/images/learn.png')}
+                  style={styles.courseThumbnailImage}
+                  contentFit="cover"
+                />
               </View>
 
               <Text style={styles.cardTitle} numberOfLines={2}>
-              Mastering Modern Web & System Design
+                Mastering Modern Web & System Design
               </Text>
               <Text style={styles.cardInstructor}>John Doe</Text>
               <Text style={styles.cardPrice}>$49.99</Text>
-              </TouchableOpacity>
+            </TouchableOpacity>
           )}
         />
       </View>
@@ -105,7 +109,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8F9FA', paddingHorizontal: 16, paddingTop: 20 },
+  container: { flex: 1, paddingHorizontal: 16, paddingTop: 20 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   // welcomeText: { fontSize: 14, color: '#6C757D', marginTop: 12 },
   usernameText: { fontSize: 20, fontWeight: 'bold', color: '#212529', paddingLeft: 4 },
@@ -135,18 +139,18 @@ const styles = StyleSheet.create({
   activeCategoryText: { color: '#FFFFFF' },
 
   courseCard: { width: 200, backgroundColor: '#FFFFFF', borderRadius: 12, padding: 10, marginRight: 14, borderWidth: 1, borderColor: '#E9ECEF' },
-courseThumbnailPlaceholder: {
-  width: '100%',
-  height: 110,
-  borderRadius: 8,
-  marginBottom: 8,
-  overflow: 'hidden',
-  backgroundColor: '#CED4DA',
-},
-courseThumbnailImage: {
-  width: '100%',
-  height: '100%',
-},
+  courseThumbnailPlaceholder: {
+    width: '100%',
+    height: 110,
+    borderRadius: 8,
+    marginBottom: 8,
+    overflow: 'hidden',
+    backgroundColor: '#CED4DA',
+  },
+  courseThumbnailImage: {
+    width: '100%',
+    height: '100%',
+  },
   cardTitle: { fontSize: 14, fontWeight: '600', color: '#212529', marginBottom: 4 },
   cardInstructor: { fontSize: 12, color: '#6C757D', marginBottom: 6 },
   cardPrice: { fontSize: 14, fontWeight: 'bold', color: '#0D6EFD' },

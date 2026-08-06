@@ -6,8 +6,14 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { LogBox } from 'react-native';
 import 'react-native-reanimated';
+
+// remove warning 
+LogBox.ignoreLogs([
+  'Looks like you have configured linking in multiple places',
+]);
 
 export const unstable_settings = {
   anchor: '(tabs)',
