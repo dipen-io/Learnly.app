@@ -129,7 +129,7 @@ export function FilterChipBar({ filters, onChange }: FilterChipBarProps) {
                                 name={isActive ? 'close' : 'chevron-down'}
                                 size={14}
                                 color={isActive ? colors.buttonText ?? '#fff' : colors.textMuted}
-                                style={{ marginLeft: 4 }}
+                                style={{ marginLeft: 3 }}
                             />
                         </Pressable>
                     );
@@ -178,9 +178,9 @@ const styles = StyleSheet.create({
     chip: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: spacing.xs + 2,
-        paddingHorizontal: spacing.md,
-        borderRadius: radii.full ?? 9999,
+        paddingVertical: spacing.xs + 3,
+        paddingHorizontal: 12,
+        borderRadius: radii.md ?? 9999,
         borderWidth: 1,
     },
     chipText: {
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
         marginBottom: spacing.md,
     },
     option: {
-        paddingVertical: spacing.md,
+        paddingVertical: spacing.sm,
     },
     optionText: {
         fontFamily: Fonts.body,
