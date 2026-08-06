@@ -1,8 +1,12 @@
-// src/features/explore/search-header.tsx
-
 import { Fonts, radii, spacing, useTheme } from "@/constants/theme";
-import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useCallback, useState } from "react";
+import {
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
 
 interface SearchHeaderProps {
     value: string;
@@ -10,36 +14,69 @@ interface SearchHeaderProps {
     onSubmit: () => void;
 }
 
-export function SearchHeader({ value, onChangeText, onSubmit }: SearchHeaderProps) {
+export function SearchHeader({
+    value,
+    onChangeText,
+    onSubmit,
+}: SearchHeaderProps) {
     const { colors } = useTheme();
     const [focused, setFocused] = useState(false);
 
+    const handleSubmit = useCallback(() => {
+        onSubmit();
+    }, [onSubmit]);
 
     return (
         <View style={styles.wrapper}>
-            <View style={[styles.container, { backgroundColor: colors.surface, borderColor: focused ? colors.primary : colors.border }]}>
-                <Text style={[styles.icon, { color: colors.textMuted }]}>🔍</Text>
+            <View
+                style={[
+                    styles.container,
+                    {
+                        backgroundColor: colors.surface,
+                        borderColor: focused
+                            ? colors.primary
+                            : colors.border,
+                    },
+                ]}
+            >
+                <Text style={[styles.icon, { color: colors.textMuted }]}>
+                    🔍
+                </Text>
+
+                <TextInput
+                    value={value}
+                    onChangeText={onChangeText}
+                    onSubmitEditing={handleSubmit}
+                    onFocus={() => setFocused(true)}
+                    onBlur={() => setFocused(false)}
+                    placeholder="Search courses, skills, instructors..."
+                    placeholderTextColor={colors.textMuted}
+                    style={[styles.input, { color: colors.text }]}
+                    returnKeyType="search"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                />
+
+                {value.length > 0 && (
+                    <Pressable
+                        onPress={() => onChangeText("")}
+                        hitSlop={8}
+                        accessibilityRole="button"
+                        accessibilityLabel="Clear search"
+                    >
+                        <Text
+                            style={[
+                                styles.clear,
+                                { color: colors.textMuted },
+                            ]}
+                        >
+                            ✕
+                        </Text>
+                    </Pressable>
+                )}
             </View>
-            <TextInput
-                value={value}
-                onChangeText={onChangeText}
-                onSubmitEditing={onSubmit}
-                onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
-                placeholder="Search courses, skills, instructors..."
-                placeholderTextColor={colors.textMuted}
-                style={[styles.input, { color: colors.text }]}
-                returnKeyType="search"
-            />
-
-            {value.length > 0 && (
-                <Pressable onPress={() => onChangeText('')}>
-                    <Text style={[styles.clear, { color: colors.textMuted }]}>✕</Text>
-                </Pressable>
-            )}
         </View>
-    )
-
+    );
 }
 
 const styles = StyleSheet.create({
@@ -47,13 +84,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.lg,
         paddingTop: spacing.lg,
         paddingBottom: spacing.md,
+        marginTop: spacing.lg,
     },
 
     container: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
+        minHeight: 48,
         paddingHorizontal: spacing.md,
-        paddingVertical: spacing.sm + 2,
         borderRadius: radii.md,
         borderWidth: 1,
         gap: spacing.sm,
@@ -65,6 +103,7 @@ const styles = StyleSheet.create({
 
     input: {
         flex: 1,
+        minWidth: 0,
         fontFamily: Fonts.body,
         fontSize: 15,
         lineHeight: 22,

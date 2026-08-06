@@ -2,12 +2,10 @@
 
 import { useTheme } from '@/constants/theme';
 import { SearchHeader } from '@/src/features/explore/search-header';
-import { useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
 export default function ExploreScreen() {
-  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState('');
   const { colors } = useTheme();
 
