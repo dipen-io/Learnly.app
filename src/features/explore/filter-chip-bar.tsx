@@ -172,7 +172,8 @@ const styles = StyleSheet.create({
     row: {
         paddingHorizontal: spacing.lg,
         gap: spacing.sm,
-        marginTop: spacing.lg
+        // marginTop: spacing.lg
+        marginBottom: spacing.lg
     },
     chip: {
         flexDirection: 'row',

@@ -1,18 +1,25 @@
 // app/(tabs)/explore.tsx
 
-import { useTheme } from '@/constants/theme';
-import { exploreCategories } from '@/src/data/dummy-explore';
+import { spacing, useTheme } from '@/constants/theme';
+import { curatedCollections, exploreCategories, newCourses } from '@/src/data/dummy-explore';
 import { CategoryGrid } from '@/src/features/explore/category-grid';
+import { CuratedCollections } from '@/src/features/explore/curated-collections';
 import { FilterChipBar } from '@/src/features/explore/filter-chip-bar';
+import { NewNoteworthy } from '@/src/features/explore/new-noteworthy';
 import { SearchHeader } from '@/src/features/explore/search-header';
 import { Category } from '@/src/types/category';
 import { ExploreFilters } from '@/src/types/filter';
+import { useLocalSearchParams } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
 export default function ExploreScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const { colors } = useTheme();
+  const params = useLocalSearchParams();
+
+
+  const activeCategory = params.category as string | undefined;
 
   // Simple local search filter
   const filteredCategories = useMemo(() => {
@@ -29,6 +36,7 @@ export default function ExploreScreen() {
     <ScrollView style={[styles.container, { backgroundColor: colors.background }]}
       showsVerticalScrollIndicator={false}
     >
+      {/* search bar header  */}
       <SearchHeader
         value={searchQuery}
         onChangeText={setSearchQuery}
@@ -36,10 +44,8 @@ export default function ExploreScreen() {
 
         }}
       />
-      <CategoryGrid onSelectCategory={function (category: Category): void {
-        throw new Error('Function not implemented.');
-      }} />
 
+      {/* filter chip bar  */}
       <FilterChipBar filters={{
         category: undefined,
         search: undefined,
@@ -52,6 +58,26 @@ export default function ExploreScreen() {
         throw new Error('Function not implemented.');
       }} />
 
+      {/* {activeCategory && (
+        <View style={styles.filterChip}>
+          <Text style={[styles.filterText, { color: colors.primary }]}>
+            Showing: {activeCategory}
+          </Text>
+        </View>
+      )} */}
+
+
+      <CategoryGrid onSelectCategory={function (category: Category): void {
+        throw new Error('Function not implemented.');
+      }} />
+
+      {/* <CuratedCollections /> */}
+      <CuratedCollections collections={curatedCollections} />
+
+      {/* new course  */}
+      <NewNoteworthy courses={newCourses
+      } />
+
     </ScrollView>
   );
 }
@@ -59,5 +85,14 @@ export default function ExploreScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  }
+  },
+  filterChip: {
+    paddingHorizontal: spacing.lg,
+    marginBottom: spacing.sm,
+  },
+  filterText: {
+    fontFamily: 'Inter_600SemiBold',
+    fontSize: 14,
+    textTransform: 'capitalize',
+  },
 });
