@@ -3,6 +3,7 @@ import { CategoryPillList } from '@/src/features/home/category-pill-list';
 import { ContinueLearning } from '@/src/features/home/continue-learning';
 import { FeaturedCourses } from '@/src/features/home/featured-courses';
 import { HomeHeader } from '@/src/features/home/home-header';
+import { RecommendedCourses } from '@/src/features/home/recommended-courses';
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
@@ -29,6 +30,7 @@ export default function HomeScreen() {
       <FeaturedCourses />
 
       {/* 6. Recommended Course Section */}
+      <RecommendedCourses />
 
     </ScrollView>
   );
