@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: spacing.lg,
+        paddingHorizontal: spacing.md,
         marginBottom: spacing.md,
     },
 
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     },
 
     scrollContent: {
-        paddingHorizontal: spacing.lg,
+        paddingHorizontal: spacing.md,
         gap: spacing.md,
     },
 
