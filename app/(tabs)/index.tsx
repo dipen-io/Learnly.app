@@ -17,25 +17,12 @@ export default function HomeScreen() {
       showsVerticalScrollIndicator={false}>
 
       {/* 1. Header Section */}
-      {/* <View style={styles.header}>
-        <View>
-          <Text style={styles.usernameText}>Dipen 👋</Text>
-        </View>
-        <TouchableOpacity style={styles.avatarContainer}>
-          <View style={styles.avatarPlaceholder}>
-            <Text style={styles.avatarText}onPress={() => router.push('/profile')}>DB</Text>
-          </View>
-        </TouchableOpacity>
-      </View> 
-      */}
-
-      {/* Header  */}
       <HomeHeader />
 
-      {/* Banner carousel  */}
+      {/* 2. Banner carousel  */}
       <BannerCarousel />
 
-      {/* Category Pill List  */}
+      {/* 3. Category Pill List  */}
       <CategoryPillList />
 
       {/* 2. Search Bar Trigger (Navigates to search tab on press) */}

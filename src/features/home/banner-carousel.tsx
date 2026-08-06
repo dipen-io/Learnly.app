@@ -1,18 +1,15 @@
 // src/features/home/banner-carousel.tsx
 
 import { radii, spacing, useTheme } from "@/constants/theme";
-import type { Banner } from "@/src/types/banner";
-import { useRouter } from "expo-router";
+import { BannerCard } from "@/src/components/bannerCard";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
     Dimensions,
     FlatList,
-    Image,
     NativeScrollEvent,
     NativeSyntheticEvent,
-    Pressable,
     StyleSheet,
-    View,
+    View
 } from "react-native";
 import { useBanners } from "./use-home-sections";
 
@@ -25,8 +22,8 @@ const BANNER_HEIGHT = 150;
 const SNAP_INTERVAL = BANNER_WIDTH + GAP;
 const AUTO_PLAY_INTERVAL = 4000;
 
+
 export function BannerCarousel() {
-    const router = useRouter();
     const { colors } = useTheme();
     const { data: banners, isLoading, isError } = useBanners();
     const [activeIndex, setActiveIndex] = useState(0);
@@ -60,7 +57,6 @@ export function BannerCarousel() {
         timerRef.current = setInterval(() => {
             setActiveIndex((prev) => {
                 const nextIndex = (prev + 1) % banners.length;
-                // Scroll directly here — no separate useEffect
                 listRef.current?.scrollToOffset({
                     offset: snapOffsets[nextIndex],
                     animated: true,
@@ -70,6 +66,7 @@ export function BannerCarousel() {
         }, AUTO_PLAY_INTERVAL);
     }, [banners, snapOffsets, stopAutoPlay]);
 
+    // Start timer on mount / when banners load
     useEffect(() => {
         startAutoPlay();
         return () => stopAutoPlay();
@@ -93,27 +90,12 @@ export function BannerCarousel() {
         );
     }
 
-    const handlePress = useCallback((banner: Banner) => {
-        switch (banner.linkType) {
-            case 'course':
-                router.push(`/course/${banner.linkValue}`);
-                break;
-            case 'category':
-                router.push({
-                    pathname: '/(tabs)/explore',
-                    params: { category: banner.linkValue },
-                });
-                break;
-            case 'url':
-                break;
-        }
-    }, [router]);
-
-
+    // When user drags, pause timer. When scroll settles, update dot + restart timer.
     const handleMomentumScrollEnd = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
         const offset = e.nativeEvent.contentOffset.x;
         let closestIndex = 0;
         let closestDistance = Infinity;
+
         snapOffsets.forEach((stop, i) => {
             const distance = Math.abs(offset - stop);
             if (distance < closestDistance) {
@@ -121,8 +103,10 @@ export function BannerCarousel() {
                 closestIndex = i;
             }
         });
+
         setActiveIndex(closestIndex);
-    }, [snapOffsets]);
+        startAutoPlay(); // ← restart the timer after manual swipe
+    }, [snapOffsets, startAutoPlay]);
 
     return (
         <View style={{ marginBottom: spacing.lg }}>
@@ -142,15 +126,7 @@ export function BannerCarousel() {
                 onMomentumScrollEnd={handleMomentumScrollEnd}
                 scrollEventThrottle={16}
                 onScrollBeginDrag={stopAutoPlay}
-                renderItem={({ item }) => (
-                    <Pressable onPress={() => handlePress(item)}>
-                        <Image
-                            source={{ uri: item.imageUrl }}
-                            style={styles.banner}
-                            resizeMode="cover"
-                        />
-                    </Pressable>
-                )}
+                renderItem={({ item }) => <BannerCard banner={item} />}
             />
 
             {banners && banners.length > 1 && (
