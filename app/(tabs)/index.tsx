@@ -1,4 +1,5 @@
 import { useTheme } from '@/constants/theme';
+import { BannerCarousel } from '@/src/features/home/banner-carousel';
 import { HomeHeader } from '@/src/features/home/home-header';
 import { Image } from "expo-image";
 import { useRouter } from 'expo-router';
@@ -28,15 +29,18 @@ export default function HomeScreen() {
       */}
       <HomeHeader />
 
+      {/* Banner carousel  */}
+      <BannerCarousel />
+
       {/* 2. Search Bar Trigger (Navigates to search tab on press) */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.searchBar}
         // onPress={() => router.push('/(tabs)/search')}
         onPress={() => router.push('/explore')}
         activeOpacity={0.8}
       >
         <Text style={styles.searchText}>Search for courses, skills...</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* 3. Continue Learning Card (Dynamic - shows up if user is taking a course) */}
       <View style={styles.sectionContainer}>

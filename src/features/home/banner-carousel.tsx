@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     banner: {
         width: BANNER_WIDTH,
         height: BANNER_HEIGHT,
-        borderRadius: radii.lg,
+        borderRadius: radii.md,
     },
     skeleton: {
         height: BANNER_HEIGHT,
