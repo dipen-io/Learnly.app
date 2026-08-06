@@ -2,6 +2,8 @@ import { dummyBanners } from "@/src/data/dummy-banner";
 import { dummyCategories } from "@/src/data/dummy-categories";
 import { dummyFeaturedCourses } from "@/src/data/dummy-featured-courses";
 import { dummyProgress } from "@/src/data/dummy-progress";
+import { personalizedCourses, popularCourses } from "@/src/data/dummy-recommended";
+import { useAuthStore } from "@/src/store/auth-store";
 
 export function useBanners() {
     // return useQuery({
@@ -43,5 +45,15 @@ export function useFeaturedCourses() {
         data: dummyFeaturedCourses,
         isLoading: false,
         isError: false,
+    }
+}
+
+export function useRecommendedCourses() {
+    const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+    return {
+        data: isAuthenticated ? personalizedCourses : popularCourses,
+        isLoading: false,
+        isError: false,
+        isPersonalized: isAuthenticated,
     }
 }

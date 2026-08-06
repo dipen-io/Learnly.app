@@ -25,10 +25,10 @@ export default function HomeScreen() {
       {/* 4. Continue Learning Card (Dynamic - shows up if user is taking a course) */}
       <ContinueLearning />
 
-      {/* 5. Featured coures */}
+      {/* 5. Featured course */}
       <FeaturedCourses />
 
-      {/* 6. Popular Courses Section (Horizontal List) */}
+      {/* 6. Recommended Course Section */}
 
     </ScrollView>
   );
