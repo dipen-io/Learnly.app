@@ -147,7 +147,7 @@ export function TrendingCourses() {
 
 const styles = StyleSheet.create({
     wrapper: {
-        marginBottom: spacing.md,
+        marginBottom: spacing.xs,
     },
 
     header: {
