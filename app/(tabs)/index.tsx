@@ -1,6 +1,7 @@
 import { useTheme } from '@/constants/theme';
 import { BannerCarousel } from '@/src/features/home/banner-carousel';
 import { CategoryPillList } from '@/src/features/home/category-pill-list';
+import { ContinueLearning } from '@/src/features/home/continue-learning';
 import { HomeHeader } from '@/src/features/home/home-header';
 import { Image } from "expo-image";
 import { useRouter } from 'expo-router';
@@ -36,24 +37,25 @@ export default function HomeScreen() {
       </TouchableOpacity> */}
 
       {/* 3. Continue Learning Card (Dynamic - shows up if user is taking a course) */}
-      <View style={styles.sectionContainer}>
+      <ContinueLearning />
+
+      {/* <View style={styles.sectionContainer}>
         <Text style={styles.sectionTitle}>Continue Learning</Text>
         <TouchableOpacity
           style={styles.resumeCard}
-          // onPress={() => router.push('/course/lessons/1')} // Navigate to lesson player
-          onPress={() => router.push('/explore')} // Navigate to lesson player
+          onPress={() => router.push('/explore')} 
         >
           <View style={styles.resumeInfo}>
             <Text style={styles.courseTag}>CHAPTER 3</Text>
             <Text style={styles.resumeCourseTitle}>Advanced Full-Stack Architectures</Text>
-            {/* Simple Progress Bar */}
+           
             <View style={styles.progressBarBackground}>
               <View style={[styles.progressBarFill, { width: '65%' }]} />
             </View>
             <Text style={styles.progressText}>65% Completed</Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       {/* 4. Categories Horizontal Scroll */}
       <View style={styles.categoriesContainer}>
