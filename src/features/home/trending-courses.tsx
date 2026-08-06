@@ -117,7 +117,6 @@ export function TrendingCourses() {
         <View style={styles.wrapper}>
             <View style={styles.header}>
                 <View style={styles.titleRow}>
-                    <Text style={[styles.icon, { color: BrandColors.marigold }]}>↑</Text>
                     <Text style={[styles.sectionTitle, { color: colors.text }]}>
                         Trending Now
                     </Text>
