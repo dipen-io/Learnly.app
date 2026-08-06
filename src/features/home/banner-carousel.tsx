@@ -1,15 +1,28 @@
-//src/features/home/banner-carousel.tsx
+// src/features/home/banner-carousel.tsx
 
 import { radii, spacing, useTheme } from "@/constants/theme";
 import type { Banner } from "@/src/types/banner";
 import { useRouter } from "expo-router";
-import React, { useRef, useState } from "react";
-import { Dimensions, FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, Pressable, StyleSheet, View } from "react-native";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import {
+    Dimensions,
+    FlatList,
+    Image,
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    Pressable,
+    StyleSheet,
+    View,
+} from "react-native";
 import { useBanners } from "./use-home-sections";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const BANNER_WIDTH = SCREEN_WIDTH - spacing.lg * 2;
+const GAP = spacing.sm;
+const SIDE_INSET = spacing.lg;
+
+const BANNER_WIDTH = SCREEN_WIDTH - SIDE_INSET * 2;
 const BANNER_HEIGHT = 150;
+const SNAP_INTERVAL = BANNER_WIDTH + GAP;
 
 export function BannerCarousel() {
     const router = useRouter();
@@ -18,6 +31,25 @@ export function BannerCarousel() {
     const [activeIndex, setActiveIndex] = useState(0);
     const listRef = useRef<FlatList>(null);
 
+    // Explicit snap stops, one per card. Every stop except the last is a
+    // plain multiple of SNAP_INTERVAL — that's what produces the peek of
+    // the next card, and it's fine to leave those as-is. The LAST stop is
+    // calculated directly from the real content width instead, so it lands
+    // the final card flush with zero leftover dead space, regardless of
+    // how many banners there are or what SCREEN_WIDTH happens to be.
+    const snapOffsets = useMemo(() => {
+        if (!banners || banners.length === 0) return [];
+
+        const count = banners.length;
+        const contentWidth =
+            SIDE_INSET * 2 + count * BANNER_WIDTH + (count - 1) * GAP;
+        const maxScrollOffset = Math.max(0, contentWidth - SCREEN_WIDTH);
+
+        return banners.map((_, i) =>
+            i === count - 1 ? maxScrollOffset : SNAP_INTERVAL * i
+        );
+    }, [banners]);
+
     if (isError || (!isLoading && (!banners || banners.length === 0))) {
         return null;
     }
@@ -25,34 +57,48 @@ export function BannerCarousel() {
     if (isLoading) {
         return (
             <View
-                style={[styles.skeleton, { backgroundColor: colors.surface, marginHorizontal: spacing.lg }]}
-            ></View>
-        )
+                style={[
+                    styles.skeleton,
+                    {
+                        backgroundColor: colors.surface,
+                        marginHorizontal: SIDE_INSET,
+                    },
+                ]}
+            />
+        );
     }
 
-    const handlePress = (banner: Banner) => {
+    const handlePress = useCallback((banner: Banner) => {
         switch (banner.linkType) {
             case 'course':
                 router.push(`/course/${banner.linkValue}`);
                 break;
-
             case 'category':
                 router.push({
-                    pathname: `/(tabs)/explore`,
+                    pathname: '/(tabs)/explore',
                     params: { category: banner.linkValue },
                 });
                 break;
-
             case 'url':
                 break;
         }
-    }
+    }, [router]);
 
-    const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-        const index = Math.round(e.nativeEvent.contentOffset.x / (BANNER_WIDTH + spacing.sm)
-        );
-        setActiveIndex(index);
-    };
+    const handleScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
+        const offset = e.nativeEvent.contentOffset.x;
+        // Find the closest snap stop rather than dividing by a fixed
+        // interval, since the last stop is no longer evenly spaced.
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+        snapOffsets.forEach((stop, i) => {
+            const distance = Math.abs(offset - stop);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = i;
+            }
+        });
+        setActiveIndex(closestIndex);
+    }, [snapOffsets]);
 
     return (
         <View style={{ marginBottom: spacing.lg }}>
@@ -61,12 +107,14 @@ export function BannerCarousel() {
                 data={banners}
                 keyExtractor={(item) => item.id}
                 horizontal
-                pagingEnabled
-                snapToInterval={BANNER_WIDTH + spacing.sm}
+                snapToOffsets={snapOffsets}
                 decelerationRate="fast"
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: spacing.lg }}
-                ItemSeparatorComponent={() => <View style={{ width: spacing.sm }} />}
+                contentContainerStyle={{
+                    paddingLeft: SIDE_INSET,
+                    paddingRight: SIDE_INSET,
+                }}
+                ItemSeparatorComponent={() => <View style={{ width: GAP }} />}
                 onScroll={handleScroll}
                 scrollEventThrottle={16}
                 renderItem={({ item }) => (
@@ -89,7 +137,9 @@ export function BannerCarousel() {
                                 styles.dot,
                                 {
                                     backgroundColor:
-                                        i === activeIndex ? colors.primary : colors.border,
+                                        i === activeIndex
+                                            ? colors.primary
+                                            : colors.border,
                                 },
                             ]}
                         />
@@ -97,8 +147,7 @@ export function BannerCarousel() {
                 </View>
             )}
         </View>
-    )
-
+    );
 }
 
 const styles = StyleSheet.create({

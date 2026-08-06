@@ -13,7 +13,8 @@ export const dummyBanners: Banner[] = [
     },
     {
         id: 'banner-002',
-        imageUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80',
+        imageUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80',
+
         title: 'Design Systems Deep Dive',
         subtitle: 'Learn how top teams build scalable UI libraries.',
         linkType: 'category',
@@ -29,7 +30,8 @@ export const dummyBanners: Banner[] = [
     },
     {
         id: 'banner-004',
-        imageUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80',
+        imageUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80',
+
         title: 'React Native Masterclass',
         subtitle: 'Build production-ready mobile apps with Expo.',
         linkType: 'course',
