@@ -15,18 +15,18 @@ export function ContinueLearning() {
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
     const { data: courses, isLoading } = useContuneLearning();
 
-    if (!isAuthenticated) {
-        return null;
-    }
+    // if (!isAuthenticated) {
+    //     return null;
+    // }
 
     // render animation 
     if (isLoading) {
         return (
             <View style={styles.wrapper}>
-                <view style={styles.header}>
+                <View style={styles.header}>
                     <Shimmer width={160} height={24} borderRadius={radii.sm} />
                     <Shimmer width={50} height={18} borderRadius={radii.sm} />
-                </view>
+                </View>
                 <ScrollView
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -66,7 +66,7 @@ export function ContinueLearning() {
     if (!courses || courses.length === 0) return null;
 
     return (
-        <view>
+        <View>
             <View style={styles.header}>
                 <Text style={[styles.title, {
                     color: colors.text
@@ -159,7 +159,7 @@ export function ContinueLearning() {
                     );
                 })}
             </ScrollView>
-        </view>
+        </View>
     )
 }
 
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: spacing.lg,
+        paddingHorizontal: spacing.md,
         marginBottom: spacing.md,
     },
 
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     },
 
     scrollContent: {
-        paddingHorizontal: spacing.lg,
+        paddingHorizontal: spacing.md,
         gap: spacing.md,
     },
 

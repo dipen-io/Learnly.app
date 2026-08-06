@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     },
 
     scrollContent: {
-        paddingHorizontal: spacing.lg,
+        paddingHorizontal: spacing.md,
         gap: spacing.sm,
     },
 
