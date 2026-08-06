@@ -4,6 +4,7 @@ import { ContinueLearning } from '@/src/features/home/continue-learning';
 import { FeaturedCourses } from '@/src/features/home/featured-courses';
 import { HomeHeader } from '@/src/features/home/home-header';
 import { RecommendedCourses } from '@/src/features/home/recommended-courses';
+import { TrendingCourses } from '@/src/features/home/trending-courses';
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
@@ -31,6 +32,9 @@ export default function HomeScreen() {
 
       {/* 6. Recommended Course Section */}
       <RecommendedCourses />
+
+      {/* 7. Trending Course Section */}
+      <TrendingCourses />
 
     </ScrollView>
   );

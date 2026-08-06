@@ -139,7 +139,7 @@ export function RecommendedCourses() {
 
 const styles = StyleSheet.create({
     wrapper: {
-        marginBottom: spacing.xxl,
+        marginBottom: spacing.md,
     },
 
     header: {
