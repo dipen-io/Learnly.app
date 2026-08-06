@@ -113,7 +113,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingHorizontal: 16, paddingTop: 20 },
+  container: { flex: 1, paddingTop: 5 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   // welcomeText: { fontSize: 14, color: '#6C757D', marginTop: 12 },
   usernameText: { fontSize: 20, fontWeight: 'bold', color: '#212529', paddingLeft: 4 },
