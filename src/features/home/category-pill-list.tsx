@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     },
 
     pill: {
-        paddingVertical: spacing.sm + 2,
+        paddingVertical: spacing.sm,
         paddingHorizontal: spacing.md,
         borderRadius: radii.full,
         borderWidth: 1,
