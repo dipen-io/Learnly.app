@@ -1,6 +1,7 @@
 //src/features/home/continue-learning.tsx
 
 import { Fonts, radii, spacing, useTheme } from "@/constants/theme";
+import { Shimmer } from "@/src/components/shimmer";
 import { useAuthStore } from "@/src/store/auth-store";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -14,9 +15,55 @@ export function ContinueLearning() {
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
     const { data: courses, isLoading } = useContuneLearning();
 
-    if (!isAuthenticated || isLoading || !courses || courses.length === 0) {
+    if (!isAuthenticated) {
         return null;
     }
+
+    // render animation 
+    if (isLoading) {
+        return (
+            <View style={styles.wrapper}>
+                <view style={styles.header}>
+                    <Shimmer width={160} height={24} borderRadius={radii.sm} />
+                    <Shimmer width={50} height={18} borderRadius={radii.sm} />
+                </view>
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.scrollContent}>
+                    {[1, 2, 3].map((i) => (
+                        <View key={i} style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+                            <Shimmer width={CARD_WIDTH} height={110} borderRadius={0} />
+                            <View style={styles.meta}>
+                                <Shimmer
+                                    width={CARD_WIDTH - spacing.md * 2}
+                                    height={16}
+                                    borderRadius={radii.sm}
+                                />
+                                <View style={{ marginTop: spacing.sm }}>
+                                    <Shimmer
+                                        width={CARD_WIDTH - spacing.md * 2}
+                                        height={8}
+                                        borderRadius={radii.full}
+                                    />
+                                </View>
+                                <View style={{ marginTop: spacing.xs }}>
+                                    <Shimmer
+                                        width={80}
+                                        height={12}
+                                        borderRadius={radii.sm}
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                    ))}
+
+                </ScrollView>
+            </View>
+        )
+    }
+
+    if (!courses || courses.length === 0) return null;
 
     return (
         <view>
@@ -126,7 +173,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'baseline',
+        alignItems: 'center',
         paddingHorizontal: spacing.lg,
         marginBottom: spacing.md,
     },
