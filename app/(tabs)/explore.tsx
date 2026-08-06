@@ -3,8 +3,10 @@
 import { useTheme } from '@/constants/theme';
 import { exploreCategories } from '@/src/data/dummy-explore';
 import { CategoryGrid } from '@/src/features/explore/category-grid';
+import { FilterChipBar } from '@/src/features/explore/filter-chip-bar';
 import { SearchHeader } from '@/src/features/explore/search-header';
 import { Category } from '@/src/types/category';
+import { ExploreFilters } from '@/src/types/filter';
 import React, { useMemo, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
@@ -37,7 +39,19 @@ export default function ExploreScreen() {
       <CategoryGrid onSelectCategory={function (category: Category): void {
         throw new Error('Function not implemented.');
       }} />
-      {/* <CategoryGrid categories={filteredCategories} /> */}
+
+      <FilterChipBar filters={{
+        category: undefined,
+        search: undefined,
+        sortBy: undefined,
+        difficulty: undefined,
+        duration: undefined,
+        price: undefined,
+        minRating: undefined
+      }} onChange={function (filters: ExploreFilters): void {
+        throw new Error('Function not implemented.');
+      }} />
+
     </ScrollView>
   );
 }
