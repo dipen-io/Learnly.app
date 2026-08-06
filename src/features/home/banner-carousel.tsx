@@ -109,19 +109,6 @@ export function BannerCarousel() {
         }
     }, [router]);
 
-    const handleScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
-        const offset = e.nativeEvent.contentOffset.x;
-        let closestIndex = 0;
-        let closestDistance = Infinity;
-        snapOffsets.forEach((stop, i) => {
-            const distance = Math.abs(offset - stop);
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closestIndex = i;
-            }
-        });
-        setActiveIndex(closestIndex);
-    }, [snapOffsets]);
 
     const handleMomentumScrollEnd = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
         const offset = e.nativeEvent.contentOffset.x;
@@ -152,11 +139,9 @@ export function BannerCarousel() {
                     paddingRight: SIDE_INSET,
                 }}
                 ItemSeparatorComponent={() => <View style={{ width: GAP }} />}
-                // onScroll={handleScroll}
                 onMomentumScrollEnd={handleMomentumScrollEnd}
                 scrollEventThrottle={16}
                 onScrollBeginDrag={stopAutoPlay}
-                // onMomentumScrollEnd={startAutoPlay}
                 renderItem={({ item }) => (
                     <Pressable onPress={() => handlePress(item)}>
                         <Image
