@@ -2,6 +2,7 @@ import { useTheme } from '@/constants/theme';
 import { BannerCarousel } from '@/src/features/home/banner-carousel';
 import { CategoryPillList } from '@/src/features/home/category-pill-list';
 import { ContinueLearning } from '@/src/features/home/continue-learning';
+import { FeaturedCourses } from '@/src/features/home/featured-courses';
 import { HomeHeader } from '@/src/features/home/home-header';
 import { Image } from "expo-image";
 import { useRouter } from 'expo-router';
@@ -26,45 +27,11 @@ export default function HomeScreen() {
       {/* 3. Category Pill List  */}
       <CategoryPillList />
 
-      {/* 2. Search Bar Trigger (Navigates to search tab on press) */}
-      {/* <TouchableOpacity
-        style={styles.searchBar}
-        // onPress={() => router.push('/(tabs)/search')}
-        onPress={() => router.push('/explore')}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.searchText}>Search for courses, skills...</Text>
-      </TouchableOpacity> */}
-
-      {/* 3. Continue Learning Card (Dynamic - shows up if user is taking a course) */}
+      {/* 4. Continue Learning Card (Dynamic - shows up if user is taking a course) */}
       <ContinueLearning />
 
-      {/* <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Continue Learning</Text>
-        <TouchableOpacity
-          style={styles.resumeCard}
-          onPress={() => router.push('/explore')} 
-        >
-          <View style={styles.resumeInfo}>
-            <Text style={styles.courseTag}>CHAPTER 3</Text>
-            <Text style={styles.resumeCourseTitle}>Advanced Full-Stack Architectures</Text>
-           
-            <View style={styles.progressBarBackground}>
-              <View style={[styles.progressBarFill, { width: '65%' }]} />
-            </View>
-            <Text style={styles.progressText}>65% Completed</Text>
-          </View>
-        </TouchableOpacity>
-      </View> */}
-
-      {/* 4. Categories Horizontal Scroll */}
-      <View style={styles.categoriesContainer}>
-        {['All', 'Development', 'Design', 'Business', 'Marketing', 'Data Science'].map((category, index) => (
-          <TouchableOpacity key={index} style={[styles.categoryChip, index === 0 && styles.activeChip]}>
-            <Text style={[styles.categoryText, index === 0 && styles.activeCategoryText]}>{category}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      {/* 5. Featured coures */}
+      <FeaturedCourses />
 
       {/* 5. Popular Courses Section (Horizontal List) */}
       <View style={styles.sectionContainer}>

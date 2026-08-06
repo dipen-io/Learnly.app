@@ -5,10 +5,13 @@ export type Course = {
     title: string;
     description: string;
     price: number;
+    originalPrice?: number;
     thumbnailUrl: string;
     instructorName: string;
     rating: number;
+    reviewCount: number;
     studentCout: number;
+    tag?: string;
     category: string;
 };
 

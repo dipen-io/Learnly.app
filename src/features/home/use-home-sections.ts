@@ -1,5 +1,6 @@
 import { dummyBanners } from "@/src/data/dummy-banner";
 import { dummyCategories } from "@/src/data/dummy-categories";
+import { dummyFeaturedCourses } from "@/src/data/dummy-featured-courses";
 import { dummyProgress } from "@/src/data/dummy-progress";
 
 export function useBanners() {
@@ -32,6 +33,14 @@ export function useCategories() {
 export function useContuneLearning() {
     return {
         data: dummyProgress,
+        isLoading: false,
+        isError: false,
+    }
+}
+
+export function useFeaturedCourses() {
+    return {
+        data: dummyFeaturedCourses,
         isLoading: false,
         isError: false,
     }
