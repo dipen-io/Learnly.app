@@ -3,6 +3,7 @@ import { dummyCategories } from "@/src/data/dummy-categories";
 import { dummyFeaturedCourses } from "@/src/data/dummy-featured-courses";
 import { dummyProgress } from "@/src/data/dummy-progress";
 import { personalizedCourses, popularCourses } from "@/src/data/dummy-recommended";
+import { dummyTrending } from "@/src/data/dummy-trending";
 import { useAuthStore } from "@/src/store/auth-store";
 
 export function useBanners() {
@@ -55,5 +56,13 @@ export function useRecommendedCourses() {
         isLoading: false,
         isError: false,
         isPersonalized: isAuthenticated,
+    }
+}
+
+export function useTrendingCourses() {
+    return {
+        data: dummyTrending,
+        isLoading: false,
+        isError: false,
     }
 }
