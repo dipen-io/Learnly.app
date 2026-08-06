@@ -1,7 +1,7 @@
 // src/features/home/category-pill-list.tsx
 
 import { Fonts, radii, spacing, useTheme } from '@/constants/theme';
-import { dummyCategories } from '@/src/data/dummy-categories';
+// import { dummyCategories } from '@/src/data/dummy-categories';
 import type { Category } from '@/src/types/category';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
@@ -12,11 +12,17 @@ import {
     Text,
     View,
 } from 'react-native';
+import { useCategories } from './use-home-sections';
 
 export function CategoryPillList() {
     const router = useRouter();
     const { colors } = useTheme();
     const [activeSlug, setActiveSlug] = useState('all');
+
+    const { data: dummyCategories, isLoading, isError } = useCategories();
+    if (isError || isError) {
+        return null;
+    }
 
     const handlePress = useCallback((category: Category) => {
         setActiveSlug(category.slug);
