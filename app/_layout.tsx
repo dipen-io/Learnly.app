@@ -3,6 +3,8 @@ import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { QueryProvider } from '@/src/providers/query-provider';
 import { useAuthStore } from '@/src/store/auth-store';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { useResolvedTheme } from '@/src/hooks/use-resolved-theme';
+import { ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -24,6 +26,7 @@ SplashScreen.preventAutoHideAsync();
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const { navigationTheme, isDark } = useResolvedTheme();
   const { hasSeenOnboarding, isLoading: isOnboardingLoading } = useOnboarding();
   const router = useRouter();
   const segments = useSegments();
@@ -83,7 +86,8 @@ function RootLayoutNav() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <>
+      <NavThemeProvider value={navigationTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
@@ -95,7 +99,11 @@ function RootLayoutNav() {
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />
-    </ThemeProvider>
+    </NavThemeProvider>
+
+      {/* StatusBar now follows YOUR theme, not the system */}
+      <StatusBar style={isDark ? 'light' : 'dark'} />
+    </>
   );
 }
 
