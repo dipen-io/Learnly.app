@@ -15,4 +15,8 @@ export const queryKeys = {
     cart: {
         all: ['card'] as const,
     },
+    settings: {
+        all : ['settings'] as const,
+        preferences: () => ['settings', 'preferences'] as const,
+    },
 };
