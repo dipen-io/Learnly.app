@@ -25,7 +25,6 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
   const { navigationTheme, isDark } = useResolvedTheme();
   const { hasSeenOnboarding, isLoading: isOnboardingLoading } = useOnboarding();
   const router = useRouter();
