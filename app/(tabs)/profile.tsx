@@ -1,239 +1,396 @@
-// app/(tabs)/profile.tsx
+// app/(tabs)/profile.tsx [
 
-import { useTheme } from "@/constants/theme";
-import { useAuthStore } from "@/src/store/auth-store";
-import { Image } from "expo-image";
-import { useRouter } from "expo-router";
-import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Pressable, View, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Image } from 'expo-image';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function ProfileScreen() {
+import { useTheme } from '@/constants/theme';
+import { useAuthStore } from '@/src/store/auth-store';
+import { ThemedText } from '@/src/components/themed-text';
+import { ThemedView } from '@/src/components/themed-view';
+import { IconSymbol } from '@/src/components/ui/icon-symbol';
+
+// =============================================================================
+// MENU ITEM DATA
+// =============================================================================
+
+interface MenuItem {
+  id: string;
+  label: string;
+  icon: string;
+  route?: string;
+  destructive?: boolean;
+  onPress?: () => void;
+}
+
+// =============================================================================
+// GUEST VIEW
+// =============================================================================
+
+function GuestView() {
   const router = useRouter();
+  const { colors, spacing, radii } = useTheme();
 
-  const {colors }= useTheme();
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  return (
+    <View
+      style={[
+        styles.guestContainer,
+        { backgroundColor: colors.background, padding: spacing.xl },
+      ]}
+    >
+      <View style={styles.guestIcon}>
+        <IconSymbol name="person.circle" size={64} color={colors.textMuted} />
+      </View>
+
+      <ThemedText type="title" style={{ textAlign: 'center', marginBottom: spacing.sm }}>
+        You're browsing as a guest
+      </ThemedText>
+
+      <ThemedText
+        style={[
+          styles.guestSubtitle,
+          { color: colors.textMuted, marginBottom: spacing.xl },
+        ]}
+      >
+        Log in to track your courses, save progress, and access your purchases
+        from any device.
+      </ThemedText>
+
+      <Pressable
+        style={({ pressed }) => [
+          styles.button,
+          {
+            backgroundColor: colors.button,
+            borderRadius: radii.md,
+            marginBottom: spacing.md,
+            opacity: pressed ? 0.85 : 1,
+          },
+        ]}
+        onPress={() => router.push('/(auth)/login')}
+      >
+        <ThemedText
+          type="defaultSemiBold"
+          style={{ color: colors.buttonText, fontSize: 15 }}
+        >
+          Log In
+        </ThemedText>
+      </Pressable>
+
+      <Pressable
+        style={({ pressed }) => [
+          styles.button,
+          {
+            borderWidth: StyleSheet.hairlineWidth,
+            borderColor: colors.border,
+            borderRadius: radii.md,
+            opacity: pressed ? 0.7 : 1,
+          },
+        ]}
+        onPress={() => router.push('/(auth)/signup')}
+      >
+        <ThemedText type="defaultSemiBold" style={{ fontSize: 15 }}>
+          Sign Up
+        </ThemedText>
+      </Pressable>
+    </View>
+  );
+}
+
+// =============================================================================
+// STAT CARD
+// =============================================================================
+
+function StatCard({ value, label }: { value: string; label: string }) {
+  const { colors, spacing, radii } = useTheme();
+
+  return (
+    <View
+      style={[
+        styles.statCard,
+        {
+          backgroundColor: colors.surface,
+          borderRadius: radii.lg,
+          borderWidth: StyleSheet.hairlineWidth,
+          borderColor: colors.border,
+          paddingVertical: spacing.md,
+        },
+      ]}
+    >
+      <ThemedText
+        type="defaultSemiBold"
+        style={{ fontSize: 20, color: colors.primary, marginBottom: 4 }}
+      >
+        {value}
+      </ThemedText>
+      <ThemedText style={{ fontSize: 12, color: colors.textMuted }}>
+        {label}
+      </ThemedText>
+    </View>
+  );
+}
+
+// =============================================================================
+// MENU ROW
+// =============================================================================
+
+function MenuRow({ item, isLast }: { item: MenuItem; isLast: boolean }) {
+  const router = useRouter();
+  const { colors, spacing } = useTheme();
+
+  return (
+    <Pressable
+      onPress={() => {
+        if (item.onPress) {
+          item.onPress();
+        } else if (item.route) {
+          router.push(item.route as any);
+        }
+      }}
+      style={({ pressed }) => ({
+        opacity: pressed ? 0.6 : 1,
+      })}
+    >
+      <View
+        style={[
+          styles.menuRow,
+          {
+            paddingVertical: spacing.md,
+            paddingHorizontal: spacing.md,
+          },
+        ]}
+      >
+        <IconSymbol
+          name={item.icon}
+          size={20}
+          color={item.destructive ? colors.error : colors.icon}
+          style={{ marginRight: spacing.md }}
+        />
+
+        <ThemedText
+          style={{
+            flex: 1,
+            fontSize: 16,
+            color: item.destructive ? colors.error : colors.text,
+          }}
+        >
+          {item.label}
+        </ThemedText>
+
+        {!item.destructive && (
+          <IconSymbol name="chevron.right" size={16} color={colors.icon} />
+        )}
+      </View>
+
+      {!isLast && (
+        <View
+          style={{
+            height: StyleSheet.hairlineWidth,
+            backgroundColor: colors.border,
+            marginLeft: 52,
+          }}
+        />
+      )}
+    </Pressable>
+  );
+}
+
+// =============================================================================
+// AUTHENTICATED VIEW
+// =============================================================================
+
+function AuthenticatedView() {
+  const router = useRouter();
+  const { colors, spacing, radii } = useTheme();
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
 
-  
+  const handleLogout = () => {
+    Alert.alert('Log Out', 'Are you sure you want to log out?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Log Out',
+        style: 'destructive',
+        onPress: () => {
+          logout();
+          router.replace('/(auth)/login');
+        },
+      },
+    ]);
+  };
 
-  if (!isAuthenticated) {
-    return (
-  <View style={[styles.stubContainer, { backgroundColor: colors.background }]}>
-        <Text style={[styles.stubTitle, { color: colors.text }]}>
-          You're browsing as a guest
-        </Text>
-        <Text style={[styles.stubSubtitle, { color: colors.textMuted }]}>
-          Log in to track your courses, save progress, and access your
-          purchases from any device.
-        </Text>
-
-        <Pressable
-          style={({ pressed }) => [
-            styles.primaryButton,
-            { backgroundColor: colors.button },
-            pressed && { opacity: 0.85 },
-          ]}
-          onPress={() => router.push('/(auth)/login')}
-        >
-          <Text style={[styles.primaryButtonText, { color: colors.buttonText }]}>
-            Log In
-          </Text>
-        </Pressable>
-
-        <Pressable
-          style={({ pressed }) => [
-            styles.secondaryButton,
-            { borderColor: colors.border },
-            pressed && { backgroundColor: colors.surface },
-          ]}
-          onPress={() => router.push('/(auth)/signup')}
-        >
-          <Text style={[styles.secondaryButtonText, { color: colors.text }]}>
-            Sign Up
-          </Text>
-        </Pressable>
-      </View>
-    );
-  }
+  const menuItems: MenuItem[] = [
+    {
+      id: 'courses',
+      label: 'My Courses',
+      icon: 'book.fill',
+      route: '/(tabs)/my-learning',
+    },
+    {
+      id: 'wishlist',
+      label: 'Wishlist',
+      icon: 'heart.fill',
+      route: '/wishlist',
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      icon: 'gearshape.fill',
+      route: '/settings',
+    },
+    {
+      id: 'logout',
+      label: 'Log Out',
+      icon: 'arrow.right.square',
+      destructive: true,
+      onPress: handleLogout,
+    },
+  ];
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.avatar}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
+      {/* Header */}
+      <View style={[styles.header, { marginTop: spacing.xl, marginBottom: spacing.lg }]}>
+        <View
+          style={[
+            styles.avatarRing,
+            {
+              borderRadius: radii.full,
+              padding: 3,
+              backgroundColor: colors.primary,
+              marginBottom: spacing.md,
+            },
+          ]}
+        >
           <Image
-            source={require('../../assets/images/learn.png')}
-            style={{ width: 100, height: 100, borderRadius: 50 }}
+            source={
+              user?.avatar
+                ? { uri: user.avatar }
+                : require('../../assets/images/learn.png')
+            }
+            style={{
+              width: 88,
+              height: 88,
+              borderRadius: 44,
+              backgroundColor: colors.surface,
+            }}
+            contentFit="cover"
+            transition={200}
           />
         </View>
 
-        <Text style={styles.name}>Dinesh Boro</Text>
-        <Text style={styles.email}>borod9200@gmail.com</Text>
+        <ThemedText type="title" style={{ fontSize: 22 }}>
+          {user?.name || 'Student'}
+        </ThemedText>
+
+        <ThemedText style={{ color: colors.textMuted, marginTop: 4 }}>
+          {user?.email || 'No email'}
+        </ThemedText>
       </View>
 
-      <View style={styles.statsRow}>
-        <View style={styles.statCard}>
-          <Text style={styles.statValue}>12</Text>
-          <Text style={styles.statLabel}>Courses</Text>
-        </View>
-        <View style={styles.statCard}>
-          <Text style={styles.statValue}>4</Text>
-          <Text style={styles.statLabel}>In Progress</Text>
-        </View>
-        <View style={styles.statCard}>
-          <Text style={styles.statValue}>8</Text>
-          <Text style={styles.statLabel}>Completed</Text>
-        </View>
+      {/* Stats */}
+      <View
+        style={[
+          styles.statsRow,
+          {
+            gap: spacing.md,
+            marginBottom: spacing.xl,
+            paddingHorizontal: spacing.md,
+          },
+        ]}
+      >
+        <StatCard value="12" label="Courses" />
+        <StatCard value="4" label="In Progress" />
+        <StatCard value="8" label="Completed" />
       </View>
 
-      <View style={styles.menu}>
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>My Courses</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Wishlist</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Settings</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={[styles.menuItem, styles.logout]}
-          onPress={() => logout()}
-        >
-          <Text style={[styles.menuText, styles.logoutText]}>Logout</Text>
-        </TouchableOpacity>
+      {/* Menu */}
+      <View
+        style={[
+          styles.menuCard,
+          {
+            marginHorizontal: spacing.md,
+            backgroundColor: colors.surface,
+            borderRadius: radii.lg,
+            borderWidth: StyleSheet.hairlineWidth,
+            borderColor: colors.border,
+            overflow: 'hidden',
+          },
+        ]}
+      >
+        {menuItems.map((item, index) => (
+          <MenuRow
+            key={item.id}
+            item={item}
+            isLast={index === menuItems.length - 1}
+          />
+        ))}
       </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8F9FA',
-    padding: 20,
-  },
-  stubContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-  },
-  stubTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  stubSubtitle: {
-    fontSize: 14,
-    color: '#6b7280',
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  primaryButton: {
-    backgroundColor: '#1a1a1a',
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 8,
-    width: '100%',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  primaryButtonText: {
-    color: '#fff',
-    fontWeight: '600',
-    fontSize: 15,
-  },
-  secondaryButton: {
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    width: '100%',
-    alignItems: 'center',
-  },
-  secondaryButtonText: {
-    color: '#1a1a1a',
-    fontWeight: '600',
-    fontSize: 15,
-  },
+// =============================================================================
+// MAIN SCREEN
+// =============================================================================
 
-  header: {
-    alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 30,
-  },
-  avatar: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    backgroundColor: '#0D6EFD',
+  {/*  {isAuthenticated ? <AuthenticatedView /> : <GuestView />}  */}
+export default function ProfileScreen() {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+
+  return (
+    <ThemedView style={{ flex: 1 }}>
+      <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
+         <AuthenticatedView /> 
+      </SafeAreaView>
+    </ThemedView>
+  );
+}
+
+// =============================================================================
+// STYLES
+// =============================================================================
+
+const styles = StyleSheet.create({
+  guestContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  guestIcon: {
     marginBottom: 16,
   },
-  avatarText: {
-    color: '#fff',
-    fontSize: 28,
-    fontWeight: '700',
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#212529',
-  },
-  email: {
+  guestSubtitle: {
     fontSize: 14,
-    color: '#6C757D',
-    marginTop: 4,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  button: {
+    width: '100%',
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  header: {
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  avatarRing: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   statsRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
-    marginBottom: 24,
   },
   statCard: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 14,
-    paddingVertical: 18,
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E9ECEF',
   },
-  statValue: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#0D6EFD',
+  menuCard: {
+    // card wrapper
   },
-  statLabel: {
-    fontSize: 12,
-    color: '#6C757D',
-    marginTop: 4,
-  },
-  menu: {
-    gap: 12,
-  },
-  menuItem: {
-    backgroundColor: '#FFFFFF',
-    padding: 16,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: '#E9ECEF',
-  },
-  menuText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#212529',
-  },
-  logout: {
-    marginTop: 8,
-  },
-  logoutText: {
-    color: '#D00000',
+  menuRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
