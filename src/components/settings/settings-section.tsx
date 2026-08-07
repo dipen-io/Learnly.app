@@ -1,0 +1,58 @@
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { ThemedText } from '../themed-text';
+import { useTheme } from '@/constants/theme';
+
+interface SettingsSectionProps {
+  title: string;
+  children: React.ReactNode;
+  footer?: string;
+}
+
+export function SettingsSection({ title, children, footer }: SettingsSectionProps) {
+  const { colors, spacing, radii } = useTheme();
+
+  return (
+    <View style={{ marginBottom: spacing.lg, paddingHorizontal: spacing.md }}>
+      <ThemedText
+        type="defaultSemiBold"
+        style={{
+          fontSize: 12,
+          marginBottom: spacing.sm,
+          marginLeft: 4,
+          letterSpacing: 0.6,
+          color: colors.textMuted,
+          textTransform: 'uppercase',
+        }}
+      >
+        {title}
+      </ThemedText>
+
+      <View
+        style={{
+          borderRadius: radii.lg,
+          borderWidth: StyleSheet.hairlineWidth,
+          borderColor: colors.border,
+          backgroundColor: colors.surface,
+          overflow: 'hidden',
+        }}
+      >
+        {children}
+      </View>
+
+      {footer && (
+        <ThemedText
+          style={{
+            fontSize: 12,
+            marginTop: spacing.sm,
+            marginLeft: 4,
+            lineHeight: 18,
+            color: colors.textMuted,
+          }}
+        >
+          {footer}
+        </ThemedText>
+      )}
+    </View>
+  );
+}
