@@ -1,6 +1,7 @@
 // constants/theme.ts
 
 import { Platform, useColorScheme } from 'react-native';
+import { useThemeStore } from '@/src/store/theme-store';
 
 // =============================================================================
 // BRAND
@@ -242,13 +243,23 @@ export const DarkShadows = {
 // =============================================================================
 
 export function useTheme() {
-  const scheme = useColorScheme() ?? 'light';
-  const isDark = scheme === 'dark';
+
+  const systemScheme = useColorScheme() ?? 'light';
+  const storedMode = useThemeStore((s) => s.mode);
+
+  const resolvedScheme = storedMode === 'system' ? systemScheme : storedMode;
+
+  // const scheme = useColorScheme() ?? 'light';
+  const isDark = resolvedScheme === 'dark';
+  const colors = isDark ? DarkColors : LightColors;
+  const shadows = isDark ? DarkColors : LightColors;
 
   return {
-    colors: isDark ? DarkColors : LightColors,
-    shadows: isDark ? DarkShadows : LightShadows,
+    colors,
+    shadows,
     isDark,
+    mode: storedMode,
+    resolvedMode: resolvedScheme as 'light' | 'dark',
     spacing,
     radii,
     fonts: Fonts,
