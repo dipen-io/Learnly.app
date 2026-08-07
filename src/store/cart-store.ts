@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { cartApi } from '../api/cart.api';
+import { dummyCartItems } from '../data/dummy-cart';
 import type { CartItem } from '../types/cart';
 import { useAuthStore } from './auth-store';
 
@@ -33,7 +34,8 @@ type CartState = {
 export const useCartStore = create<CartState>()(
     persist(
         (set, get) => ({
-            items: [],
+            // items: [],
+            items: __DEV__ ? dummyCartItems : [],
             isSyncing: false,
 
             addItem: async (item) => {
