@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { SettingSection } from '@/src/components/settings/settings-section';
+import { SettingsSection } from '@/src/components/settings/settings-section';
 import { SettingsRow } from '@/src/components/settings/settings-row';
 import { SettingsDivider } from '@/src/components/settings/settings-divider';
 import { useThemeStore } from '@/src/store/theme-store';
@@ -19,7 +19,7 @@ export function AppearanceSection() {
   const setMode = useThemeStore((s) => s.setMode);
 
   return (
-    <SettingSection
+    <SettingsSection
       title="Appearance"
       footer="Choose how StudyLab looks on your device."
     >
@@ -42,6 +42,6 @@ export function AppearanceSection() {
           {index < OPTIONS.length - 1 && <SettingsDivider inset />}
         </View>
       ))}
-    </SettingSection>
+    </SettingsSection>
   );
 }
