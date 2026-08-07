@@ -101,7 +101,7 @@ function RootLayoutNav() {
     </NavThemeProvider>
 
       {/* StatusBar now follows YOUR theme, not the system */}
-      <StatusBar style={isDark ? 'light' : 'dark'} />
+       <StatusBar style={isDark ? 'light' : 'dark'} />
     </>
   );
 }
