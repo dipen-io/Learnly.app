@@ -61,7 +61,6 @@ export function CartItemCard({onIncrease, item, onRemove, onBuyNow, onPress, onD
 
                         <Pressable
                             onPress={() => onRemove(item.courseId)}
-                            hitSlop={10}
                             style={({ pressed }) => [
                                 styles.deleteButton,
                                 pressed && { opacity: 0.5 },
