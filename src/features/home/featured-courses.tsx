@@ -117,19 +117,19 @@ function CourseCard({ course }: { course: Course }) {
                     </View>
                 )}
 
-<Pressable
-    onPress={handleAddToCart}
-    style={({ pressed }) => [
-        styles.badge2,
-        {
-            backgroundColor: BrandColors.forest,
-            opacity: pressed ? 0.7 : 1,
-            transform: pressed ? [{ scale: 0.95 }] : [{ scale: 1 }],
-        },
-    ]}
->
-    <Text style={styles.badgeText2}>add to cart</Text>
-</Pressable>
+            <Pressable
+                onPress={handleAddToCart}
+                style={({ pressed }) => [
+                    styles.badge2,
+                    {
+                        backgroundColor: BrandColors.forest,
+                        opacity: pressed ? 0.7 : 1,
+                        transform: pressed ? [{ scale: 0.95 }] : [{ scale: 1 }],
+                    },
+                ]}
+            >
+                <Text style={styles.badgeText2}>add to cart</Text>
+            </Pressable>
             </View>
 
             {/* Content */}
