@@ -130,7 +130,7 @@ function CourseCard({ course }: { course: Course }) {
                     },
                 ]}
             >
-                <Text style={styles.badgeText2}>add to cart</Text>
+                <Text style={[styles.badgeText2]}>add to cart</Text>
             </Pressable>
             </View>
 

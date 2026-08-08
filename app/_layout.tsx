@@ -126,14 +126,6 @@ function RootLayoutNav() {
 }
 
 export default function RootLayout() {
- useEffect(() => {
-    // test toast on mount
-    Toast.show({
-      type: 'success',
-      text1: 'Toast is working',
-      position: 'bottom',
-    });
-  }, []);
   return (
     <QueryProvider>
       <OnboardingProvider>
