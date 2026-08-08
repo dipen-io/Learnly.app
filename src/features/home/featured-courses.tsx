@@ -65,7 +65,8 @@ function CourseCard({ course }: { course: Course }) {
     const { colors, isDark } = useTheme();
     const [imageLoaded, setImageLoaded] = React.useState(false);
 
-    const {addItem} = useCartStore();
+    const {addItem, items} = useCartStore();
+    const isInCart = items.some((item) => item.courseId === course.id);
 
     const handleAddToCart = async() => {
         const cartItem: CartItem = {
@@ -119,19 +120,37 @@ function CourseCard({ course }: { course: Course }) {
                     </View>
                 )}
 
-            <Pressable
-                onPress={handleAddToCart}
-                style={({ pressed }) => [
+        {isInCart ? (
+                // Renders AFTER adding to cart
+                <Pressable
+                  onPress={() => router.push('/cart')}
+                  style={({ pressed }) => [
                     styles.badge2,
                     {
-                        backgroundColor: BrandColors.forest,
-                        opacity: pressed ? 0.7 : 1,
-                        transform: pressed ? [{ scale: 0.95 }] : [{ scale: 1 }],
+                      backgroundColor: BrandColors.forest, // or a muted color like gray
+                      opacity: pressed ? 0.7 : 1,
+                      transform: pressed ? [{ scale: 0.95 }] : [{ scale: 1 }],
                     },
-                ]}
-            >
-                <Text style={[styles.badgeText2]}>add to cart</Text>
-            </Pressable>
+                  ]}
+                >
+                  <Text style={[styles.badgeText2]}>In Cart ✓</Text>
+                </Pressable>
+              ) : (
+                // Renders BEFORE adding to cart
+                <Pressable
+                  onPress={handleAddToCart}
+                  style={({ pressed }) => [
+                    styles.badge2,
+                    {
+                      backgroundColor: BrandColors.forest,
+                      opacity: pressed ? 0.7 : 1,
+                      transform: pressed ? [{ scale: 0.95 }] : [{ scale: 1 }],
+                    },
+                  ]}
+                >
+                  <Text style={[styles.badgeText2]}>add to cart</Text>
+                </Pressable>
+              )}
             </View>
 
             {/* Content */}
