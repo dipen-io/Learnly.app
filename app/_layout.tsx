@@ -1,3 +1,5 @@
+// app/_layout.tsx
+
 import { OnboardingProvider, useOnboarding } from '@/src/context/onboarding-context';
 import { useResolvedTheme } from '@/src/hooks/use-resolved-theme';
 import { QueryProvider } from '@/src/providers/query-provider';
@@ -85,12 +87,20 @@ function RootLayoutNav() {
   return (
     <>
       <NavThemeProvider value={navigationTheme}>
-        <Stack>
+        <Stack
+        screenOptions={{
+            headerStyle: {
+                backgroundColor: navigationTheme.colors.card,
+            },
+            headerTintColor: navigationTheme.colors.text,
+            headerShadowVisible: false,
+        }}
+        >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="course/[id]" options={{ headerShown: true, title: '' }} />
           <Stack.Screen name="player/[lessonId]" options={{ headerShown: true, title: '' }} />
-          <Stack.Screen name="cart/index" options={{ headerShown: true, title: '' }} />
+          <Stack.Screen name="cart" options={{ headerShown: true, title: 'Cart', headerShadowVisible: false }} />
           {/* <Stack.Screen
             name="cart/index"
             options={{

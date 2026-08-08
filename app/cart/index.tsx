@@ -1,3 +1,5 @@
+// app/cart/index.tsx
+
 import { spacing, useTheme } from "@/constants/theme";
 import { CartItemCard } from "@/src/components/cart/cart-item-card";
 import { CartSummary } from "@/src/components/cart/cart-summary";
@@ -27,7 +29,7 @@ export default function CardScreen() {
                 width: 36,
                 height: 36,
                 borderRadius: 18,
-                backgroundColor: colors.white,
+                backgroundColor: colors.backArrow,
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginLeft: 8,
@@ -46,17 +48,11 @@ export default function CardScreen() {
         <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
             {/* 2. Single Stack.Screen configuration defined once */}
             <Stack.Screen
-                options={{
-                    title: 'Cart',
-                    headerTitleAlign: 'center',
-                    headerStyle: {
-                        backgroundColor: colors.background,
-                    },
-                    headerShadowVisible: false,
-                    headerLeft: renderHeaderLeft,
-                    // Enables smooth platform transition physics
-                    animation: 'default',
-                }}
+            options={{
+                title: "Cart",
+                headerLeft: renderHeaderLeft,
+                headerTitleAlign: 'center'
+            }}
             />
 
             {items.length === 0 ? (
@@ -87,7 +83,7 @@ export default function CardScreen() {
                         // Remove style={styles.card} from FlatList and place it in contentContainerStyle
                         contentContainerStyle={[
                             styles.card,
-                            { paddingBottom: spacing.md, backgroundColor: colors.surface }
+                            { paddingBottom: spacing.md, backgroundColor: colors.surface}
                         ]}
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
