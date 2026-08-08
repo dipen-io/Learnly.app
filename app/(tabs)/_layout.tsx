@@ -19,7 +19,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarStyle: {
-          backgroundColor: colors.surfaceElevated,
+          backgroundColor: colors.background,
           borderTopColor: colors.border,
           borderTopWidth: 0.5,
         },
