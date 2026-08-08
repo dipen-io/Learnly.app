@@ -15,10 +15,12 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 export default function CardScreen() {
     const router = useRouter();
     const { colors, spacing } = useTheme();
-    const { items, removeItem } = useCartStore();
+    const { items, removeItem, increaseCartQty, decreaseCartQty } = useCartStore();
     const insets = useSafeAreaInsets();
 
     const total = items.reduce((sum, item) => sum + item.price, 0);
+
+    function fuckVoid () {}
 
     // 1. Stable header button to prevent icon glitches on back gesture/press
     const renderHeaderLeft = useCallback(() => (
@@ -89,7 +91,11 @@ export default function CardScreen() {
                         renderItem={({ item }) => (
                             <CartItemCard
                                 item={item}
+                                    onIncrease={increaseCartQty}
+                                    onDecrease={decreaseCartQty}
+                                    onBuyNow={fuckVoid}
                                 onRemove={removeItem}
+                                
                                 onPress={() => router.push(`/course/${item.courseId}`)}
                             />
                         )}

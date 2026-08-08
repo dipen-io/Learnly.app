@@ -29,6 +29,9 @@ type CartState = {
     clearCart: () => void;
     isInCart: (courseId: string) => boolean;
     mergeOnLogin: () => Promise<void>;
+
+    increaseCartQty:(courseId: string) => Promise<void>;
+    decreaseCartQty: (courseId: string) => Promise<void>;
 };
 
 export const useCartStore = create<CartState>()(
@@ -92,6 +95,60 @@ export const useCartStore = create<CartState>()(
                     set({ items: mergedItems });
                 } finally {
                     set({ isSyncing: false });
+                }
+            },
+
+            increaseCartQty: async(courseId: string) => {
+                const item =  get().items.find((i) => i.courseId === courseId);
+                if (!item) return;
+                const previousItems = get().items;
+
+                set((state) => ({
+                    items: state.items.map((i) => 
+                                           i.courseId === courseId  
+                                           ? {...i, quantity: (i.quantity ?? 1) + 1} : i
+                                          ),
+                }));
+
+                const { isAuthenticated } = useAuthStore.getState();
+                if (!isAuthenticated) return;
+                try {
+                   await cartApi.updateQtry(courseId, (item.quantity ?? 1) + 1);
+                } catch (error) {
+                    set({items: previousItems});
+                    throw error
+                    
+                }
+            },
+
+            decreaseCartQty: async(courseId: string) => {
+                const item = get().items.find((i) => i.courseId === courseId);
+
+                if (!item) return;
+                const newQtry = Math.max(0, (item.quantity ?? 1) -1 );
+                const previousItems = get().items;
+
+                set((state) => ({
+                    items: state.items.map((i) => 
+                                           i.courseId === courseId ? {...i, quantity: newQtry} : i
+                                          ).filter((i) => i.quantity > 0),
+                }) 
+
+                )
+
+                const {isAuthenticated} = useAuthStore.getState();
+                if (!isAuthenticated) return;
+
+                try {
+                   if (newQtry === 0) {
+                       // Treat as remove from cart
+                       await cartApi.remove(courseId);
+                   } else {
+                       await cartApi.updateQtry(courseId);
+                   }
+                } catch (error) {
+                   set({ items: previousItems }) 
+                   throw error;
                 }
             },
         }),

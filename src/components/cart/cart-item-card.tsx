@@ -16,11 +16,8 @@ interface CartItemCardProps {
     onPress: () => void;
 }
 
-export function CartItemCard({ item, onRemove, onBuyNow, onPress, onDecrease }: CartItemCardProps) {
+export function CartItemCard({onIncrease, item, onRemove, onBuyNow, onPress, onDecrease }: CartItemCardProps) {
     const { colors, spacing, radii, shadows } = useTheme();
-    function onIncrease(courseId: string): void {
-        throw new Error("Function not implemented.");
-    }
 
     return (
         <Pressable
