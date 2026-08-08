@@ -32,7 +32,7 @@ export function CartSummary({ total, itemCount, onCheckout }: CartSummaryProps) 
                     {itemCount} {itemCount === 1 ? 'item' : 'items'}
                 </ThemedText>
                 <ThemedText type="title" style={{ fontSize: 20 }}>
-                    ${total.toFixed(2)}
+                    Rs {total.toFixed(2)}
                 </ThemedText>
             </View>
 

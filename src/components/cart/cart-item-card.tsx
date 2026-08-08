@@ -34,7 +34,7 @@ export function CartItemCard({ item, onRemove, onBuyNow, onPress, onDecrease }: 
                 style={[
                     styles.card,
                     {
-                        backgroundColor: colors.surface,
+                        backgroundColor: colors.back,
                         borderColor: colors.border,
                     },
                 ]}
