@@ -19,6 +19,7 @@ import { cartApi } from '../api/cart.api';
 import { dummyCartItems } from '../data/dummy-cart';
 import type { CartItem } from '../types/cart';
 import { useAuthStore } from './auth-store';
+import Toast from '@/constants/Toast';
 
 type CartState = {
     items: CartItem[];
@@ -68,11 +69,14 @@ export const useCartStore = create<CartState>()(
                     items: state.items.filter((i) => i.courseId !== courseId),
                 }));
 
-                const { isAuthenticated } = useAuthStore.getState();
+                    const { isAuthenticated } = useAuthStore.getState();
+                    Toast.show('Item removed', 'success', '650');
                 if (isAuthenticated) {
                     try {
+
                         await cartApi.remove(courseId);
                     } catch (err) {
+                        Toast.show('Item removed', 'success');
                         set({ items: previousItems });
                         throw err;
                     }
