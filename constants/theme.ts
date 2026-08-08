@@ -132,7 +132,6 @@ export interface ThemeColors {
 
 export const LightColors: ThemeColors = {
   white: '#FFFFFF',
-  // background: '#d3d322',
   // background: '#F7F7F5',
   background: '#f3f4f9',
   foreground: '#1C2321',
@@ -168,7 +167,7 @@ export const LightColors: ThemeColors = {
 
 export const DarkColors: ThemeColors = {
   // background: '#151718',
-  background: '#0092d1',
+  background: '#0c0c0c',
   foreground: '#F5F5F5',
 
   surface: '#1C2321',
