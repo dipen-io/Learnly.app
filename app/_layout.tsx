@@ -11,6 +11,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { LogBox } from 'react-native';
 import 'react-native-reanimated';
+import Toast from '@/constants/Toast';
 
 // remove warning 
 LogBox.ignoreLogs([
@@ -115,7 +116,7 @@ function RootLayoutNav() {
           <Stack.Screen name="onboarding" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         </Stack>
-        <StatusBar style="auto" />
+        {/* <StatusBar style="auto" /> */}
       </NavThemeProvider>
 
       {/* StatusBar now follows YOUR theme, not the system */}
@@ -125,10 +126,19 @@ function RootLayoutNav() {
 }
 
 export default function RootLayout() {
+ useEffect(() => {
+    // test toast on mount
+    Toast.show({
+      type: 'success',
+      text1: 'Toast is working',
+      position: 'bottom',
+    });
+  }, []);
   return (
     <QueryProvider>
       <OnboardingProvider>
         <RootLayoutNav />
+        <Toast />
       </OnboardingProvider>
     </QueryProvider>
   );

@@ -12,6 +12,7 @@ import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "
 import { useFeaturedCourses } from "./use-home-sections";
 import { useCartStore } from "@/src/store/cart-store";
 import { CartItem } from "@/src/types/cart";
+import Toast from "@/constants/Toast";
 
 const CARD_WIDTH = 260;
 const IMAGE_HEIGHT = 150;
@@ -76,6 +77,7 @@ function CourseCard({ course }: { course: Course }) {
         };
         try {
            await addItem(cartItem);
+           Toast.show('add to cart', 'success', 640);
         } catch (error) {
            console.error('failed to add to cart');
         }
