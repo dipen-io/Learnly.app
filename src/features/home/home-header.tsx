@@ -32,7 +32,7 @@ export function HomeHeader() {
 
                 <Ionicons name="cart-outline" size={24} color={colors.text} />
                 {cartCount > 0 && (
-                    <View style={[styles.badge, { backgroundColor: colors.background }]}>
+                    <View style={[styles.badge, { backgroundColor: colors.straberry }]}>
                         <Text style={styles.badgeText}>
                             {cartCount > 9 ? '9+' : cartCount}
                         </Text>
