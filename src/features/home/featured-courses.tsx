@@ -10,6 +10,8 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useFeaturedCourses } from "./use-home-sections";
+import { useCartStore } from "@/src/store/cart-store";
+import { CartItem } from "@/src/types/cart";
 
 const CARD_WIDTH = 260;
 const IMAGE_HEIGHT = 150;
@@ -62,6 +64,23 @@ function CourseCard({ course }: { course: Course }) {
     const { colors, isDark } = useTheme();
     const [imageLoaded, setImageLoaded] = React.useState(false);
 
+    const {addItem} = useCartStore();
+
+    const handleAddToCart = async() => {
+        const cartItem: CartItem = {
+            courseId: course.id,
+            title: course.title,
+            thumbnailUrl: course.thumbnailUrl,
+            price: course.price,
+            quantity: 1,
+        };
+        try {
+           await addItem(cartItem);
+        } catch (error) {
+           console.error('failed to add to cart');
+        }
+    }
+
     return (
         <Pressable
             onPress={() => router.push(`/course/${course.id}`)}
@@ -97,6 +116,20 @@ function CourseCard({ course }: { course: Course }) {
                         <Text style={styles.badgeText}>{course.tag}</Text>
                     </View>
                 )}
+
+<Pressable
+    onPress={handleAddToCart}
+    style={({ pressed }) => [
+        styles.badge2,
+        {
+            backgroundColor: BrandColors.forest,
+            opacity: pressed ? 0.7 : 1,
+            transform: pressed ? [{ scale: 0.95 }] : [{ scale: 1 }],
+        },
+    ]}
+>
+    <Text style={styles.badgeText2}>add to cart</Text>
+</Pressable>
             </View>
 
             {/* Content */}
@@ -232,7 +265,23 @@ const styles = StyleSheet.create({
         borderRadius: radii.sm,
     },
 
+    badge2: {
+        position: 'absolute',
+        top: spacing.xs,
+        right: spacing.xs,
+        paddingHorizontal: spacing.sm,
+        paddingVertical: 14,
+        borderRadius: radii.md,
+    },
+
     badgeText: {
+        fontFamily: Fonts.bodySemiBold,
+        fontSize: 10,
+        color: '#FFFFFF',
+        letterSpacing: 0.5,
+        textTransform: 'uppercase',
+    },
+    badgeText2: {
         fontFamily: Fonts.bodySemiBold,
         fontSize: 10,
         color: '#FFFFFF',

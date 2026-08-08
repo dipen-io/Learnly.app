@@ -6,5 +6,5 @@ export type CartItem = {
     title: string;
     price: number;
     thumbnailUrl: string;
-    addedAt: string; // ISO date string
+    addedAt?: string; // ISO date string
 }
