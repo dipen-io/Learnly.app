@@ -45,7 +45,7 @@ export default function HomeScreen() {
   }, [queryClient])
 
   return (
-    <ScrollView style={[styles.container]}
+    <ScrollView style={[styles.container, { backgroundColor: colors.background }]}
       contentContainerStyle={{ paddingTop: 20, paddingBottom: 24 }}
       showsVerticalScrollIndicator={false}
       refreshControl={

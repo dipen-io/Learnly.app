@@ -100,6 +100,8 @@ export interface ThemeColors {
   textMuted: string;
   textInverse: string;
 
+  straberry: string;
+
   // Borders
   border: string;
   borderStrong: string;
@@ -130,7 +132,7 @@ export interface ThemeColors {
 
 export const LightColors: ThemeColors = {
   white: '#FFFFFF',
-  // background: '#FAFAF9',
+  // background: '#d3d322',
   // background: '#F7F7F5',
   background: '#f3f4f9',
   foreground: '#1C2321',
@@ -156,6 +158,8 @@ export const LightColors: ThemeColors = {
   success: '#2F4F3E',
   warning: '#F2A93B',
 
+  straberry: '#FA5053',
+
   tint: '#0A7EA4',
   icon: '#687076',
   tabIconDefault: '#687076',
@@ -163,7 +167,8 @@ export const LightColors: ThemeColors = {
 };
 
 export const DarkColors: ThemeColors = {
-  background: '#151718',
+  // background: '#151718',
+  background: '#0092d1',
   foreground: '#F5F5F5',
 
   surface: '#1C2321',
@@ -175,6 +180,8 @@ export const DarkColors: ThemeColors = {
 
   border: '#343A37',
   borderStrong: '#4A524E',
+
+  straberry: '#FA5053',
 
   primary: '#6F947D',
   primaryForeground: '#151718',
