@@ -1,4 +1,4 @@
-import { radii, useTheme } from "@/constants/theme";
+import { useTheme } from "@/constants/theme";
 import { CartItem } from "@/src/types/cart";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
@@ -10,10 +10,13 @@ import { ThemedView } from "../themed-view";
 interface CartItemCardProps {
     item: CartItem;
     onRemove: (courseId: string) => void;
-    onPress?: () => void;
+    onBuyNow: (courseId: string) => void;
+    onIncrease: (courseId: string) => void;
+    onDecrease: (courseId: string) => void;
+    onPress: () => void;
 }
 
-export function CartItemCard({ item, onRemove, onPress }: CartItemCardProps) {
+export function CartItemCard({ item, onRemove, onBuyNow, onPress, onDecrease }: CartItemCardProps) {
     const { colors, spacing, radii, shadows } = useTheme();
     function onIncrease(courseId: string): void {
         throw new Error("Function not implemented.");
@@ -28,69 +31,122 @@ export function CartItemCard({ item, onRemove, onPress }: CartItemCardProps) {
                     marginButtom: spacing.md
                 })}>
             <ThemedView
-                style={[styles.card,
-                {
-                    // borderRadius: radii.lg,
-                    // borderWidth: StyleSheet.hairlineWidth,
-                    // borderColor: colors.border,
-                    backgroundColor: colors.surface
-                    // ...shadows.success
-                }]}
+                style={[
+                    styles.card,
+                    {
+                        backgroundColor: colors.surface,
+                        borderColor: colors.border,
+                    },
+                ]}
             >
                 <Image
                     source={{ uri: item.thumbnailUrl }}
-                    style={[styles.thumbnail, {
-                        borderRadius: radii.md, backgroundColor: colors.surface
-
-                    }]}
+                    style={[
+                        styles.thumbnail,
+                        {
+                            borderRadius: radii.md,
+                            backgroundColor: colors.background,
+                        },
+                    ]}
                     contentFit="cover"
                     transition={200}
                 />
-                <View style={styles.content}>
-                    <ThemedText type="defaultSemiBold"
-                        numberOfLines={2} style={{ fontSize: 15, lineHeight: 20 }}>
-                        {item.title}
-                    </ThemedText>
-                    {/* Quantity Controls on the Right: [-] count [+] */}
-                    <View style={styles.quantityContainer}>
-                        <Pressable
-                            onPress={() => onIncrease?.(item.courseId)}
-                            hitSlop={12}
-                            style={({ pressed }) => [
-                                styles.qtyButton,
-                                { backgroundColor: colors.background },
-                                pressed && { opacity: 0.5 }
-                            ]}
-                        >
-                            <Ionicons name="remove" size={16} color={colors.text} />
-                        </Pressable>
 
-                        <ThemedText type="defaultSemiBold" style={styles.qtyText}>
-                            {item.quantity ?? 1}
+                <View style={styles.content}>
+                    <View style={styles.titleRow}>
+                        <ThemedText
+                            type="defaultSemiBold"
+                            numberOfLines={2}
+                            style={styles.title}
+                        >
+                            {item.title}
                         </ThemedText>
 
                         <Pressable
-                            onPress={() => onIncrease?.(item.courseId)}
-                            hitSlop={12}
+                            onPress={() => onRemove(item.courseId)}
+                            hitSlop={10}
                             style={({ pressed }) => [
-                                styles.qtyButton,
-                                { backgroundColor: colors.straberry },
-                                pressed && { opacity: 0.5 }
+                                styles.deleteButton,
+                                pressed && { opacity: 0.5 },
                             ]}
                         >
-                            <Ionicons name="add" size={16} color={colors.text} />
+                            <Ionicons
+                                name="trash-outline"
+                                size={18}
+                                color={colors.textMuted ?? colors.text}
+                            />
                         </Pressable>
                     </View>
-                    <View style={styles.footer}>
-                        <ThemedText type="defaultSemiBold" style={{ fontSize: 15, color: colors.primary }}>${item.price.toFixed(2)}</ThemedText>
 
-                        <Pressable onPress={() => onRemove(item.courseId)}
-                            hitSlop={23} style={
-                                ({ pressed }) => ({
-                                    opacity: pressed ? 0.5 : 1,
-                                    padding: spacing.sm
-                                })
-                            }></Pressable>
+                    <ThemedText
+                        type="defaultSemiBold"
+                        style={[styles.price, { color: colors.primary }]}
+                    >
+                        {item.price.toFixed(2)} Rs
+                    </ThemedText>
+
+                    <View style={styles.bottomRow}>
+                        <View
+                            style={[
+                                styles.quantityContainer,
+                                {
+                                    borderColor: colors.border,
+                                    backgroundColor: colors.background,
+                                },
+                            ]}
+                        >
+                            <Pressable
+                                onPress={() => onDecrease(item.courseId)}
+                                hitSlop={8}
+                                style={({ pressed }) => [
+                                    styles.qtyButton,
+                                    pressed && { opacity: 0.5 },
+                                ]}
+                            >
+                                <Ionicons
+                                    name="remove"
+                                    size={15}
+                                    color={colors.text}
+                                />
+                            </Pressable>
+
+                            <ThemedText
+                                type="defaultSemiBold"
+                                style={styles.qtyText}
+                            >
+                                {item.quantity ?? 1}
+                            </ThemedText>
+
+                            <Pressable
+                                onPress={() => onIncrease(item.courseId)}
+                                hitSlop={8}
+                                style={({ pressed }) => [
+                                    styles.qtyButton,
+                                    pressed && { opacity: 0.5 },
+                                ]}
+                            >
+                                <Ionicons
+                                    name="add"
+                                    size={15}
+                                    color={colors.text}
+                                />
+                            </Pressable>
+                        </View>
+
+                        <Pressable
+                            onPress={() => onBuyNow(item.courseId)}
+                            style={({ pressed }) => [
+                                styles.buyNowButton,
+                                {
+                                    backgroundColor: colors.primary,
+                                    opacity: pressed ? 0.75 : 1,
+                                },
+                            ]}
+                        >
+                            <ThemedText style={styles.buyNowText}>
+                                Buy now
+                            </ThemedText>
+                        </Pressable>
                     </View>
                 </View>
             </ThemedView>
@@ -100,47 +156,85 @@ export function CartItemCard({ item, onRemove, onPress }: CartItemCardProps) {
 
 const styles = StyleSheet.create({
     card: {
-        flexDirection: 'row',
+        flexDirection: "row",
         // padding: 1,
-        alignItems: 'flex-start',
+        // marginBottom: 12,
+        // borderRadius: 16,s
+        // borderWidth: StyleSheet.hairlineWidth,
+        minHeight: 124,
     },
+
     thumbnail: {
-        width: 100,
-        height: 100,
+        width: 98,
+        height: 114,
     },
+
     content: {
         flex: 1,
         marginLeft: 12,
-        justifyContent: 'space-between',
-        minHeight: 10,
+        justifyContent: "space-evenly",
+        minWidth: 0,
     },
-    footer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginTop: 2,
+
+    titleRow: {
+        flexDirection: "row",
+        alignItems: "flex-start",
     },
+
+    title: {
+        flex: 1,
+        fontSize: 15,
+        lineHeight: 20,
+    },
+
+    deleteButton: {
+        padding: 3,
+    },
+
+    price: {
+        fontSize: 16,
+    },
+
+    bottomRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+    },
+
     quantityContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',        // Keeps - button, count, and + button vertically centered
-        alignSelf: 'flex-start',     // 👈 Crucial: Prevents stretching and wraps ONLY the content
-        borderRadius: radii.full,
-        marginVertical: 3,
-        paddingHorizontal: 5,
-        paddingVertical: 1,
-        gap: 8,
-        borderWidth: 1,
-        borderColor: '#eddfef',
+        flexDirection: "row",
+        alignItems: "center",
+        height: 32,
+        paddingHorizontal: 10,
+        borderRadius: 16,
+        borderWidth: StyleSheet.hairlineWidth,
     },
+
     qtyButton: {
-        padding: 4,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: radii.full,
+        width: 26,
+        height: 26,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 13,
     },
+
     qtyText: {
+        minWidth: 24,
+        textAlign: "center",
         fontSize: 14,
-        minWidth: 18,
-        textAlign: 'center',
+    },
+
+    buyNowButton: {
+        height: 32,
+        paddingHorizontal: 20,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 13,
+    },
+
+    buyNowText: {
+        color: "#fff",
+        fontSize: 12,
+        fontWeight: "700",
     },
 });
