@@ -45,8 +45,8 @@ export function CartSummary({ total, itemCount, onCheckout }: CartSummaryProps) 
             >
                 <View
                     style={{
-                        backgroundColor: colors.button,
-                        borderRadius: radii.lg,
+                        backgroundColor: colors.straberry,
+                        borderRadius: radii.full,
                         paddingVertical: spacing.md,
                         alignItems: 'center',
                     }}

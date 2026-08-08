@@ -74,7 +74,7 @@ export function CartItemCard({ item, onRemove, onPress }: CartItemCardProps) {
                             hitSlop={12}
                             style={({ pressed }) => [
                                 styles.qtyButton,
-                                { backgroundColor: colors.warning },
+                                { backgroundColor: colors.straberry },
                                 pressed && { opacity: 0.5 }
                             ]}
                         >
