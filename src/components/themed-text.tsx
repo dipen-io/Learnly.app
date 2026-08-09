@@ -1,4 +1,4 @@
-import { StyleSheet, Text, type TextProps } from 'react-native';
+import { Text, type TextProps } from 'react-native';
 import React from 'react';
 
 import { useTheme } from '@/constants/theme';
@@ -12,17 +12,17 @@ export function ThemedText({
   type = 'default',
   ...rest
 }: ThemedTextProps) {
-  const { colors } = useTheme();
+  const { colors, fontSizes } = useTheme();
 
   return (
     <Text
       style={[
         { color: colors.text },
-        type === 'default' ? styles.default : undefined,
-        type === 'title' ? styles.title : undefined,
-        type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
-        type === 'subtitle' ? styles.subtitle : undefined,
-        type === 'link' ? [styles.link, { color: colors.tint }] : undefined,
+        type === 'default' ? { fontSize: fontSizes.md, lineHeight: fontSizes.md * 1.5 } : undefined,
+        type === 'defaultSemiBold' ? { fontSize: fontSizes.md, lineHeight: fontSizes.md * 1.5, fontWeight: '600' } : undefined,
+        type === 'title' ? { fontSize: fontSizes.xxxl, fontWeight: 'bold', lineHeight: fontSizes.xxxl * 1.1 } : undefined,
+        type === 'subtitle' ? { fontSize: fontSizes.xl, fontWeight: 'bold' } : undefined,
+        type === 'link' ? { fontSize: fontSizes.md, lineHeight: fontSizes.md * 1.875, color: colors.tint } : undefined,
         style,
       ]}
       {...rest}
@@ -30,27 +30,50 @@ export function ThemedText({
   );
 }
 
-const styles = StyleSheet.create({
-  default: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  defaultSemiBold: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '600',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    lineHeight: 32,
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  link: {
-    lineHeight: 30,
-    fontSize: 16,
-  },
-});
+// export function ThemedText({
+//   style,
+//   type = 'default',
+//   ...rest
+// }: ThemedTextProps) {
+//   const { colors } = useTheme();
+//
+//   return (
+//     <Text
+//       style={[
+//         { color: colors.text },
+//         type === 'default' ? styles.default : undefined,
+//         type === 'title' ? styles.title : undefined,
+//         type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
+//         type === 'subtitle' ? styles.subtitle : undefined,
+//         type === 'link' ? [styles.link, { color: colors.tint }] : undefined,
+//         style,
+//       ]}
+//       {...rest}
+//     />
+//   );
+// }
+//
+// const styles = StyleSheet.create({
+//   default: {
+//     fontSize: 16,
+//     lineHeight: 24,
+//   },
+//   defaultSemiBold: {
+//     fontSize: 16,
+//     lineHeight: 24,
+//     fontWeight: '600',
+//   },
+//   title: {
+//     fontSize: 32,
+//     fontWeight: 'bold',
+//     lineHeight: 32,
+//   },
+//   subtitle: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//   },
+//   link: {
+//     lineHeight: 30,
+//     fontSize: 16,
+//   },
+// });
