@@ -10,14 +10,14 @@ interface SettingsSectionProps {
 }
 
 export function SettingsSection({ title, children, footer }: SettingsSectionProps) {
-  const { colors, spacing, radii } = useTheme();
+  const { fontSizes, colors, spacing, radii } = useTheme();
 
   return (
     <View style={{ marginBottom: spacing.lg, paddingHorizontal: spacing.md }}>
       <ThemedText
         type="defaultSemiBold"
         style={{
-          fontSize: 12,
+          fontSize: fontSizes.xs,
           marginBottom: spacing.sm,
           marginLeft: 4,
           letterSpacing: 0.6,
@@ -43,7 +43,7 @@ export function SettingsSection({ title, children, footer }: SettingsSectionProp
       {footer && (
         <ThemedText
           style={{
-            fontSize: 12,
+            fontSize: fontSizes.xs,
             marginTop: spacing.sm,
             marginLeft: 4,
             lineHeight: 18,

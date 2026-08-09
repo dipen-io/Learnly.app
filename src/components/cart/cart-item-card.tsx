@@ -17,7 +17,7 @@ interface CartItemCardProps {
 }
 
 export function CartItemCard({onIncrease, item, onRemove, onBuyNow, onPress, onDecrease }: CartItemCardProps) {
-    const { colors, spacing, radii, shadows } = useTheme();
+    const { colors, spacing, radii, fontSizes} = useTheme();
 
     return (
         <Pressable
@@ -54,7 +54,7 @@ export function CartItemCard({onIncrease, item, onRemove, onBuyNow, onPress, onD
                         <ThemedText
                             type="defaultSemiBold"
                             numberOfLines={2}
-                            style={styles.title}
+                            style={{ fontSize: fontSizes.md, lineHeight: 20, flex: 1 }}
                         >
                             {item.title}
                         </ThemedText>
@@ -76,7 +76,7 @@ export function CartItemCard({onIncrease, item, onRemove, onBuyNow, onPress, onD
 
                     <ThemedText
                         type="defaultSemiBold"
-                        style={[styles.price, { color: colors.primary }]}
+                        style={[{ color: colors.primary, fontSize: fontSizes.lg }]}
                     >
                         {item.price.toFixed(2)} Rs
                     </ThemedText>
@@ -108,7 +108,7 @@ export function CartItemCard({onIncrease, item, onRemove, onBuyNow, onPress, onD
 
                             <ThemedText
                                 type="defaultSemiBold"
-                                style={styles.qtyText}
+                                style={[styles.qtyText, {fontSize: fontSizes.md}]}
                             >
                                 {item.quantity ?? 1}
                             </ThemedText>
@@ -139,7 +139,7 @@ export function CartItemCard({onIncrease, item, onRemove, onBuyNow, onPress, onD
                                 },
                             ]}
                         >
-                            <ThemedText style={styles.buyNowText}>
+                            <ThemedText style={[styles.buyNowText,{fontSize: fontSizes.sm}]}>
                                 Buy now
                             </ThemedText>
                         </Pressable>
@@ -179,7 +179,6 @@ const styles = StyleSheet.create({
 
     title: {
         flex: 1,
-        fontSize: 15,
         lineHeight: 20,
     },
 
@@ -187,9 +186,9 @@ const styles = StyleSheet.create({
         padding: 3,
     },
 
-    price: {
-        fontSize: 16,
-    },
+    // price: {
+    //     fontSize: 16,
+    // },
 
     bottomRow: {
         flexDirection: "row",
@@ -217,7 +216,7 @@ const styles = StyleSheet.create({
     qtyText: {
         minWidth: 24,
         textAlign: "center",
-        fontSize: 14,
+        // fontSize: 14,
     },
 
     buyNowButton: {
@@ -230,7 +229,7 @@ const styles = StyleSheet.create({
 
     buyNowText: {
         color: "#fff",
-        fontSize: 12,
+        // fontSize: 12,
         fontWeight: "700",
     },
 });
