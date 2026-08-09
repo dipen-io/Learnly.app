@@ -1,6 +1,8 @@
 // constants/theme.ts
 
+import { useTextSizeStore } from '@/src/store/text-size-store';
 import { useThemeStore } from '@/src/store/theme-store';
+import { useMemo } from 'react';
 import { Platform, useColorScheme } from 'react-native';
 
 // =============================================================================
@@ -81,6 +83,18 @@ export const PlatformFonts = Platform.select({
     mono: 'monospace',
   },
 });
+
+
+// BASE FONT SIZES (unscaled)
+export const BaseFontSizes = {
+  xs: 11,
+  sm: 13,
+  md: 15,
+  lg: 17,
+  xl: 20,
+  xxl: 24,
+  xxxl: 32,
+} as const;
 
 // =============================================================================
 // COLORS
@@ -263,6 +277,19 @@ export function useTheme() {
 
   const systemScheme = useColorScheme() ?? 'light';
   const storedMode = useThemeStore((s) => s.mode);
+  const textSize  = useTextSizeStore((s) => s.size);
+  const scale = useTextSizeStore((s) => s.scale());
+
+  // Scale all font sizes
+  const fontSizes = useMemo(() => ({
+    xs: Math.round(BaseFontSizes.xs * scale),
+    sm: Math.round(BaseFontSizes.sm * scale),
+    md: Math.round(BaseFontSizes.md * scale),
+    lg: Math.round(BaseFontSizes.lg * scale),
+    xl: Math.round(BaseFontSizes.xl * scale),
+    xxl: Math.round(BaseFontSizes.xxl * scale),
+    xxxl: Math.round(BaseFontSizes.xxxl * scale),
+  }), [scale]);
 
   const resolvedScheme = storedMode === 'system' ? systemScheme : storedMode;
 
@@ -282,6 +309,8 @@ export function useTheme() {
     fonts: Fonts,
     platformFonts: PlatformFonts,
     brand: BrandColors,
+    textSize,      // ← 'small' | 'medium' | 'large'
+    fontSizes,     // ← { xs, sm, md, lg, xl, xxl, xxxl } already scaled
   };
 }
 
