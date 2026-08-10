@@ -11,7 +11,7 @@ interface CartSummaryProps {
 }
 
 export function CartSummary({ total, itemCount, onCheckout }: CartSummaryProps) {
-    const { colors, spacing, radii } = useTheme();
+    const { colors, spacing, radii, fontSizes } = useTheme();
 
     return (
         <ThemedView
@@ -28,10 +28,10 @@ export function CartSummary({ total, itemCount, onCheckout }: CartSummaryProps) 
             ]}
         >
             <View style={styles.row}>
-                <ThemedText style={{ color: colors.textMuted, fontSize: 15 }}>
+                <ThemedText style={{ color: colors.textMuted, fontSize: fontSizes.md }}>
                     {itemCount} {itemCount === 1 ? 'item' : 'items'}
                 </ThemedText>
-                <ThemedText type="title" style={{ fontSize: 20 }}>
+                <ThemedText type="title" style={{ fontSize: fontSizes.xl }}>
                     Rs {total.toFixed(2)}
                 </ThemedText>
             </View>
@@ -53,7 +53,7 @@ export function CartSummary({ total, itemCount, onCheckout }: CartSummaryProps) 
                 >
                     <ThemedText
                         type="defaultSemiBold"
-                        style={{ color: colors.buttonText, fontSize: 16 }}
+                        style={{ color: colors.buttonText, fontSize: fontSizes.lg }}
                     >
                         Checkout
                     </ThemedText>
