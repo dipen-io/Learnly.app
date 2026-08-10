@@ -11,7 +11,7 @@ import { useContuneLearning } from "./use-home-sections";
 
 export function ContinueLearning() {
     const router = useRouter();
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
     const { data: courses, isLoading } = useContuneLearning();
 
@@ -69,12 +69,14 @@ export function ContinueLearning() {
         <View>
             <View style={styles.header}>
                 <Text style={[styles.title, {
-                    color: colors.text
+                    color: colors.text,
+                    fontSize: fontSizes.xl
+
 
                 }]}>Continue Learning</Text>
 
                 <Pressable onPress={() => router.push('/(tabs)/my-learning')}>
-                    <Text style={[styles.seeAll, { color: colors.primary }]}>See All</Text>
+                    <Text style={[styles.seeAll, { color: colors.primary, fontSize: fontSizes.sm }]}>See All</Text>
                 </Pressable>
             </View>
             {/* Horizontal strip */}
@@ -112,7 +114,7 @@ export function ContinueLearning() {
 
                             <View style={styles.meta}>
                                 <Text
-                                    style={[styles.courseTitle, { color: colors.text }]}
+                                    style={[styles.courseTitle, { color: colors.text, fontSize: fontSizes.md }]}
                                     numberOfLines={1}
                                 >
                                     {course.title}
@@ -186,7 +188,6 @@ const styles = StyleSheet.create({
 
     seeAll: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 14,
     },
 
     scrollContent: {
@@ -212,7 +213,6 @@ const styles = StyleSheet.create({
 
     courseTitle: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 14,
         lineHeight: 20,
         marginBottom: spacing.sm,
     },

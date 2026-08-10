@@ -12,7 +12,7 @@ const THUMB_SIZE = 80;
 
 function TrendingCard({ course }: { course: TrendingCourse }) {
     const router = useRouter();
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
 
     const [imageLoaded, setImageLoaded] = React.useState(false);
 
@@ -56,11 +56,11 @@ function TrendingCard({ course }: { course: TrendingCourse }) {
 
             {/* Content */}
             <View style={styles.content}>
-                <Text style={[styles.title, { color: colors.text }]} numberOfLines={2}>
+                <Text style={[styles.title, { color: colors.text, fontSize: fontSizes.md }]} numberOfLines={2}>
                     {course.title}
                 </Text>
 
-                <Text style={[styles.instructor, { color: colors.textMuted }]}>
+                <Text style={[styles.instructor, { color: colors.textMuted, fontSize: fontSizes.sm }]}>
                     {course.instructorName}
                 </Text>
 
@@ -75,7 +75,7 @@ function TrendingCard({ course }: { course: TrendingCourse }) {
                     <Text style={[styles.rating, { color: colors.textMuted }]}>
                         ★ {course.rating}
                     </Text>
-                    <Text style={[styles.category, { color: colors.primary }]}>
+                    <Text style={[styles.category, { color: colors.primary, fontSize: fontSizes.xs }]}>
                         {course.category}
                     </Text>
                 </View>
@@ -106,7 +106,7 @@ function SkeletonCard() {
 
 
 export function TrendingCourses() {
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
     const { data: courses, isLoading, isError } = useTrendingCourses();
 
     if (isError || (!isLoading && (!courses || courses.length === 0))) {
@@ -117,12 +117,12 @@ export function TrendingCourses() {
         <View style={styles.wrapper}>
             <View style={styles.header}>
                 <View style={styles.titleRow}>
-                    <Text style={[styles.sectionTitle, { color: colors.text }]}>
+                    <Text style={[styles.sectionTitle, { color: colors.text, fontSize: fontSizes.xl }]}>
                         Trending Now
                     </Text>
                 </View>
                 <Pressable>
-                    <Text style={[styles.seeAll, { color: colors.primary }]}>
+                    <Text style={[styles.seeAll, { color: colors.primary, fontSize: fontSizes.sm }]}>
                         See All
                     </Text>
                 </Pressable>
@@ -171,13 +171,11 @@ const styles = StyleSheet.create({
 
     sectionTitle: {
         fontFamily: Fonts.display,
-        fontSize: 20,
         lineHeight: 28,
     },
 
     seeAll: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 14,
     },
 
     scrollContent: {
@@ -222,14 +220,12 @@ const styles = StyleSheet.create({
 
     title: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 15,
         lineHeight: 22,
         marginBottom: 2,
     },
 
     instructor: {
         fontFamily: Fonts.body,
-        fontSize: 13,
         marginBottom: spacing.sm,
     },
 
@@ -262,7 +258,6 @@ const styles = StyleSheet.create({
 
     category: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 11,
         letterSpacing: 0.5,
         textTransform: 'uppercase',
     },

@@ -21,7 +21,7 @@ const IMAGE_HEIGHT = 110;
 
 function CompactCourseCard({ course }: { course: Course }) {
     const router = useRouter();
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
     const [imageLoaded, setImageLoaded] = React.useState(false);
 
     const displayPrice =
@@ -57,11 +57,11 @@ function CompactCourseCard({ course }: { course: Course }) {
             </View>
 
             <View style={styles.content}>
-                <Text style={[styles.title, { color: colors.text }]} numberOfLines={2}>
+                <Text style={[styles.title, { color: colors.text, fontSize: fontSizes.md }]} numberOfLines={2}>
                     {course.title}
                 </Text>
 
-                <Text style={[styles.instructor, { color: colors.textMuted }]}>
+                <Text style={[styles.instructor, { color: colors.textMuted, fontSize: fontSizes.sm }]}>
                     {course.instructorName}
                 </Text>
 
@@ -69,7 +69,7 @@ function CompactCourseCard({ course }: { course: Course }) {
                     <Text style={[styles.rating, { color: colors.textMuted }]}>
                         ★ {course.rating}
                     </Text>
-                    <Text style={[styles.price, { color: colors.text }]}>
+                    <Text style={[styles.price, { color: colors.text, fontSize: fontSizes.sm }]}>
                         {displayPrice}
                     </Text>
                 </View>
@@ -98,7 +98,7 @@ function SkeletonCard() {
 }
 
 export function RecommendedCourses() {
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
     const { data: courses, isLoading, isError, isPersonalized } = useRecommendedCourses();
 
@@ -111,11 +111,11 @@ export function RecommendedCourses() {
     return (
         <View style={styles.wrapper}>
             <View style={styles.header}>
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>
+                <Text style={[styles.sectionTitle, { color: colors.text, fontSize: fontSizes.xl }]}>
                     {title}
                 </Text>
                 <Pressable>
-                    <Text style={[styles.seeAll, { color: colors.primary }]}>
+                    <Text style={[styles.seeAll, { color: colors.primary, fontSize: fontSizes.sm }]}>
                         See All
                     </Text>
                 </Pressable>
@@ -152,13 +152,11 @@ const styles = StyleSheet.create({
 
     sectionTitle: {
         fontFamily: Fonts.display,
-        fontSize: 20,
         lineHeight: 28,
     },
 
     seeAll: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 14,
     },
 
     scrollContent: {
@@ -190,14 +188,12 @@ const styles = StyleSheet.create({
 
     title: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 14,
         lineHeight: 20,
         marginBottom: spacing.xs,
     },
 
     instructor: {
         fontFamily: Fonts.body,
-        fontSize: 12,
         marginBottom: spacing.sm,
     },
 
@@ -214,6 +210,5 @@ const styles = StyleSheet.create({
 
     price: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 14,
     },
 });

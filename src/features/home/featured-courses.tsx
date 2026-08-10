@@ -4,15 +4,15 @@ import {
     BrandColors, Fonts, radii, spacing, useTheme
 } from "@/constants/theme";
 
+import Toast from "@/constants/Toast";
 import { Shimmer } from "@/src/components/shimmer";
+import { useCartStore } from "@/src/store/cart-store";
+import { CartItem } from "@/src/types/cart";
 import type { Course } from "@/src/types/course";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useFeaturedCourses } from "./use-home-sections";
-import { useCartStore } from "@/src/store/cart-store";
-import { CartItem } from "@/src/types/cart";
-import Toast from "@/constants/Toast";
 
 const CARD_WIDTH = 260;
 const IMAGE_HEIGHT = 150;
@@ -36,11 +36,11 @@ function StarsRating({ rating, count }: { rating: number; count: number }) {
 }
 
 function PriceTag({ price, originalPrice }: { price: number; originalPrice?: number }) {
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
 
     if (price === 0) {
         return (
-            <Text style={[styles.price, { color: colors.primary }]}>
+            <Text style={[styles.price, { color: colors.primary, fontSize: fontSizes.sm }]}>
                 Free
             </Text>
         );
@@ -49,11 +49,11 @@ function PriceTag({ price, originalPrice }: { price: number; originalPrice?: num
     return (
         <View style={styles.priceRow}>
             <Text style={[styles.price, { color: colors.text }]}>
-                ${price.toFixed(2)}
+                Rs {price.toFixed(2)}
             </Text>
             {originalPrice && (
                 <Text style={[styles.originalPrice, { color: colors.textMuted }]}>
-                    ${originalPrice.toFixed(2)}
+                    Rs {originalPrice.toFixed(2)}
                 </Text>
             )}
         </View>
@@ -62,13 +62,13 @@ function PriceTag({ price, originalPrice }: { price: number; originalPrice?: num
 
 function CourseCard({ course }: { course: Course }) {
     const router = useRouter();
-    const { colors, isDark } = useTheme();
+    const { colors, isDark, fontSizes } = useTheme();
     const [imageLoaded, setImageLoaded] = React.useState(false);
 
-    const {addItem, items} = useCartStore();
+    const { addItem, items } = useCartStore();
     const isInCart = items.some((item) => item.courseId === course.id);
 
-    const handleAddToCart = async() => {
+    const handleAddToCart = async () => {
         const cartItem: CartItem = {
             courseId: course.id,
             title: course.title,
@@ -77,10 +77,10 @@ function CourseCard({ course }: { course: Course }) {
             quantity: 1,
         };
         try {
-           await addItem(cartItem);
-           Toast.show('add to cart', 'success', 640);
+            await addItem(cartItem);
+            Toast.show('add to cart', 'success', 640);
         } catch (error) {
-           console.error('failed to add to cart');
+            console.error('failed to add to cart');
         }
     }
 
@@ -120,50 +120,50 @@ function CourseCard({ course }: { course: Course }) {
                     </View>
                 )}
 
-        {isInCart ? (
-                // Renders AFTER adding to cart
-                <Pressable
-                  onPress={() => router.push('/cart')}
-                  style={({ pressed }) => [
-                    styles.badge2,
-                    {
-                      backgroundColor: BrandColors.forest, // or a muted color like gray
-                      opacity: pressed ? 0.7 : 1,
-                      transform: pressed ? [{ scale: 0.95 }] : [{ scale: 1 }],
-                    },
-                  ]}
-                >
-                  <Text style={[styles.badgeText2]}>In Cart ✓</Text>
-                </Pressable>
-              ) : (
-                // Renders BEFORE adding to cart
-                <Pressable
-                  onPress={handleAddToCart}
-                  style={({ pressed }) => [
-                    styles.badge2,
-                    {
-                      backgroundColor: BrandColors.forest,
-                      opacity: pressed ? 0.7 : 1,
-                      transform: pressed ? [{ scale: 0.95 }] : [{ scale: 1 }],
-                    },
-                  ]}
-                >
-                  <Text style={[styles.badgeText2]}>add to cart</Text>
-                </Pressable>
-              )}
+                {isInCart ? (
+                    // Renders AFTER adding to cart
+                    <Pressable
+                        onPress={() => router.push('/cart')}
+                        style={({ pressed }) => [
+                            styles.badge2,
+                            {
+                                backgroundColor: BrandColors.forest, // or a muted color like gray
+                                opacity: pressed ? 0.7 : 1,
+                                transform: pressed ? [{ scale: 0.95 }] : [{ scale: 1 }],
+                            },
+                        ]}
+                    >
+                        <Text style={[styles.badgeText2]}>In Cart ✓</Text>
+                    </Pressable>
+                ) : (
+                    // Renders BEFORE adding to cart
+                    <Pressable
+                        onPress={handleAddToCart}
+                        style={({ pressed }) => [
+                            styles.badge2,
+                            {
+                                backgroundColor: BrandColors.forest,
+                                opacity: pressed ? 0.7 : 1,
+                                transform: pressed ? [{ scale: 0.95 }] : [{ scale: 1 }],
+                            },
+                        ]}
+                    >
+                        <Text style={[styles.badgeText2]}>add to cart</Text>
+                    </Pressable>
+                )}
             </View>
 
             {/* Content */}
             <View style={styles.content}>
-                <Text style={[styles.category, { color: colors.primary }]}>
+                <Text style={[styles.category, { color: colors.primary, fontSize: fontSizes.xs }]}>
                     {course.category}
                 </Text>
 
-                <Text style={[styles.title, { color: colors.text }]} numberOfLines={2}>
+                <Text style={[styles.title, { color: colors.text, fontSize: fontSizes.md }]} numberOfLines={2}>
                     {course.title}
                 </Text>
 
-                <Text style={[styles.instructor, { color: colors.textMuted }]}>
+                <Text style={[styles.instructor, { color: colors.textMuted, fontSize: fontSizes.sm }]}>
                     {course.instructorName}
                 </Text>
 
@@ -199,7 +199,7 @@ function SkeletonCard() {
     );
 }
 export function FeaturedCourses() {
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
     const { data: courses, isLoading, isError } = useFeaturedCourses();
 
     if (isError || (!isLoading && (!courses || courses.length === 0))) {
@@ -209,7 +209,7 @@ export function FeaturedCourses() {
     return (
         <View style={styles.wrapper}>
             <View style={styles.header}>
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>
+                <Text style={[styles.sectionTitle, { color: colors.text, fontSize: fontSizes.xl }]}>
                     Featured Courses
                 </Text>
             </View>
@@ -241,7 +241,6 @@ const styles = StyleSheet.create({
 
     sectionTitle: {
         fontFamily: Fonts.display,
-        fontSize: 22,
         lineHeight: 30,
     },
 
@@ -324,14 +323,12 @@ const styles = StyleSheet.create({
 
     title: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 15,
         lineHeight: 22,
         marginBottom: spacing.xs,
     },
 
     instructor: {
         fontFamily: Fonts.body,
-        fontSize: 13,
         marginBottom: spacing.sm,
     },
 
@@ -365,7 +362,6 @@ const styles = StyleSheet.create({
 
     originalPrice: {
         fontFamily: Fonts.body,
-        fontSize: 13,
         textDecorationLine: 'line-through',
     },
 });

@@ -16,7 +16,7 @@ import { useCategories } from './use-home-sections';
 
 export function CategoryPillList() {
     const router = useRouter();
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
     const [activeSlug, setActiveSlug] = useState('all');
 
     const { data: dummyCategories, isLoading, isError } = useCategories();
@@ -71,6 +71,7 @@ export function CategoryPillList() {
                                         color: isActive
                                             ? colors.primaryForeground
                                             : colors.text,
+                                        fontSize: fontSizes.sm
                                     },
                                 ]}
                             >
@@ -103,6 +104,5 @@ const styles = StyleSheet.create({
 
     label: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 14,
     },
 });
