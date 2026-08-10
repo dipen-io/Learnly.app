@@ -19,14 +19,14 @@ interface NewNoteworthyProps {
 
 export function NewNoteworthy({ courses }: NewNoteworthyProps) {
     const router = useRouter();
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
 
     return (
         <View style={styles.wrapper}>
             <View style={styles.header}>
-                <Text style={[styles.title, { color: colors.text }]}>New & Noteworthy</Text>
+                <Text style={[styles.title, { color: colors.text, fontSize: fontSizes.xl }]}>New & Noteworthy</Text>
                 <Pressable>
-                    <Text style={[styles.seeAll, { color: colors.primary }]}>See All</Text>
+                    <Text style={[styles.seeAll, { color: colors.primary, fontSize: fontSizes.sm }]}>See All</Text>
                 </Pressable>
             </View>
 
@@ -79,7 +79,7 @@ const CARD_WIDTH = 160;
 
 const styles = StyleSheet.create({
     wrapper: {
-        marginBottom: spacing.xxl,
+        marginBottom: spacing.lg,
     },
 
     header: {
@@ -92,13 +92,11 @@ const styles = StyleSheet.create({
 
     title: {
         fontFamily: Fonts.display,
-        fontSize: 20,
         lineHeight: 28,
     },
 
     seeAll: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 14,
     },
 
     scrollContent: {

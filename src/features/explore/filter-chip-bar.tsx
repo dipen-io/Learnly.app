@@ -73,7 +73,7 @@ type FilterChipBarProps = {
 };
 
 export function FilterChipBar({ filters, onChange }: FilterChipBarProps) {
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
     const [openKey, setOpenKey] = useState<FilterKey | null>(null);
 
     const openConfig = CHIP_CONFIGS.find((c) => c.key === openKey);
@@ -120,7 +120,7 @@ export function FilterChipBar({ filters, onChange }: FilterChipBarProps) {
                             <Text
                                 style={[
                                     styles.chipText,
-                                    { color: isActive ? colors.buttonText ?? '#fff' : colors.text },
+                                    { color: isActive ? colors.buttonText ?? '#fff' : colors.text, fontSize: fontSizes.sm },
                                 ]}
                             >
                                 {activeOption ? activeOption.label : config.label}
@@ -156,7 +156,7 @@ export function FilterChipBar({ filters, onChange }: FilterChipBarProps) {
                                 style={styles.option}
                                 onPress={() => handleSelect(openConfig.key, option.value)}
                             >
-                                <Text style={[styles.optionText, { color: colors.text }]}>
+                                <Text style={[styles.optionText, { color: colors.text, fontSize: fontSizes.md }]}>
                                     {option.label}
                                 </Text>
                             </Pressable>
@@ -185,7 +185,6 @@ const styles = StyleSheet.create({
     },
     chipText: {
         fontFamily: Fonts.bodyMedium,
-        fontSize: 13,
     },
     backdrop: {
         flex: 1,
@@ -209,6 +208,5 @@ const styles = StyleSheet.create({
     },
     optionText: {
         fontFamily: Fonts.body,
-        fontSize: 15,
     },
 });

@@ -33,7 +33,7 @@ type CategoryGridProps = {
 };
 
 export function CategoryGrid({ onSelectCategory }: CategoryGridProps) {
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
     const { data: categories, isLoading, isError } = useCategories();
 
     if (isError) return null;

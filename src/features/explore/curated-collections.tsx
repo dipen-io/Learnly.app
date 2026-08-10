@@ -19,20 +19,20 @@ interface CuratedCollectionsProps {
 
 export function CuratedCollections({ collections }: CuratedCollectionsProps) {
     const router = useRouter();
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
 
     return (
         <View style={styles.wrapper}>
-            <Text style={[styles.title, { color: colors.text }]}>Curated for You</Text>
+            <Text style={[styles.title, { color: colors.text, fontSize: fontSizes.xl }]}>Curated for You</Text>
 
             {collections.map((collection) => (
                 <View key={collection.id} style={styles.section}>
                     <View style={styles.header}>
                         <View>
-                            <Text style={[styles.sectionTitle, { color: colors.text }]}>
+                            <Text style={[styles.sectionTitle, { color: colors.text, fontSize: fontSizes.lg }]}>
                                 {collection.title}
                             </Text>
-                            <Text style={[styles.subtitle, { color: colors.textMuted }]}>
+                            <Text style={[styles.subtitle, { color: colors.textMuted, fontSize: fontSizes.sm }]}>
                                 {collection.subtitle}
                             </Text>
                         </View>
@@ -93,13 +93,12 @@ const CARD_WIDTH = 200;
 
 const styles = StyleSheet.create({
     wrapper: {
-        marginBottom: spacing.xl,
-        marginTop: spacing.xl
+        // marginBottom: spacing.xl,
+        marginTop: spacing.md
     },
 
     title: {
         fontFamily: Fonts.display,
-        fontSize: 20,
         lineHeight: 28,
         paddingHorizontal: spacing.lg,
         marginBottom: spacing.md,
@@ -116,13 +115,11 @@ const styles = StyleSheet.create({
 
     sectionTitle: {
         fontFamily: Fonts.bodySemiBold,
-        fontSize: 16,
         lineHeight: 22,
     },
 
     subtitle: {
         fontFamily: Fonts.body,
-        fontSize: 13,
         marginTop: 2,
     },
 
