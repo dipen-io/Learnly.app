@@ -4,8 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import { ThemedText } from "../themed-text";
-import { ThemedView } from "../themed-view";
+import { ThemedText } from "../../components/themed-text";
+import { ThemedView } from "../../components/themed-view";
 
 interface CartItemCardProps {
     item: CartItem;
@@ -16,8 +16,8 @@ interface CartItemCardProps {
     onPress: () => void;
 }
 
-export function CartItemCard({onIncrease, item, onRemove, onBuyNow, onPress, onDecrease }: CartItemCardProps) {
-    const { colors, spacing, radii, fontSizes} = useTheme();
+export function CartItemCard({ onIncrease, item, onRemove, onBuyNow, onPress, onDecrease }: CartItemCardProps) {
+    const { colors, spacing, radii, fontSizes } = useTheme();
 
     return (
         <Pressable
@@ -31,8 +31,9 @@ export function CartItemCard({onIncrease, item, onRemove, onBuyNow, onPress, onD
                 style={[
                     styles.card,
                     {
-                        backgroundColor: colors.back,
-                        borderColor: colors.border,
+                        backgroundColor: colors.surface,
+                        // borderColor: colors.border,
+                        // borderRadius: spacing.md
                     },
                 ]}
             >
@@ -108,7 +109,7 @@ export function CartItemCard({onIncrease, item, onRemove, onBuyNow, onPress, onD
 
                             <ThemedText
                                 type="defaultSemiBold"
-                                style={[styles.qtyText, {fontSize: fontSizes.md}]}
+                                style={[styles.qtyText, { fontSize: fontSizes.md }]}
                             >
                                 {item.quantity ?? 1}
                             </ThemedText>
@@ -139,7 +140,7 @@ export function CartItemCard({onIncrease, item, onRemove, onBuyNow, onPress, onD
                                 },
                             ]}
                         >
-                            <ThemedText style={[styles.buyNowText,{fontSize: fontSizes.sm}]}>
+                            <ThemedText style={[styles.buyNowText, { fontSize: fontSizes.sm }]}>
                                 Buy now
                             </ThemedText>
                         </Pressable>
