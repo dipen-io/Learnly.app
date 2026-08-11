@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { ThemedText } from '../themed-text';
 import { useTheme } from '@/constants/theme';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { ThemedText } from '../themed-text';
 
 interface SettingsSectionProps {
   title: string;
@@ -13,7 +13,7 @@ export function SettingsSection({ title, children, footer }: SettingsSectionProp
   const { fontSizes, colors, spacing, radii } = useTheme();
 
   return (
-    <View style={{ marginBottom: spacing.lg, paddingHorizontal: spacing.md }}>
+    <View style={{ paddingVertical: spacing.xs, paddingHorizontal: spacing.md }}>
       <ThemedText
         type="defaultSemiBold"
         style={{
@@ -40,7 +40,7 @@ export function SettingsSection({ title, children, footer }: SettingsSectionProp
         {children}
       </View>
 
-      {footer && (
+      {/* {footer && (
         <ThemedText
           style={{
             fontSize: fontSizes.xs,
@@ -52,7 +52,7 @@ export function SettingsSection({ title, children, footer }: SettingsSectionProp
         >
           {footer}
         </ThemedText>
-      )}
+      )} */}
     </View>
   );
 }
