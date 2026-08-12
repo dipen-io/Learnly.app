@@ -3,7 +3,7 @@
 export type WishlistItem = {
     courseId: string;
     title: string;
-    price: string;
+    price: number;
     thumbnailUrl: string;
     instructor: string;
     addedAt: string; //ISO date string

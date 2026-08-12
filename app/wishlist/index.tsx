@@ -1,5 +1,5 @@
 import { useTheme } from '@/constants/theme';
-import { WishListScreen } from '@/src/features/wishlist/wishlist-screen';
+import WishlistScreen from '@/src/features/wishlist/wishlist-screen';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -8,7 +8,7 @@ export default function WishlistScreenWrapper() {
 
     return (
         <View style={[styles.container, { backgroundColor: colors.background }]}>
-            <WishListScreen />
+            <WishlistScreen />
         </View>
     );
 }

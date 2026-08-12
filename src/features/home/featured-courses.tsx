@@ -6,6 +6,7 @@ import {
 
 import Toast from "@/constants/Toast";
 import { Shimmer } from "@/src/components/shimmer";
+import { WishlistHeart } from "@/src/components/wishlist/wishlist-heart";
 import { useCartStore } from "@/src/store/cart-store";
 import { CartItem } from "@/src/types/cart";
 import type { Course } from "@/src/types/course";
@@ -120,6 +121,17 @@ function CourseCard({ course }: { course: Course }) {
                     </View>
                 )}
 
+                <View style={styles.heartContainer}>
+                    <WishlistHeart
+                        courseId={course.id}
+                        title={course.title}
+                        price={course.price}
+                        thumbnailUrl={course.thumbnailUrl}
+                        instructor={course.instructorName}
+                        size={22}
+                    />
+                </View>
+
                 {isInCart ? (
                     // Renders AFTER adding to cart
                     <Pressable
@@ -198,6 +210,7 @@ function SkeletonCard() {
         </View>
     );
 }
+
 export function FeaturedCourses() {
     const { colors, fontSizes } = useTheme();
     const { data: courses, isLoading, isError } = useFeaturedCourses();
@@ -363,5 +376,13 @@ const styles = StyleSheet.create({
     originalPrice: {
         fontFamily: Fonts.body,
         textDecorationLine: 'line-through',
+    },
+    // In your CourseCard styles, ensure this:
+    heartContainer: {
+        position: 'absolute',
+        bottom: 1,
+        right: 8,
+        zIndex: 10
+
     },
 });
