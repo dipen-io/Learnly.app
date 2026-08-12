@@ -1,12 +1,12 @@
 import { useTheme } from "@/constants/theme";
-import React from "react";
+import React, { ComponentProps } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Switch, View } from "react-native";
 import { ThemedText } from "../themed-text";
 import { IconSymbol } from "../ui/icon-symbol";
 
 interface SettingsRowProps {
   label: string;
-  icon?: string;
+  icon?: ComponentProps<typeof IconSymbol>['name'];
   value?: string;
   toggle?: boolean;
   toggleValue?: boolean;
@@ -86,7 +86,20 @@ export function SettingsRow({
         {loading ? (
           <ActivityIndicator size="small" />
         ) : detail ? (
-          detail
+          typeof detail === 'string' ? (
+            <ThemedText
+              style={{
+                fontSize: 15,
+                color: colors.textMuted,
+                maxWidth: 150,
+              }}
+              numberOfLines={1}
+            >
+              {detail}
+            </ThemedText>
+          ) : (
+            detail
+          )
         ) : value ? (
           <ThemedText
             style={{
@@ -121,8 +134,6 @@ export function SettingsRow({
       </View>
     </View>
   );
-
-  ////////////////////
 
   if (toggle) return content;
 
