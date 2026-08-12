@@ -1,5 +1,7 @@
 // app/_layout.tsx
 
+import Toast from '@/constants/Toast';
+import LeftArrowIcon from '@/src/components/renderLeftArrow';
 import { OnboardingProvider, useOnboarding } from '@/src/context/onboarding-context';
 import { useResolvedTheme } from '@/src/hooks/use-resolved-theme';
 import { QueryProvider } from '@/src/providers/query-provider';
@@ -11,7 +13,6 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { LogBox } from 'react-native';
 import 'react-native-reanimated';
-import Toast from '@/constants/Toast';
 
 // remove warning 
 LogBox.ignoreLogs([
@@ -89,13 +90,13 @@ function RootLayoutNav() {
     <>
       <NavThemeProvider value={navigationTheme}>
         <Stack
-        screenOptions={{
+          screenOptions={{
             headerStyle: {
-                backgroundColor: navigationTheme.colors.card,
+              backgroundColor: navigationTheme.colors.card,
             },
             headerTintColor: navigationTheme.colors.text,
             headerShadowVisible: false,
-        }}
+          }}
         >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
@@ -112,6 +113,13 @@ function RootLayoutNav() {
               animation: 'slide_from_right', // Ensures smooth native slide
             }}
           /> */}
+          <Stack.Screen
+            options={{
+              title: 'Settings',
+              headerTitleAlign: 'center',
+              headerLeft: () => <LeftArrowIcon />,
+            }}
+          />
           <Stack.Screen name="checkout/index" options={{ headerShown: true, title: 'Checkout' }} />
           <Stack.Screen name="onboarding" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
