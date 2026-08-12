@@ -102,7 +102,7 @@ function RootLayoutNav() {
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="course/[id]" options={{ headerShown: true, title: '' }} />
           <Stack.Screen name="player/[lessonId]" options={{ headerShown: true, title: '' }} />
-          <Stack.Screen name="cart" options={{ headerShown: true, title: 'Cart', headerShadowVisible: false }} />
+          <Stack.Screen name="cart/index" options={{ headerShown: true, title: 'Cart', headerShadowVisible: false }} />
           {/* <Stack.Screen
             name="cart/index"
             options={{
@@ -116,6 +116,13 @@ function RootLayoutNav() {
           <Stack.Screen name='settings'
             options={{
               title: 'Settings',
+              headerTitleAlign: 'center',
+              headerLeft: () => <LeftArrowIcon />,
+            }}
+          />
+          <Stack.Screen name='wishlist/index'
+            options={{
+              title: 'Wishlist',
               headerTitleAlign: 'center',
               headerLeft: () => <LeftArrowIcon />,
             }}
