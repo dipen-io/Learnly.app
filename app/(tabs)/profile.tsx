@@ -1,16 +1,16 @@
 // app/(tabs)/profile.tsx [
 
-import React from 'react';
-import { StyleSheet, Pressable, View, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useTheme } from '@/constants/theme';
-import { useAuthStore } from '@/src/store/auth-store';
 import { ThemedText } from '@/src/components/themed-text';
 import { ThemedView } from '@/src/components/themed-view';
 import { IconSymbol } from '@/src/components/ui/icon-symbol';
+import { useAuthStore } from '@/src/store/auth-store';
 
 // =============================================================================
 // MENU ITEM DATA
@@ -335,14 +335,14 @@ function AuthenticatedView() {
 // MAIN SCREEN
 // =============================================================================
 
-  {/*  {isAuthenticated ? <AuthenticatedView /> : <GuestView />}  */}
+{/*  {isAuthenticated ? <AuthenticatedView /> : <GuestView />}  */ }
 export default function ProfileScreen() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   return (
     <ThemedView style={{ flex: 1 }}>
       <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
-         <AuthenticatedView /> 
+        <AuthenticatedView />
       </SafeAreaView>
     </ThemedView>
   );

@@ -113,7 +113,7 @@ function RootLayoutNav() {
               animation: 'slide_from_right', // Ensures smooth native slide
             }}
           /> */}
-          <Stack.Screen name='settings'
+          <Stack.Screen name='settings/index'
             options={{
               title: 'Settings',
               headerTitleAlign: 'center',
