@@ -1,3 +1,5 @@
+//src/features/wishlist/wishlist-scree.tsx
+
 import { ThemedText } from "@/src/components/themed-text";
 import React from "react";
 import { View } from "react-native";
