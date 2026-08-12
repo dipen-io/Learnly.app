@@ -181,7 +181,6 @@ export const LightColors: ThemeColors = {
 };
 
 export const DarkColors: ThemeColors = {
-
   white: '#692D76',
   // background: '#151718',
   background: '#0c0c0c',
@@ -277,7 +276,7 @@ export function useTheme() {
 
   const systemScheme = useColorScheme() ?? 'light';
   const storedMode = useThemeStore((s) => s.mode);
-  const textSize  = useTextSizeStore((s) => s.size);
+  const textSize = useTextSizeStore((s) => s.size);
   const scale = useTextSizeStore((s) => s.scale());
 
   // Scale all font sizes
@@ -296,7 +295,7 @@ export function useTheme() {
   // const scheme = useColorScheme() ?? 'light';
   const isDark = resolvedScheme === 'dark';
   const colors = isDark ? DarkColors : LightColors;
-  const shadows = isDark ? DarkColors : LightColors;
+  const shadows = isDark ? DarkShadows : LightShadows;
 
   return {
     colors,
