@@ -377,11 +377,11 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.body,
         textDecorationLine: 'line-through',
     },
-    // In your CourseCard styles, ensure this:
+
     heartContainer: {
         position: 'absolute',
-        bottom: 1,
-        right: 8,
+        bottom: 4,
+        right: 7,
         zIndex: 10
 
     },

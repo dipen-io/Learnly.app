@@ -4,6 +4,7 @@ import { useTheme } from '@/constants/theme';
 import { ThemedText } from '@/src/components/themed-text';
 import { ThemedView } from '@/src/components/themed-view';
 import { IconSymbol } from '@/src/components/ui/icon-symbol';
+import { RemoveFromWishlistButton } from '@/src/components/wishlist/remove-from-wishlist-button';
 import { useWishlistStore } from '@/src/store/wishlist-store';
 import { Image } from 'expo-image';
 import { Stack, useRouter } from 'expo-router';
@@ -94,16 +95,27 @@ export default function WishlistScreen() {
                                     overflow: 'hidden',
                                 }}
                             >
-                                <Image
-                                    source={{ uri: item.thumbnailUrl }}
-                                    style={{
-                                        width: '100%',
-                                        height: 160,
-                                        backgroundColor: colors.surface,
-                                    }}
-                                    contentFit="cover"
-                                    transition={200}
-                                />
+                                <View style={{ position: 'relative' }}>
+                                    <Image
+                                        source={{ uri: item.thumbnailUrl }}
+                                        style={{
+                                            width: '100%',
+                                            height: 160,
+                                            backgroundColor: colors.surface,
+                                        }}
+                                        contentFit="cover"
+                                        transition={200}
+                                    />
+                                    <View style={styles.wishlist}>
+
+
+                                        <RemoveFromWishlistButton
+                                            courseId={item.courseId}
+                                            variant='icon' // 'text' or 'icon-text'
+                                        />
+                                    </View>
+                                </View>
+
 
                                 <View style={{ padding: spacing.md }}>
                                     <View
@@ -180,4 +192,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    wishlist: {
+        position: 'absolute',
+        top: 8,
+        left: 8,
+        zIndex: 10
+    }
 });
