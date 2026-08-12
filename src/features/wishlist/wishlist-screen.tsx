@@ -9,14 +9,30 @@ import { useWishlistStore } from '@/src/store/wishlist-store';
 import { Image } from 'expo-image';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { Alert, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default function WishlistScreen() {
     const router = useRouter();
     const { colors, spacing, radii, shadows, fontSizes } = useTheme();
-    const { items, removeItem } = useWishlistStore();
+    const { items, removeItem, clearWishlist } = useWishlistStore();
+
+
+    const handleClearAll = () => {
+        Alert.alert(
+            'Clear Wishlist',
+            `Remove all ${items.length} saved courses?`,
+            [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                    text: 'Clear All',
+                    style: 'destructive',
+                    onPress: () => clearWishlist(),
+                },
+            ]
+        );
+    };
 
     if (items.length === 0) {
         return (
@@ -70,7 +86,7 @@ export default function WishlistScreen() {
 
     return (
         <ThemedView style={styles.container}>
-            <Stack.Screen options={{ title: `Wishlist (${items.length})` }} />
+            <Stack.Screen options={{ title: `Wishlist` }} />
             <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
                 <FlatList
                     data={items}
@@ -83,6 +99,7 @@ export default function WishlistScreen() {
                             style={({ pressed }) => ({
                                 opacity: pressed ? 0.9 : 1,
                                 marginBottom: spacing.md,
+                                position: 'relative'
                             })}
                         >
                             <ThemedView
@@ -178,9 +195,41 @@ export default function WishlistScreen() {
                                     </ThemedText>
                                 </View>
                             </ThemedView>
+
                         </Pressable>
                     )}
+
                 />
+                <Pressable
+                    onPress={handleClearAll}
+                    style={({ pressed }) => ({
+                        marginHorizontal: spacing.md,
+                        marginTop: spacing.sm,
+                        marginBottom: spacing.md,
+                        opacity: pressed ? 0.7 : 1,
+                    })}
+                >
+                    <View
+                        style={{
+                            backgroundColor: colors.straberry,
+                            borderRadius: radii.lg,
+                            paddingVertical: spacing.md,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <ThemedText
+                            type="defaultSemiBold"
+                            style={{
+                                fontSize: fontSizes.md,
+                                color: colors.buttonText,
+                            }}
+                        >
+                            {` Clear All (${items.length})`}
+                        </ThemedText>
+                    </View>
+                </Pressable>
+
             </SafeAreaView>
         </ThemedView>
     );
