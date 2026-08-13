@@ -3,6 +3,7 @@ import { SettingsRow } from '@/src/components/settings/settings-row';
 import { SettingsSection } from '@/src/components/settings/settings-section';
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
+import { router } from 'expo-router';
 import React from 'react';
 
 export function SupportSection() {
@@ -13,12 +14,13 @@ export function SupportSection() {
             <SettingsSection title="Support">
                 <SettingsRow
                     label="Help Center"
-                    onPress={() => Linking.openURL('https://studylab.com/help')}
+                    // onPress={() => Linking.openURL('https://studylab.com/help')}
+                    onPress={() => Linking.openURL('mailto:borod9200@gmail.com')}
                 />
                 <SettingsDivider inset />
                 <SettingsRow
                     label="Contact Support"
-                    onPress={() => Linking.openURL('mailto:support@studylab.com')}
+                    onPress={() => Linking.openURL('mailto:borod9200@gmail.com')}
                 />
             </SettingsSection>
 
@@ -26,12 +28,15 @@ export function SupportSection() {
             <SettingsSection title="Legal">
                 <SettingsRow
                     label="Privacy Policy"
-                    onPress={() => Linking.openURL('https://studylab.com/privacy')}
+                    // onPress={() => Linking.openURL('https://studylab.com/privacy')}
+                    onPress={() => router.push('/privacy')}
                 />
                 <SettingsDivider inset />
                 <SettingsRow
                     label="Terms of Service"
-                    onPress={() => Linking.openURL('https://studylab.com/terms')}
+                    // onPress={() => Linking.openURL('https://studylab.com/terms')}
+                    onPress={() => router.push('/terms')}
+
                 />
             </SettingsSection>
 
