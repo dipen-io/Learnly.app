@@ -1,0 +1,1 @@
+//src/features/home/promo-strip.tsx
