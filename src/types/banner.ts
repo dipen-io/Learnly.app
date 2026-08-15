@@ -5,6 +5,12 @@ export type Banner = {
     imageUrl: string;
     title: string;
     subtitle: string;
+    // type: string;
+    type: 'hero_carousel' | 'promo_strip' | 'announcement' | 'course_featured';
+
+    position: string;
+    priority: number;
+    content: {};
 
     // Where tapping the banner should go — a course, a category, or an
     // external URL (e.g. a blog post about a sale).

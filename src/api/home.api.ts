@@ -6,7 +6,7 @@ import { apiClient } from './client';
 
 export const homeApi = {
     banners: async (): Promise<Banner[]> => {
-        const { data } = await apiClient.get<Banner[]>('/banners');
+        const { data } = await apiClient.get<Banner[]>('/banners?position=home_top');
         return data;
     },
 
