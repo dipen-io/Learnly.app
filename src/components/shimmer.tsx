@@ -9,6 +9,7 @@ interface ShimmerProps {
     width: number;
     height: number;
     borderRadius?: number;
+    style?: {}
 }
 
 export function Shimmer({ width, height, borderRadius = 0 }: ShimmerProps) {
