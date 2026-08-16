@@ -1,10 +1,10 @@
 import { useTheme } from '@/constants/theme';
 import { ThemeRefreshControl } from '@/src/components/themed-refresh-control';
-import { BannerCarousel } from '@/src/features/home/banner-carousel';
 import { CategoryPillList } from '@/src/features/home/category-pill-list';
 import { ContinueLearning } from '@/src/features/home/continue-learning';
 import { FeaturedCourses } from '@/src/features/home/featured-courses';
 import { HomeHeader } from '@/src/features/home/home-header';
+import { Home_Top } from '@/src/features/home/home_top';
 import { RecommendedCourses } from '@/src/features/home/recommended-courses';
 import { TrendingCourses } from '@/src/features/home/trending-courses';
 import { useQueryClient } from '@tanstack/react-query';
@@ -64,7 +64,9 @@ export default function HomeScreen() {
       <HomeHeader />
 
       {/* 2. Banner carousel  */}
-      <BannerCarousel />
+      {/* <BannerCarousel /> */}
+      {/* 2. Reding Home Top  */}
+      <Home_Top />
 
       {/* 3. Category Pill List  */}
       <CategoryPillList />
