@@ -6,13 +6,13 @@
 5. Featured courses : horizontal scroll of cards, editorially picked
 6. Trending/Popular  : another horizontal scroll, different sort than Featured
 7. New Arrival courses
+8. free courses
 
 <br>
 
 # TODO
 
-##  1. free courses
-##  2. Recommended For You ⭐ Most Important
+##  2. Recommended For You ⭐ Most Important (LOGIN USER)
     personalized based
         * category you've browser
         * course u have viewed

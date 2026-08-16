@@ -97,7 +97,7 @@ function SkeletonCard() {
     );
 }
 
-export function RecommendedCourses() {
+export function PopularTrendingCourses() {
     const { colors, fontSizes } = useTheme();
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
     const { data: courses, isLoading, isError, isPersonalized } = useRecommendedCourses();

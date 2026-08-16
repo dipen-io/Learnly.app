@@ -3,10 +3,11 @@ import { ThemeRefreshControl } from '@/src/components/themed-refresh-control';
 import { CategoryPillList } from '@/src/features/home/category-pill-list';
 import { ContinueLearning } from '@/src/features/home/continue-learning';
 import { FeaturedCourses } from '@/src/features/home/featured-courses';
+import { FreeCourses } from '@/src/features/home/free-courses';
 import { HomeHeader } from '@/src/features/home/home-header';
 import { Home_Top } from '@/src/features/home/home_top';
-import { TrendingCourses } from '@/src/features/home/new-arrival-courses';
-import { RecommendedCourses } from '@/src/features/home/recommended-courses';
+import { NewArrivalCourses } from '@/src/features/home/new-arrival-courses';
+import { PopularTrendingCourses } from '@/src/features/home/popular-trending-courses';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
@@ -63,9 +64,7 @@ export default function HomeScreen() {
       {/* 1. Header Section */}
       <HomeHeader />
 
-      {/* 2. Banner carousel  */}
-      {/* <BannerCarousel /> */}
-      {/* 2. Reding Home Top  */}
+      {/* 2. Rending Home Top(banner, promo, announcement)  */}
       <Home_Top />
 
       {/* 3. Category Pill List  */}
@@ -77,11 +76,14 @@ export default function HomeScreen() {
       {/* 5. Featured course */}
       <FeaturedCourses />
 
-      {/* 6. Recommended Course Section */}
-      <RecommendedCourses />
+      {/* 6. Popular/Trending Course Section */}
+      <PopularTrendingCourses />
 
-      {/* 7. Trending Course Section */}
-      <TrendingCourses />
+      {/* 7. New Course Section */}
+      <NewArrivalCourses />
+
+      {/* 8. Free Courses */}
+      <FreeCourses />
 
     </ScrollView>
   );

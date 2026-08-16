@@ -105,7 +105,7 @@ function SkeletonCard() {
 }
 
 
-export function TrendingCourses() {
+export function NewArrivalCourses() {
     const { colors, fontSizes } = useTheme();
     const { data: courses, isLoading, isError } = useTrendingCourses();
 
