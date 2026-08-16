@@ -2,7 +2,6 @@
 
 import { Fonts, radii, spacing, useTheme } from '@/constants/theme';
 import { Shimmer } from '@/src/components/shimmer';
-import { useAuthStore } from '@/src/store/auth-store';
 import type { Course } from '@/src/types/course';
 import { useRouter } from 'expo-router';
 import React from 'react';
@@ -99,20 +98,17 @@ function SkeletonCard() {
 
 export function PopularTrendingCourses() {
     const { colors, fontSizes } = useTheme();
-    const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-    const { data: courses, isLoading, isError, isPersonalized } = useRecommendedCourses();
+    const { data: courses, isLoading, isError, } = useRecommendedCourses();
 
     if (isError || (!isLoading && (!courses || courses.length === 0))) {
         return null;
     }
 
-    const title = isPersonalized ? 'Recommended for You' : 'Popular Right Now';
-
     return (
         <View style={styles.wrapper}>
             <View style={styles.header}>
                 <Text style={[styles.sectionTitle, { color: colors.text, fontSize: fontSizes.xl }]}>
-                    {title}
+                    Popular Right Now
                 </Text>
                 <Pressable>
                     <Text style={[styles.seeAll, { color: colors.primary, fontSize: fontSizes.sm }]}>

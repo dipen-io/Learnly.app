@@ -3,7 +3,7 @@ import { dummyCategories } from "@/src/data/dummy-categories";
 import { dummyFeaturedCourses } from "@/src/data/dummy-featured-courses";
 import { dummyFreeCourses } from "@/src/data/dummy-free-courses";
 import { dummyProgress } from "@/src/data/dummy-progress";
-import { personalizedCourses, popularCourses } from "@/src/data/dummy-recommended";
+import { popularCourses } from "@/src/data/dummy-recommended";
 import { dummyTrending } from "@/src/data/dummy-trending";
 import { useAuthStore } from "@/src/store/auth-store";
 
@@ -53,10 +53,9 @@ export function useFeaturedCourses() {
 export function useRecommendedCourses() {
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
     return {
-        data: isAuthenticated ? personalizedCourses : popularCourses,
+        data: popularCourses,
         isLoading: false,
         isError: false,
-        isPersonalized: isAuthenticated,
     }
 }
 
