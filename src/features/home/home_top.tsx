@@ -1,5 +1,6 @@
 import React from "react";
 import { View } from "react-native";
+import { AnnouncementBar } from "./announcement-bar";
 import { BannerCarousel } from "./banner-carousel";
 import { PromoStrip } from "./promo-strip";
 import { useBanners } from "./use-home-sections";
@@ -23,8 +24,7 @@ export function Home_Top() {
                     return <PromoStrip key={banner.id} content={banner.content} />;
                 }
                 if (banner.type === 'announcement') {
-                    // return <AnnouncementBar key={banner.id} content={banner.content} />;
-                    return null;
+                    return <AnnouncementBar key={banner.id} content={banner.content} />;
                 }
                 return null;
             })}

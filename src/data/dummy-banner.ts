@@ -49,8 +49,6 @@ export const dummyBanners: Banner[] = [
         imageUrl: '',
         title: '',
         subtitle: '',
-        linkType: 'course',
-        linkValue: ''
     },
 
     // ── Type 2: Promo Strip ───────────────────────────────────────────────
@@ -63,7 +61,8 @@ export const dummyBanners: Banner[] = [
             message: 'Summer Sale — 40% off all Data Science courses',
             bgColor: '#F2A93B',
             textColor: '#1C2321',
-            icon: 'sparkles',
+            // icon: 'sparkles',
+            icon: 'flash-outline',
             dismissible: true,
             cta: {
                 label: 'Shop Sale',
@@ -73,8 +72,6 @@ export const dummyBanners: Banner[] = [
         imageUrl: '',
         title: '',
         subtitle: '',
-        linkType: 'course',
-        linkValue: ''
     },
 
     // ── Type 3: Announcement ──────────────────────────────────────────────
@@ -92,8 +89,6 @@ export const dummyBanners: Banner[] = [
         imageUrl: '',
         title: '',
         subtitle: '',
-        linkType: 'course',
-        linkValue: ''
     },
 
     // ── Type 4: Course Featured ───────────────────────────────────────────
@@ -115,7 +110,5 @@ export const dummyBanners: Banner[] = [
         imageUrl: '',
         title: '',
         subtitle: '',
-        linkType: 'course',
-        linkValue: ''
     },
 ];
