@@ -1,6 +1,7 @@
 // src/features/home/recommended-courses.tsx
 
 import { Fonts, radii, spacing, useTheme } from '@/constants/theme';
+import { SectionHeader } from '@/src/components/section-header';
 import { Shimmer } from '@/src/components/shimmer';
 import type { Course } from '@/src/types/course';
 import { useRouter } from 'expo-router';
@@ -99,6 +100,7 @@ function SkeletonCard() {
 export function PopularTrendingCourses() {
     const { colors, fontSizes } = useTheme();
     const { data: courses, isLoading, isError, } = usePopularCourses();
+    const router = useRouter();
 
     if (isError || (!isLoading && (!courses || courses.length === 0))) {
         return null;
@@ -106,16 +108,12 @@ export function PopularTrendingCourses() {
 
     return (
         <View style={styles.wrapper}>
-            <View style={styles.header}>
-                <Text style={[styles.sectionTitle, { color: colors.text, fontSize: fontSizes.xl }]}>
-                    Popular Right Now
-                </Text>
-                <Pressable>
-                    <Text style={[styles.seeAll, { color: colors.primary, fontSize: fontSizes.sm }]}>
-                        See All
-                    </Text>
-                </Pressable>
-            </View>
+            <SectionHeader
+                title="Popular Right Now"
+                subtitle="Find Trenging courses"
+                actionLabel="See All"
+                onActionPress={() => router.push('/explore?filter=recommended')}
+            />
 
             <ScrollView
                 horizontal
@@ -135,7 +133,7 @@ export function PopularTrendingCourses() {
 
 const styles = StyleSheet.create({
     wrapper: {
-        marginBottom: spacing.md,
+        marginBottom: spacing.sm,
     },
 
     header: {

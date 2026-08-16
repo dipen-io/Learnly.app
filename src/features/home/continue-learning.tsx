@@ -1,6 +1,7 @@
 //src/features/home/continue-learning.tsx
 
 import { Fonts, radii, spacing, useTheme } from "@/constants/theme";
+import { SectionHeader } from "@/src/components/section-header";
 import { Shimmer } from "@/src/components/shimmer";
 import { useAuthStore } from "@/src/store/auth-store";
 import { useRouter } from "expo-router";
@@ -67,18 +68,12 @@ export function ContinueLearning() {
 
     return (
         <View>
-            <View style={styles.header}>
-                <Text style={[styles.title, {
-                    color: colors.text,
-                    fontSize: fontSizes.xl
-
-
-                }]}>Continue Learning</Text>
-
-                <Pressable onPress={() => router.push('/(tabs)/my-learning')}>
-                    <Text style={[styles.seeAll, { color: colors.primary, fontSize: fontSizes.sm }]}>See All</Text>
-                </Pressable>
-            </View>
+            <SectionHeader
+                title="Continue Learning"
+                // subtitle="Based on your interests"
+                actionLabel="See All"
+                onActionPress={() => router.push('/(tabs)/my-learning')}
+            />
             {/* Horizontal strip */}
             <ScrollView
                 horizontal
@@ -169,7 +164,7 @@ const CARD_WIDTH = 220;
 
 const styles = StyleSheet.create({
     wrapper: {
-        marginBottom: spacing.lg,
+        marginBottom: spacing.sm,
     },
 
     header: {

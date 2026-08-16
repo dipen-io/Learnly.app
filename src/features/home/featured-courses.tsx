@@ -5,6 +5,7 @@ import {
 } from "@/constants/theme";
 
 import Toast from "@/constants/Toast";
+import { SectionHeader } from "@/src/components/section-header";
 import { Shimmer } from "@/src/components/shimmer";
 import { WishlistHeart } from "@/src/components/wishlist/wishlist-heart";
 import { useCartStore } from "@/src/store/cart-store";
@@ -214,6 +215,7 @@ function SkeletonCard() {
 export function FeaturedCourses() {
     const { colors, fontSizes } = useTheme();
     const { data: courses, isLoading, isError } = useFeaturedCourses();
+    const router = useRouter();
 
     if (isError || (!isLoading && (!courses || courses.length === 0))) {
         return null;
@@ -221,11 +223,12 @@ export function FeaturedCourses() {
 
     return (
         <View style={styles.wrapper}>
-            <View style={styles.header}>
-                <Text style={[styles.sectionTitle, { color: colors.text, fontSize: fontSizes.xl }]}>
-                    Featured Courses
-                </Text>
-            </View>
+            <SectionHeader
+                title="Featured Courses"
+                // subtitle="Based on your interests"
+                actionLabel="See All"
+                onActionPress={() => router.push('/explore?filter=recommended')}
+            />
 
             <ScrollView
                 horizontal
@@ -243,7 +246,7 @@ export function FeaturedCourses() {
 
 const styles = StyleSheet.create({
     wrapper: {
-        marginBottom: spacing.md,
+        marginBottom: spacing.sm,
     },
 
     header: {

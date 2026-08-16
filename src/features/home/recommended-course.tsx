@@ -7,6 +7,7 @@ import { FlatList, View } from 'react-native';
 // import { CourseCard } from '@/src/components/course/course-card';
 import { CourseCard } from '@/src/components/course/course-card';
 import { Shimmer } from '@/src/components/shimmer';
+import { useAuthStore } from '@/src/store/auth-store';
 import { useRouter } from 'expo-router';
 import { useRecommendedCourses } from './use-home-sections';
 
@@ -14,12 +15,16 @@ export function RecommendedCourses() {
     const router = useRouter();
     const { colors, spacing, radii } = useTheme();
     const { data: courses, isLoading, isError } = useRecommendedCourses();
+    const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+
+    // only login user can see this section
+    // if (!isAuthenticated) return null;
 
     if (isError) return null;
     if (!isLoading && (!courses || courses.length === 0)) return null;
 
     return (
-        <View style={{ marginBottom: spacing.lg }}>
+        <View style={{ marginBottom: spacing.sm }}>
             <SectionHeader
                 title="Recommended for You"
                 subtitle="Based on your interests"
