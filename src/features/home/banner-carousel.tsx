@@ -1,7 +1,6 @@
-// src/features/home/banner-carousel.tsx
-
-import { radii, spacing, useTheme } from "@/constants/theme";
+import { spacing, useTheme } from "@/constants/theme";
 import { BannerCard } from "@/src/components/bannerCard";
+import { Banner } from "@/src/types/banner";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
     Dimensions,
@@ -9,9 +8,8 @@ import {
     NativeScrollEvent,
     NativeSyntheticEvent,
     StyleSheet,
-    View
+    View,
 } from "react-native";
-import { useBanners } from "./use-home-sections";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const GAP = spacing.sm;
@@ -20,28 +18,29 @@ const SIDE_INSET = spacing.lg;
 const BANNER_WIDTH = SCREEN_WIDTH - SIDE_INSET * 2;
 const BANNER_HEIGHT = 150;
 const SNAP_INTERVAL = BANNER_WIDTH + GAP;
-const AUTO_PLAY_INTERVAL = 4000;
 
+interface BannerCarouselProps {
+    banner: Banner;
+}
 
-export function BannerCarousel() {
+export function BannerCarousel({ banner }: BannerCarouselProps) {
     const { colors } = useTheme();
-    const { data: banners, isLoading, isError } = useBanners();
+    const slides = banner.content.slides;
+    const autoPlayInterval = banner.content.autoPlayInterval ?? 4000;
+
     const [activeIndex, setActiveIndex] = useState(0);
     const listRef = useRef<FlatList>(null);
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const snapOffsets = useMemo(() => {
-        if (!banners || banners.length === 0) return [];
-
-        const count = banners.length;
-        const contentWidth =
-            SIDE_INSET * 2 + count * BANNER_WIDTH + (count - 1) * GAP;
+        if (!slides || slides.length === 0) return [];
+        const count = slides.length;
+        const contentWidth = SIDE_INSET * 2 + count * BANNER_WIDTH + (count - 1) * GAP;
         const maxScrollOffset = Math.max(0, contentWidth - SCREEN_WIDTH);
-
-        return banners.map((_, i) =>
+        return slides.map((_: any, i: number) =>
             i === count - 1 ? maxScrollOffset : SNAP_INTERVAL * i
         );
-    }, [banners]);
+    }, [slides]);
 
     const stopAutoPlay = useCallback(() => {
         if (timerRef.current) {
@@ -52,68 +51,47 @@ export function BannerCarousel() {
 
     const startAutoPlay = useCallback(() => {
         stopAutoPlay();
-        if (!banners || banners.length <= 1) return;
-
+        if (!slides || slides.length <= 1) return;
         timerRef.current = setInterval(() => {
             setActiveIndex((prev) => {
-                const nextIndex = (prev + 1) % banners.length;
+                const nextIndex = (prev + 1) % slides.length;
                 listRef.current?.scrollToOffset({
                     offset: snapOffsets[nextIndex],
                     animated: true,
                 });
                 return nextIndex;
             });
-        }, AUTO_PLAY_INTERVAL);
-    }, [banners, snapOffsets, stopAutoPlay]);
+        }, autoPlayInterval);
+    }, [slides, snapOffsets, stopAutoPlay, autoPlayInterval]);
 
-    // Start timer on mount / when banners load
     useEffect(() => {
         startAutoPlay();
         return () => stopAutoPlay();
     }, [startAutoPlay, stopAutoPlay]);
 
-    if (isError || (!isLoading && (!banners || banners.length === 0))) {
-        return null;
-    }
+    if (!slides || slides.length === 0) return null;
 
-    if (isLoading) {
-        return (
-            <View
-                style={[
-                    styles.skeleton,
-                    {
-                        backgroundColor: colors.surface,
-                        marginHorizontal: SIDE_INSET,
-                    },
-                ]}
-            />
-        );
-    }
-
-    // When user drags, pause timer. When scroll settles, update dot + restart timer.
     const handleMomentumScrollEnd = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
         const offset = e.nativeEvent.contentOffset.x;
         let closestIndex = 0;
         let closestDistance = Infinity;
-
-        snapOffsets.forEach((stop, i) => {
+        snapOffsets.forEach((stop: number, i: number) => {
             const distance = Math.abs(offset - stop);
             if (distance < closestDistance) {
                 closestDistance = distance;
                 closestIndex = i;
             }
         });
-
         setActiveIndex(closestIndex);
-        startAutoPlay(); // ← restart the timer after manual swipe
+        startAutoPlay();
     }, [snapOffsets, startAutoPlay]);
 
     return (
         <View style={{ marginBottom: spacing.lg }}>
             <FlatList
                 ref={listRef}
-                data={banners}
-                keyExtractor={(item) => item.id}
+                data={slides}
+                keyExtractor={(_, i) => `${banner.id}-slide-${i}`}
                 horizontal
                 snapToOffsets={snapOffsets}
                 decelerationRate="fast"
@@ -126,21 +104,28 @@ export function BannerCarousel() {
                 onMomentumScrollEnd={handleMomentumScrollEnd}
                 scrollEventThrottle={16}
                 onScrollBeginDrag={stopAutoPlay}
-                renderItem={({ item }) => <BannerCard banner={item} />}
+                renderItem={({ item }) => (
+                    <BannerCard
+                        imageUrl={item.imageUrl}
+                        title={item.title}
+                        subtitle={item.subtitle}
+                        bgColor={item.bgColor}
+                        textColor={item.textColor}
+                        cta={item.cta}
+                    />
+                )}
             />
 
-            {banners && banners.length > 1 && (
+            {slides.length > 1 && banner.content.showIndicators !== false && (
                 <View style={styles.dotsRow}>
-                    {banners.map((_, i) => (
+                    {slides.map((_: any, i: React.Key | null | undefined) => (
                         <View
                             key={i}
                             style={[
                                 styles.dot,
                                 {
                                     backgroundColor:
-                                        i === activeIndex
-                                            ? colors.primary
-                                            : colors.border,
+                                        i === activeIndex ? colors.primary : colors.border,
                                 },
                             ]}
                         />
@@ -152,15 +137,6 @@ export function BannerCarousel() {
 }
 
 const styles = StyleSheet.create({
-    banner: {
-        width: BANNER_WIDTH,
-        height: BANNER_HEIGHT,
-        borderRadius: radii.md,
-    },
-    skeleton: {
-        height: BANNER_HEIGHT,
-        borderRadius: radii.lg,
-    },
     dotsRow: {
         flexDirection: 'row',
         justifyContent: 'center',

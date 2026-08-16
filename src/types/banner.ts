@@ -10,10 +10,10 @@ export type Banner = {
 
     position: string;
     priority: number;
-    content: {};
+    content: Record<string, any>;
 
     // Where tapping the banner should go — a course, a category, or an
     // external URL (e.g. a blog post about a sale).
-    linkType: 'course' | 'category' | 'url';
-    linkValue: string;
+    //     linkType: 'course' | 'category' | 'url';
+    //     linkValue: string;
 }
