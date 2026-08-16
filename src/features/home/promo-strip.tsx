@@ -1,6 +1,6 @@
 import { useTheme } from '@/constants/theme';
 import { ThemedText } from '@/src/components/themed-text';
-import { IconSymbol } from '@/src/components/ui/icon-symbol';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -51,10 +51,10 @@ export function PromoStrip({ content }: PromoStripProps) {
         >
             <View style={styles.row}>
                 {icon && (
-                    <IconSymbol
+                    <Ionicons
                         name={icon}
-                        size={16}
-                        color={fg}
+                        size={30}
+                        color={colors.straberry}
                         style={{ marginRight: spacing.sm }}
                     />
                 )}
@@ -63,7 +63,7 @@ export function PromoStrip({ content }: PromoStripProps) {
                     style={{
                         flex: 1,
                         fontSize: fontSizes.sm,
-                        color: fg,
+                        color: colors.background,
                         fontWeight: '500',
                     }}
                     numberOfLines={2}
@@ -76,7 +76,7 @@ export function PromoStrip({ content }: PromoStripProps) {
                         <ThemedText
                             style={{
                                 fontSize: fontSizes.sm,
-                                color: fg,
+                                color: colors.backArrow,
                                 fontWeight: '700',
                                 marginLeft: spacing.sm,
                             }}
@@ -92,7 +92,7 @@ export function PromoStrip({ content }: PromoStripProps) {
                         hitSlop={12}
                         style={{ marginLeft: spacing.sm }}
                     >
-                        <IconSymbol name="xmark" size={14} color={fg} />
+                        <Ionicons name="close-outline" size={25} color={fg} />
                     </Pressable>
                 )}
             </View>
