@@ -8,6 +8,7 @@ import { HomeHeader } from '@/src/features/home/home-header';
 import { Home_Top } from '@/src/features/home/home_top';
 import { NewArrivalCourses } from '@/src/features/home/new-arrival-courses';
 import { PopularTrendingCourses } from '@/src/features/home/popular-trending-courses';
+import { RecommendedCourses } from '@/src/features/home/recommended-course';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
@@ -76,13 +77,16 @@ export default function HomeScreen() {
       {/* 5. Featured course */}
       <FeaturedCourses />
 
-      {/* 6. Popular/Trending Course Section */}
+      {/* 6. Recommended Course  */}
+      <RecommendedCourses />
+
+      {/* 7. Popular/Trending Course Section */}
       <PopularTrendingCourses />
 
-      {/* 7. New Course Section */}
+      {/* 8. New Course Section */}
       <NewArrivalCourses />
 
-      {/* 8. Free Courses */}
+      {/* 9. Free Courses */}
       <FreeCourses />
 
     </ScrollView>
