@@ -1,6 +1,7 @@
 //src/features/home/trending-courses.tsx
 
 import { BrandColors, Fonts, radii, spacing, useTheme } from "@/constants/theme";
+import { SectionHeader } from "@/src/components/section-header";
 import { Shimmer } from "@/src/components/shimmer";
 import type { TrendingCourse } from "@/src/data/dummy-trending";
 import { useRouter } from "expo-router";
@@ -108,6 +109,7 @@ function SkeletonCard() {
 export function NewArrivalCourses() {
     const { colors, fontSizes } = useTheme();
     const { data: courses, isLoading, isError } = useTrendingCourses();
+    const router = useRouter();
 
     if (isError || (!isLoading && (!courses || courses.length === 0))) {
         return null;
@@ -115,18 +117,12 @@ export function NewArrivalCourses() {
 
     return (
         <View style={styles.wrapper}>
-            <View style={styles.header}>
-                <View style={styles.titleRow}>
-                    <Text style={[styles.sectionTitle, { color: colors.text, fontSize: fontSizes.xl }]}>
-                        New Arrivals
-                    </Text>
-                </View>
-                <Pressable>
-                    <Text style={[styles.seeAll, { color: colors.primary, fontSize: fontSizes.sm }]}>
-                        See All
-                    </Text>
-                </Pressable>
-            </View>
+            <SectionHeader
+                title="New Arrivals"
+                subtitle="Browser latest course here"
+                actionLabel="See All"
+                onActionPress={() => router.push('/explore?price=free')}
+            />
 
             <ScrollView
                 horizontal
