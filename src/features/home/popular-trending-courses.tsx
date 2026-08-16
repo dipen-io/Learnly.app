@@ -13,7 +13,7 @@ import {
     Text,
     View,
 } from 'react-native';
-import { useRecommendedCourses } from './use-home-sections';
+import { usePopularCourses } from './use-home-sections';
 
 const CARD_WIDTH = 200;
 const IMAGE_HEIGHT = 110;
@@ -98,7 +98,7 @@ function SkeletonCard() {
 
 export function PopularTrendingCourses() {
     const { colors, fontSizes } = useTheme();
-    const { data: courses, isLoading, isError, } = useRecommendedCourses();
+    const { data: courses, isLoading, isError, } = usePopularCourses();
 
     if (isError || (!isLoading && (!courses || courses.length === 0))) {
         return null;

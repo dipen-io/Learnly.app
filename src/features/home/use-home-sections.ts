@@ -4,6 +4,7 @@ import { dummyFeaturedCourses } from "@/src/data/dummy-featured-courses";
 import { dummyFreeCourses } from "@/src/data/dummy-free-courses";
 import { dummyProgress } from "@/src/data/dummy-progress";
 import { popularCourses } from "@/src/data/dummy-recommended";
+import { dummyRecommendedCourses } from "@/src/data/dummy-recommended-courses";
 import { dummyTrending } from "@/src/data/dummy-trending";
 import { useAuthStore } from "@/src/store/auth-store";
 
@@ -50,7 +51,7 @@ export function useFeaturedCourses() {
     }
 }
 
-export function useRecommendedCourses() {
+export function usePopularCourses() {
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
     return {
         data: popularCourses,
@@ -73,4 +74,21 @@ export function useFreeCourses() {
         isLoading: false,
         isError: false,
     }
+}
+
+export function useRecommendedCourses() {
+    // TODO: Replace with real API when backend is ready
+    // For now, return dummy data
+    return {
+        data: dummyRecommendedCourses,
+        isLoading: false,
+        isError: false,
+    };
+
+    // Real implementation:
+    // return useQuery({
+    //   queryKey: homeKeys.recommended(),
+    //   queryFn: homeApi.getRecommendedCourses,
+    //   staleTime: 1000 * 60 * 5,
+    // });
 }
