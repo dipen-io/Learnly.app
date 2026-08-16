@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         paddingHorizontal: 16,
         marginBottom: 12,
+        marginTop: 10
     },
     textBlock: {
         flex: 1,

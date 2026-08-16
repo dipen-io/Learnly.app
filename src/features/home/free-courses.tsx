@@ -4,24 +4,26 @@ import { useTheme } from "@/constants/theme";
 import { FreeCourseCard } from "@/src/components/course/free-course-card";
 import { SectionHeader } from "@/src/components/section-header";
 import { Shimmer } from "@/src/components/shimmer";
+import { useRouter } from "expo-router";
 import React from "react";
 import { FlatList, View } from "react-native";
 import { useFreeCourses } from "./use-home-sections";
 
 export function FreeCourses() {
-    const { colors, fontSizes, radii, spacing } = useTheme();
+    const { radii, spacing } = useTheme();
     const { data: courses, isError, isLoading } = useFreeCourses();
+    const router = useRouter();
 
     if (isError) return null;
     if (!isLoading && (!courses || courses.length === 0)) return null;
 
     return (
-        <View style={{ marginBottom: spacing.lg }}>
+        <View style={{ marginBottom: spacing.xs }}>
             <SectionHeader
                 title="Free Courses"
                 subtitle="Start learning at no cost"
-            // actionLabel="See All"
-            // onActionPress={() => router.push('/explore?price=free')}
+                actionLabel="See All"
+                onActionPress={() => router.push('/explore?price=free')}
             />
 
             {isLoading ? (

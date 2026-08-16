@@ -26,7 +26,7 @@ export function FreeCourseCard({ course }: FreeCoursesProp) {
             <View
                 style={[styles.card, {
                     backgroundColor: colors.surface,
-                    borderRadius: spacing.lg,
+                    borderRadius: spacing.md,
                     borderWidth: 2,
                     borderColor: colors.success + '40',
                     ...shadows.sm,
