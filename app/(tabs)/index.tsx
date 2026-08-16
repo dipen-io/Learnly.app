@@ -5,8 +5,8 @@ import { ContinueLearning } from '@/src/features/home/continue-learning';
 import { FeaturedCourses } from '@/src/features/home/featured-courses';
 import { HomeHeader } from '@/src/features/home/home-header';
 import { Home_Top } from '@/src/features/home/home_top';
+import { TrendingCourses } from '@/src/features/home/new-arrival-courses';
 import { RecommendedCourses } from '@/src/features/home/recommended-courses';
-import { TrendingCourses } from '@/src/features/home/trending-courses';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
@@ -36,7 +36,7 @@ export default function HomeScreen() {
       exact: false,
     });
     await queryClient.invalidateQueries({
-      queryKey: ['trending'],
+      queryKey: ['new-arrival'], //TODO: need to change
       exact: false,
     });
     await new Promise((r) => setTimeout(r, 600));
