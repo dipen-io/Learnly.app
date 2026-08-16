@@ -13,6 +13,9 @@ export type Course = {
     studentCout: number;
     tag?: string;
     category: string;
+    level?: string;
+    duration?: string;
+    lessonsCount?: number;
 };
 
 export type CourseDetails = Course & {

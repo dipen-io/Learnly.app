@@ -1,6 +1,7 @@
 import { dummyBanners } from "@/src/data/dummy-banner";
 import { dummyCategories } from "@/src/data/dummy-categories";
 import { dummyFeaturedCourses } from "@/src/data/dummy-featured-courses";
+import { dummyFreeCourses } from "@/src/data/dummy-free-courses";
 import { dummyProgress } from "@/src/data/dummy-progress";
 import { personalizedCourses, popularCourses } from "@/src/data/dummy-recommended";
 import { dummyTrending } from "@/src/data/dummy-trending";
@@ -62,6 +63,14 @@ export function useRecommendedCourses() {
 export function useTrendingCourses() {
     return {
         data: dummyTrending,
+        isLoading: false,
+        isError: false,
+    }
+}
+
+export function useFreeCourses() {
+    return {
+        data: dummyFreeCourses,
         isLoading: false,
         isError: false,
     }

@@ -16,7 +16,14 @@ export const queryKeys = {
         all: ['card'] as const,
     },
     settings: {
-        all : ['settings'] as const,
+        all: ['settings'] as const,
         preferences: () => ['settings', 'preferences'] as const,
+    },
+
+    freeCourses: {
+        all: ['course'] as const,
+        // banners: () => ['home', 'banners'] as const,
+        // sections: () => ['home', 'sections'] as const,
+        freeCourses: () => ['course', 'free-courses'] as const,
     },
 };
