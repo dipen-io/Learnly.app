@@ -10,7 +10,7 @@ import { useTrendingCourses } from "./use-home-sections";
 
 const THUMB_SIZE = 80;
 
-function TrendingCard({ course }: { course: TrendingCourse }) {
+function NewArrival({ course }: { course: TrendingCourse }) {
     const router = useRouter();
     const { colors, fontSizes } = useTheme();
 
@@ -118,7 +118,7 @@ export function TrendingCourses() {
             <View style={styles.header}>
                 <View style={styles.titleRow}>
                     <Text style={[styles.sectionTitle, { color: colors.text, fontSize: fontSizes.xl }]}>
-                        Trending Now
+                        New Arrivals
                     </Text>
                 </View>
                 <Pressable>
@@ -137,7 +137,7 @@ export function TrendingCourses() {
                 {isLoading
                     ? [1, 2, 3, 4, 5].map((i) => <SkeletonCard key={i} />)
                     : courses?.map((course) => (
-                        <TrendingCard key={course.id} course={course} />
+                        <NewArrival key={course.id} course={course} />
                     ))}
             </ScrollView>
         </View>
