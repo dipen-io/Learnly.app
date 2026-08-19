@@ -102,6 +102,7 @@ export default function LoginScreen() {
                             placeholder="you@example.com"
                             value={email}
                             onChangeText={setEmail}
+                            editable={!isSubmitting}
                             onChange={() => {
                                 setError(null)
                             }}
@@ -116,6 +117,7 @@ export default function LoginScreen() {
                             placeholder="••••••••"
                             value={password}
                             onChangeText={setPassword}
+                            editable={!isSubmitting}
                             onChange={() => {
                                 setError(null)
                             }}
