@@ -109,7 +109,7 @@ export default function LoginScreen() {
                         />
 
                         <View style={styles.fieldDivider}>
-                            <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
+                            <View style={[styles.dividerLine, { backgroundColor: colors.border, marginBottom: spacing.md }]} />
                         </View>
 
                         <PasswordField
@@ -124,7 +124,7 @@ export default function LoginScreen() {
                         />
 
                         {/* Error */}
-                        {error && (
+                        {/* {error && (
                             <View style={styles.errorRow}>
                                 <View
                                     style={[
@@ -141,7 +141,24 @@ export default function LoginScreen() {
                                     {error}
                                 </Text>
                             </View>
-                        )}
+                        )} */}
+                        {/* Fixed Error Container to prevent layout shift */}
+                        <View style={[styles.errorRow, !error && styles.hiddenErrorRow]}>
+                            <View
+                                style={[
+                                    styles.errorDot,
+                                    { backgroundColor: colors.error },
+                                ]}
+                            />
+                            <Text
+                                style={[
+                                    styles.error,
+                                    { color: colors.error },
+                                ]}
+                            >
+                                {error || 'Placeholder'}
+                            </Text>
+                        </View>
 
                         {/* Sign In Button */}
                         <Pressable
@@ -290,13 +307,13 @@ const styles = StyleSheet.create({
     errorRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: spacing.md,
-        marginBottom: spacing.xs,
+        // marginTop: spacing.xs,
+        // marginBottom: spacing.xs,
     },
 
     errorDot: {
-        width: 6,
-        height: 6,
+        // width: 6,
+        // height: 6,
         borderRadius: 3,
         marginRight: spacing.sm,
     },
@@ -305,12 +322,15 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.bodyMedium,
         fontSize: 13,
     },
+    hiddenErrorRow: {
+        opacity: 0, // Hides the error box visually while preserving its layout footprint
+    },
 
     primaryButton: {
         paddingVertical: spacing.md,
         borderRadius: radii.md,
         alignItems: 'center',
-        marginTop: spacing.lg,
+        marginTop: spacing.md,
     },
 
     primaryButtonDisabled: {
