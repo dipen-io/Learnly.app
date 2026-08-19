@@ -23,7 +23,6 @@ export const authApi = {
         const { data } = await apiClient.post<AuthResponse>('/auth/login', {
             email, password
         });
-        console.log("DATA:::::", data);
         return data;
     },
 
@@ -32,9 +31,11 @@ export const authApi = {
         email: string,
         password: string
     ): Promise<AuthResponse> => {
-        const { data } = await apiClient.post<AuthResponse>('/auth/register', {
+        console.log("creating account....", email, password)
+        const { data } = await apiClient.post<AuthResponse>('/auth/create-new-user', {
             email, password
         });
+        console.log("HW", data);
         return data;
     },
 

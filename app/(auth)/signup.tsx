@@ -3,6 +3,7 @@
 import { Fonts, radii, spacing, useTheme } from '@/constants/theme';
 import { NotebookField } from '@/src/components/notebook-field';
 import { PasswordField } from '@/src/components/password-field';
+import { ThemeSpinner } from '@/src/components/ThemeSpinner';
 import { useAuthStore } from '@/src/store/auth-store';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -23,6 +24,7 @@ export default function SignupScreen() {
 
     const signup = useAuthStore((s) => s.signup);
     const requestEmailOtp = useAuthStore((s) => s.requestEmailOtp);
+
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -48,8 +50,13 @@ export default function SignupScreen() {
         try {
             await signup(email.trim(), password);
             router.replace('/(tabs)');
-        } catch {
-            setError('Something went wrong creating your account.');
+        } catch (err: any) {
+            const serverMessage = err?.response?.data?.message;
+            if (serverMessage) {
+                setError(serverMessage);
+            } else {
+                setError('Something went wrong creating your account.');
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -131,6 +138,8 @@ export default function SignupScreen() {
                             placeholder="you@example.com"
                             value={email}
                             onChangeText={setEmail}
+                            editable={!isSubmitting}
+                            onChange={() => setError(null)}
                         />
 
                         <PasswordField
@@ -138,6 +147,8 @@ export default function SignupScreen() {
                             placeholder="At least 8 characters"
                             value={password}
                             onChangeText={setPassword}
+                            editable={!isSubmitting}
+                            onChange={() => setError(null)}
                         />
 
                         {error && (
@@ -164,7 +175,17 @@ export default function SignupScreen() {
                             <Text
                                 style={[styles.primaryButtonText, { color: colors.buttonText }]}
                             >
-                                {isSubmitting ? 'Creating account…' : 'Create Account'}
+                                {isSubmitting ? 'Creating account…  ' : 'Create Account'}
+                                {isSubmitting && (
+                                    <View style={{ marginTop: 20 }}>
+                                        <ThemeSpinner
+                                            size="small"
+                                            color={colors.buttonText}
+                                            style={{ marginRight: 10 }}
+                                        />
+                                    </View>
+
+                                )}
                             </Text>
                         </Pressable>
                     </View>
@@ -253,16 +274,16 @@ const styles = StyleSheet.create({
     errorRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: spacing.md,
-        marginBottom: spacing.xs,
+        // marginTop: spacing.md,
+        // marginBottom: spacing.xs,
     },
     errorDot: { width: 6, height: 6, borderRadius: 3, marginRight: spacing.sm },
     error: { fontFamily: Fonts.bodyMedium, fontSize: 13 },
     primaryButton: {
-        paddingVertical: spacing.md + 4,
+        paddingVertical: spacing.md,
         borderRadius: radii.md,
         alignItems: 'center',
-        marginTop: spacing.lg,
+        marginTop: spacing.md,
     },
     primaryButtonText: {
         fontFamily: Fonts.bodySemiBold,

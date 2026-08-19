@@ -73,11 +73,11 @@ export const useAuthStore = create<AuthState>((set) => {
         },
 
         signup: async (email, password) => {
-            const { accessToken, refreshToken, user } = await authApi.signup(
+            const { accessToken, refreshToken, data: user } = await authApi.signup(
                 email,
                 password
             );
-            await completeAuth(accessToken, refreshToken, user);
+            await completeAuth(accessToken, 'refreshTokenIsnull', user);
         },
 
         requestEmailOtp: async (email) => {
