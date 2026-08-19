@@ -100,6 +100,9 @@ export default function LoginScreen() {
                             placeholder="you@example.com"
                             value={email}
                             onChangeText={setEmail}
+                            onChange={() => {
+                                setError(null)
+                            }}
                         />
 
                         <View style={styles.fieldDivider}>
@@ -111,6 +114,9 @@ export default function LoginScreen() {
                             placeholder="••••••••"
                             value={password}
                             onChangeText={setPassword}
+                            onChange={() => {
+                                setError(null)
+                            }}
                         />
 
                         {/* Error */}
