@@ -65,10 +65,11 @@ export function LoginOrSignup({ onClose }: LoginOrSignupProps) {
                 style={({ pressed }) => [
                     styles.button,
                     {
-                        borderWidth: StyleSheet.hairlineWidth,
+                        borderWidth: 1.5,
                         borderColor: colors.border,
                         borderRadius: radii.md,
                         opacity: pressed ? 0.7 : 1,
+                        paddingVertical: 12
                     },
                 ]}
                 onPress={() => router.push('/(auth)/signup')}
@@ -82,11 +83,12 @@ export function LoginOrSignup({ onClose }: LoginOrSignupProps) {
                 style={({ pressed }) => [
                     styles.button,
                     {
-                        borderWidth: StyleSheet.hairlineWidth,
+                        borderWidth: 1.5,
                         borderColor: colors.border,
                         borderRadius: radii.md,
                         opacity: pressed ? 0.7 : 1,
-                        marginTop: spacing.md
+                        marginTop: spacing.md,
+                        paddingVertical: 10
                     },
                 ]}
                 onPress={onClose}
