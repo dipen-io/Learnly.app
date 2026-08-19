@@ -3,10 +3,12 @@
 import { Fonts, radii, spacing, useTheme } from '@/constants/theme';
 import { NotebookField } from '@/src/components/notebook-field';
 import { PasswordField } from '@/src/components/password-field';
+import { ThemeSpinner } from '@/src/components/ThemeSpinner';
 import { useAuthStore } from '@/src/store/auth-store';
 import { usePendingActionStore } from '@/src/store/pending-action-store';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
+
 import {
     KeyboardAvoidingView,
     Platform,
@@ -14,7 +16,7 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    View,
+    View
 } from 'react-native';
 
 export default function LoginScreen() {
@@ -144,23 +146,25 @@ export default function LoginScreen() {
                             style={({ pressed }) => [
                                 styles.primaryButton,
                                 { backgroundColor: colors.button },
-                                pressed && {
-                                    opacity: 0.85,
-                                    transform: [{ scale: 0.98 }],
-                                },
+                                pressed && { opacity: 0.85, transform: [{ scale: 0.98 }] },
                                 isSubmitting && styles.primaryButtonDisabled,
                             ]}
                             onPress={handleLogin}
                             disabled={isSubmitting}
                         >
-                            <Text
-                                style={[
-                                    styles.primaryButtonText,
-                                    { color: colors.buttonText },
-                                ]}
-                            >
-                                {isSubmitting ? 'Signing in…' : 'Sign In'}
-                            </Text>
+                            <View style={styles.buttonContent}>
+                                <Text style={[styles.primaryButtonText, { color: colors.buttonText }]}>
+                                    {isSubmitting ? 'Signing in…' : 'Sign In'}
+                                </Text>
+
+                                {isSubmitting && (
+                                    <ThemeSpinner
+                                        size="small"
+                                        color={colors.buttonText}
+                                        style={{ marginLeft: 8 }}
+                                    />
+                                )}
+                            </View>
                         </Pressable>
 
                         {/* login with OTP */}
@@ -301,7 +305,7 @@ const styles = StyleSheet.create({
     },
 
     primaryButton: {
-        paddingVertical: spacing.md + 4,
+        paddingVertical: spacing.md,
         borderRadius: radii.md,
         alignItems: 'center',
         marginTop: spacing.lg,
@@ -358,5 +362,13 @@ const styles = StyleSheet.create({
         height: 1,
         marginLeft: -spacing.lg,
         marginRight: -spacing.lg,
+    },
+    buttonContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonSpinner: {
+        marginLeft: 8,
     },
 });
