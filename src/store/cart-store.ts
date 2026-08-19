@@ -12,6 +12,7 @@
 // flips true -> false (logout, or a forced session-clear from the 401
 // interceptor). auth-store itself has zero knowledge this file exists.
 
+import Toast from '@/constants/Toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -19,7 +20,6 @@ import { cartApi } from '../api/cart.api';
 import { dummyCartItems } from '../data/dummy-cart';
 import type { CartItem } from '../types/cart';
 import { useAuthStore } from './auth-store';
-import Toast from '@/constants/Toast';
 
 type CartState = {
     items: CartItem[];
@@ -31,7 +31,7 @@ type CartState = {
     isInCart: (courseId: string) => boolean;
     mergeOnLogin: () => Promise<void>;
 
-    increaseCartQty:(courseId: string) => Promise<void>;
+    increaseCartQty: (courseId: string) => Promise<void>;
     decreaseCartQty: (courseId: string) => Promise<void>;
 };
 
@@ -69,8 +69,8 @@ export const useCartStore = create<CartState>()(
                     items: state.items.filter((i) => i.courseId !== courseId),
                 }));
 
-                    const { isAuthenticated } = useAuthStore.getState();
-                    Toast.show('Item removed', 'success', '650');
+                const { isAuthenticated } = useAuthStore.getState();
+                Toast.show('Item removed', 'success', '650');
                 if (isAuthenticated) {
                     try {
 
@@ -86,7 +86,7 @@ export const useCartStore = create<CartState>()(
             clearCart: () => set({ items: [] }),
 
             isInCart: (courseId) =>
-                get().items.some((i) => i.courseId === courseId),
+                get().items?.some((i) => i.courseId === courseId),
 
             mergeOnLogin: async () => {
                 const localItems = get().items;
@@ -102,57 +102,57 @@ export const useCartStore = create<CartState>()(
                 }
             },
 
-            increaseCartQty: async(courseId: string) => {
-                const item =  get().items.find((i) => i.courseId === courseId);
+            increaseCartQty: async (courseId: string) => {
+                const item = get().items.find((i) => i.courseId === courseId);
                 if (!item) return;
                 const previousItems = get().items;
 
                 set((state) => ({
-                    items: state.items.map((i) => 
-                                           i.courseId === courseId  
-                                           ? {...i, quantity: (i.quantity ?? 1) + 1} : i
-                                          ),
+                    items: state.items.map((i) =>
+                        i.courseId === courseId
+                            ? { ...i, quantity: (i.quantity ?? 1) + 1 } : i
+                    ),
                 }));
 
                 const { isAuthenticated } = useAuthStore.getState();
                 if (!isAuthenticated) return;
                 try {
-                   await cartApi.updateQtry(courseId, (item.quantity ?? 1) + 1);
+                    await cartApi.updateQtry(courseId, (item.quantity ?? 1) + 1);
                 } catch (error) {
-                    set({items: previousItems});
+                    set({ items: previousItems });
                     throw error
-                    
+
                 }
             },
 
-            decreaseCartQty: async(courseId: string) => {
+            decreaseCartQty: async (courseId: string) => {
                 const item = get().items.find((i) => i.courseId === courseId);
 
                 if (!item) return;
-                const newQtry = Math.max(0, (item.quantity ?? 1) -1 );
+                const newQtry = Math.max(0, (item.quantity ?? 1) - 1);
                 const previousItems = get().items;
 
                 set((state) => ({
-                    items: state.items.map((i) => 
-                                           i.courseId === courseId ? {...i, quantity: newQtry} : i
-                                          ).filter((i) => i.quantity > 0),
-                }) 
+                    items: state.items.map((i) =>
+                        i.courseId === courseId ? { ...i, quantity: newQtry } : i
+                    ).filter((i) => i.quantity > 0),
+                })
 
                 )
 
-                const {isAuthenticated} = useAuthStore.getState();
+                const { isAuthenticated } = useAuthStore.getState();
                 if (!isAuthenticated) return;
 
                 try {
-                   if (newQtry === 0) {
-                       // Treat as remove from cart
-                       await cartApi.remove(courseId);
-                   } else {
-                       await cartApi.updateQtry(courseId);
-                   }
+                    if (newQtry === 0) {
+                        // Treat as remove from cart
+                        await cartApi.remove(courseId);
+                    } else {
+                        await cartApi.updateQtry(courseId);
+                    }
                 } catch (error) {
-                   set({ items: previousItems }) 
-                   throw error;
+                    set({ items: previousItems })
+                    throw error;
                 }
             },
         }),

@@ -79,9 +79,14 @@ export const useWishlistStore = create<WishlistState>()(
 
             clearWishlist: () => set({ items: [] }),
 
-            isInWishlist: (courseId) =>
-                get().items.some((i) => i.courseId === courseId),
+            // isInWishlist: (courseId) => 
+            //     get().items?.some((i) => i.courseId === courseId),
 
+            isInWishlist: (courseId) => {
+                const items = get().items;
+                if (!Array.isArray(items)) return false;
+                return items.some((i) => i.courseId === courseId);
+            },
             mergeOnLogin: async () => {
                 const localItems = get().items;
                 set({ isSyncing: true });
@@ -96,11 +101,36 @@ export const useWishlistStore = create<WishlistState>()(
                 }
             },
         }),
+
+        // {
+        //     name: 'wishlist-storage',
+        //     storage: createJSONStorage(() => AsyncStorage),
+        //     // Add this to fix corrupted storage:
+        //     onRehydrateStorage: () => (state) => {
+        //         if (state && !Array.isArray(state.items)) {
+        //             state.items = [];
+        //         }
+        //     },
+        // }
         {
-            name: 'wishlist-storage',
+            name: 'wishlist-storage-v2', // <-- bump name to clear old corrupted storage
             storage: createJSONStorage(() => AsyncStorage),
-            partialize: (state) =>
-                useAuthStore.getState().isAuthenticated ? { items: [] } : state,
+
+            // Fix: sanitize anything that comes back from storage
+            onRehydrateStorage: () => (state) => {
+                if (!state) return;
+                if (!Array.isArray(state.items)) {
+                    state.items = [];
+                }
+            },
+
+            // Your auth logic: only persist for guests
+            partialize: (state) => {
+                const isAuth = useAuthStore.getState().isAuthenticated;
+                // If logged in: persist nothing (or empty array)
+                // If guest: persist only items
+                return isAuth ? { items: [] } : { items: state.items };
+            },
         }
     )
 );

@@ -10,7 +10,7 @@ import { create } from "zustand";
 import { authApi } from "../api/auth.api";
 import { apiClient } from "../api/client";
 import type { User } from "../types/user";
-import { deleteTokens, getAccessToken } from "../utils/token-storage";
+import { deleteTokens, getAccessToken, saveToken } from "../utils/token-storage";
 
 
 type AuthState = {
@@ -40,9 +40,12 @@ export const useAuthStore = create<AuthState>((set) => {
         refreshToken: string,
         user: User
     ) {
-        await saveTokens(accessToken, refreshToken);
+        await saveToken(accessToken, refreshToken);
+        console.log("savedToken... done");
         apiClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        console.log("apiclient accesstoken setting... done");
         set({ user, isAuthenticated: true });
+        console.log("setUser... done");
     }
 
     return {
@@ -61,11 +64,12 @@ export const useAuthStore = create<AuthState>((set) => {
         },
 
         login: async (email, password) => {
-            const { accessToken, refreshToken, user } = await authApi.login(
+            const { accessToken, refreshToken, data: user } = await authApi.login(
                 email,
                 password
             );
-            await completeAuth(accessToken, refreshToken, user);
+            console.log("FROM LOGIN: ", accessToken, user);
+            await completeAuth(accessToken, "refreshTokenIsnull", user);
         },
 
         signup: async (email, password) => {
@@ -113,12 +117,6 @@ export const useAuthStore = create<AuthState>((set) => {
     };
 });
 
-
-
-
-function saveTokens(accessToken: string, refreshToken: string) {
-    throw new Error("Function not implemented.");
-}
 /*
 export const useAuthStore = create<AuthState>((set, get) => ({
     user: null,
