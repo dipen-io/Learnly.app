@@ -2,17 +2,13 @@
 
 import { useTheme } from "@/constants/theme";
 import { ThemedText } from "@/src/components/themed-text";
+import type { User } from "@/src/types/user";
 import { Image } from "expo-image";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-interface AccountHeaderProps {
-    name?: string;
-    email?: string;
-    avatar?: string;
-}
 
-export function AccountHeader({ name, email, avatar }: AccountHeaderProps) {
+export function AccountHeader({ name, email, avatar }: User) {
     const { colors, radii, spacing } = useTheme();
 
     return (

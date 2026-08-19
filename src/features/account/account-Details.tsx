@@ -8,18 +8,19 @@ import { AccountHeader } from "./account-header";
 import { AccountMenu } from "./account-menu";
 import { GuestAccountHeader } from "./guest-account-header";
 import { LoginOrSignup } from "./loginOrSignup";
-import { useUsers } from "./use-account-section";
 
 
 export function AccountDetails() {
     const [showLoginSignup, setShowLoginSignup] = useState(true)
-    const { data: users, isError, isLoading } = useUsers();
+    // const { data: users, isError, isLoading } = useUsers();
     const { colors } = useTheme();
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+    const users = useAuthStore((s) => s.user);
 
 
-    if (isError) return null;
-    if (!isLoading && (!users)) return null;
+    // if (isError) return null;
+    // if (!isLoading && (!users)) return null;
+    if (!users) return null;
 
     if (showLoginSignup && !isAuthenticated) {
         return (
@@ -40,8 +41,7 @@ export function AccountDetails() {
                         <AccountHeader
                             name={users.name}
                             email={users.email}
-                            avatar={users.avatar}
-
+                            avatar={users.profilePicture} profilePicture={undefined} id={""}
                         />
 
                         {/* Stats */}
