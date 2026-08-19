@@ -44,7 +44,6 @@ export default function LoginScreen() {
         try {
             await login(email.trim(), password);
             await runPendingAction();
-
             if (router.canGoBack()) {
                 router.back();
             } else {

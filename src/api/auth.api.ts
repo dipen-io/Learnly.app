@@ -8,7 +8,7 @@ import { apiClient } from "./client";
 
 type AuthResponse = {
     refreshToken: string;
-    user: User;
+    data: User;
     accessToken: string;
 };
 
@@ -23,6 +23,7 @@ export const authApi = {
         const { data } = await apiClient.post<AuthResponse>('/auth/login', {
             email, password
         });
+        console.log("DATA:::::", data);
         return data;
     },
 
