@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { useNetworkStatus } from "../hooks/use-network-status";
 import { ThemedText } from "./themed-text";
 
-function OfflineBanner() {
+export default function OfflineBanner() {
     const { isOffline } = useNetworkStatus();
 
     if (!isOffline) {

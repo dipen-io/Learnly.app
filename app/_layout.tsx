@@ -1,6 +1,7 @@
 // app/_layout.tsx
 
 import Toast from '@/constants/Toast';
+import OfflineBanner from '@/src/components/offline-banner';
 import LeftArrowIcon from '@/src/components/renderLeftArrow';
 import { OnboardingProvider, useOnboarding } from '@/src/context/onboarding-context';
 import { useResolvedTheme } from '@/src/hooks/use-resolved-theme';
@@ -113,16 +114,6 @@ function RootLayoutNav() {
             }}
           />
 
-          {/* <Stack.Screen
-            name="cart/index"
-            options={{
-              headerShown: true,
-              title: 'Cart',
-              headerTitleAlign: 'center',
-              headerShadowVisible: false,
-              animation: 'slide_from_right', // Ensures smooth native slide
-            }}
-          /> */}
           <Stack.Screen name='settings/index'
             options={{
               title: 'Settings',
@@ -143,6 +134,7 @@ function RootLayoutNav() {
         </Stack>
         {/* <StatusBar style="auto" /> */}
       </NavThemeProvider>
+      <OfflineBanner />
 
       {/* StatusBar now follows YOUR theme, not the system */}
       <StatusBar style={isDark ? 'light' : 'dark'} />
