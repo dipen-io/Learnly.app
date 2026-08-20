@@ -41,11 +41,8 @@ export const useAuthStore = create<AuthState>((set) => {
         user: User
     ) {
         await saveToken(accessToken, refreshToken);
-        console.log("savedToken... done");
         apiClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-        console.log("apiclient accesstoken setting... done");
         set({ user, isAuthenticated: true });
-        console.log("setUser... done");
     }
 
     return {
@@ -54,12 +51,25 @@ export const useAuthStore = create<AuthState>((set) => {
         isHydrated: false,
 
         hydrate: async () => {
-            const accessToken = await getAccessToken();
-            if (accessToken) {
+            try {
+                const accessToken = await getAccessToken();
+
+                if (!accessToken) {
+                    set({ user: null, isAuthenticated: false, isHydrated: true });
+                    return;
+                }
+
                 apiClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-                set({ isAuthenticated: true, isHydrated: true });
-            } else {
-                set({ isHydrated: true });
+                const user = await authApi.me();
+
+                set({ user, isAuthenticated: true, isHydrated: true });
+                // REMOVE the duplicate set() call you had here
+
+            } catch (error) {
+                // CRITICAL: Delete the bad token from storage
+                await deleteTokens(); // <-- ADD THIS
+                delete apiClient.defaults.headers.common.Authorization;
+                set({ user: null, isAuthenticated: false, isHydrated: true });
             }
         },
 
