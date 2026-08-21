@@ -1,58 +1,58 @@
 // src/features/account/account-Details.tsx
-
 import { useTheme } from "@/constants/theme";
 import { useAuthStore } from "@/src/store/auth-store";
-import React, { useState } from "react";
-import { View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 import { AccountHeader } from "./account-header";
 import { AccountMenu } from "./account-menu";
 import { GuestAccountHeader } from "./guest-account-header";
 import { LoginOrSignup } from "./loginOrSignup";
 
-
 export function AccountDetails() {
-    const [showLoginSignup, setShowLoginSignup] = useState(true)
-    // const { data: users, isError, isLoading } = useUsers();
+    const [showLoginSignup, setShowLoginSignup] = useState(true);
     const { colors } = useTheme();
+
+    const isHydrated = useAuthStore((s) => s.isHydrated);        // ADD
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
     const users = useAuthStore((s) => s.user);
 
+    // CRITICAL: When user becomes authenticated, force-hide the login screen
+    useEffect(() => {
+        if (isAuthenticated) {
+            setShowLoginSignup(false);
+        }
+    }, [isAuthenticated]);
 
-    // if (isError) return null;
-    // if (!isLoading && (!users)) return null;
-    if (!users) return null;
-
-    if (showLoginSignup && !isAuthenticated) {
+    // Don't render anything until we know auth state (prevents login flash)
+    if (!isHydrated) {
         return (
-            <LoginOrSignup
-                onClose={() => setShowLoginSignup(false)}
-            />
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
+                <ActivityIndicator color={colors.primary} />
+            </View>
         );
     }
 
+    if (showLoginSignup && !isAuthenticated) {
+        return (
+            <LoginOrSignup onClose={() => setShowLoginSignup(false)} />
+        );
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: colors.background }}>
-            {/* Header */}
-
-            {
-                isAuthenticated ? (
-                    <>
-                        <AccountHeader
-                            name={users.name}
-                            email={users.email}
-                            avatar={users.profilePicture} profilePicture={undefined} id={""}
-                        />
-
-                        {/* Stats */}
-
-                    </>
-                ) : (
-                    <GuestAccountHeader />
-                )
-            }
-
-            {/* Menu */}
+            {isAuthenticated ? (
+                <>
+                    <AccountHeader
+                        name={users?.fullName}              // optional chain!
+                        email={users?.email}
+                        avatar={users?.profilePicture}
+                        profilePicture={undefined}
+                        id={""}
+                    />
+                </>
+            ) : (
+                <GuestAccountHeader />
+            )}
             <AccountMenu isAuthenticated={isAuthenticated} />
         </View>
     );
