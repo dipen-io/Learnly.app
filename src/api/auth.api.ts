@@ -3,7 +3,7 @@
 // Only file that knows the actual andpoint paths and request/resonse shape
 // for auth.
 
-import type { User } from "../types/user";
+import type { ApiResponse, User } from "../types/user";
 import { apiClient } from "./client";
 
 type AuthResponse = {
@@ -55,7 +55,7 @@ export const authApi = {
     me: async (): Promise<User> => {
         console.log("/user/me ................")
         try {
-            const response = await apiClient.get<User>('/users/me');
+            const response = await apiClient.get<ApiResponse<User>>('/users/me');
             return response.data.data;
         } catch (error) {
             // console.log("ME FAILED:", error?.response?.status, error?.message);
