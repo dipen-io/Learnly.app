@@ -53,8 +53,16 @@ export const authApi = {
 
     ////////////////////// ME
     me: async (): Promise<User> => {
-        const { data } = await apiClient.get<User>('/users/me');
-        return data;
+        console.log("/user/me ................")
+        try {
+            const response = await apiClient.get<User>('/users/me');
+            return response.data.data;
+        } catch (error) {
+            // console.log("ME FAILED:", error?.response?.status, error?.message);
+            // console.log("ME URL:", error?.config?.url);
+            throw error; // <-- re-throw!
+        }
+
     },
 
 
