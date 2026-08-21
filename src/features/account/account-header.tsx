@@ -8,7 +8,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 
 
-export function AccountHeader({ name, email, avatar }: User) {
+export function AccountHeader({ fullName, email, profilePicture }: User) {
     const { colors, radii, spacing } = useTheme();
 
     return (
@@ -27,7 +27,7 @@ export function AccountHeader({ name, email, avatar }: User) {
 
                     <Image
                         source={
-                            avatar ? { uri: avatar }
+                            profilePicture ? { uri: profilePicture }
                                 : require('../../../assets/images/learn.png')
                         }
                         style={[styles.avatar, {
@@ -39,7 +39,7 @@ export function AccountHeader({ name, email, avatar }: User) {
                 </View>
 
                 <ThemedText type="title" style={styles.name}>
-                    {name || 'student'}
+                    {fullName || 'student'}
                 </ThemedText>
                 <ThemedText style={{ color: colors.textMuted, marginTop: 4 }}>
                     {email || 'No Email'}

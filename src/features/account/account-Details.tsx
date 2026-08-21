@@ -43,10 +43,9 @@ export function AccountDetails() {
             {isAuthenticated ? (
                 <>
                     <AccountHeader
-                        name={users?.fullName}              // optional chain!
+                        fullName={users?.fullName}
                         email={users?.email}
-                        avatar={users?.profilePicture}
-                        profilePicture={undefined}
+                        profilePicture={users?.profilePicture}
                         id={""}
                     />
                 </>
