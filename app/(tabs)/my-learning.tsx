@@ -191,7 +191,7 @@ function StatCard({
 // ─── Main Screen ─────────────────────────────────────────────────────────────
 
 export default function MyLearning() {
-    const { colors } = useTheme();
+    const { colors, fontSizes } = useTheme();
     const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
     if (!isAuthenticated) {
@@ -214,10 +214,10 @@ export default function MyLearning() {
         <View style={[styles.container, { backgroundColor: colors.background }]}>
             {/* Header */}
             <View style={styles.header}>
-                <Text style={[styles.headerTitle, { color: colors.text }]}>
+                <Text style={[styles.headerTitle, { color: colors.text, fontSize: fontSizes.xl }]}>
                     My Learning
                 </Text>
-                <Text style={[styles.headerSubtitle, { color: colors.muted }]}>
+                <Text style={[styles.headerSubtitle, { color: colors.foreground }]}>
                     {overallProgress}% overall progress
                 </Text>
             </View>
@@ -277,9 +277,9 @@ export default function MyLearning() {
                         <Ionicons
                             name="school-outline"
                             size={48}
-                            color={colors.muted}
+                            color={colors.foreground}
                         />
-                        <Text style={[styles.emptyText, { color: colors.muted }]}>
+                        <Text style={[styles.emptyText, { color: colors.foreground }]}>
                             No courses yet
                         </Text>
                     </View>
