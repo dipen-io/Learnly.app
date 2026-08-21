@@ -66,8 +66,8 @@ export const useAuthStore = create<AuthState>((set) => {
                 // REMOVE the duplicate set() call you had here
 
             } catch (error) {
-                // CRITICAL: Delete the bad token from storage
-                await deleteTokens(); // <-- ADD THIS
+                console.log('Hydrate failed, clearing bad token:', error); // helpful for debugging
+                await deleteTokens(); // <-- ADD THIS (clear bad/expired token)
                 delete apiClient.defaults.headers.common.Authorization;
                 set({ user: null, isAuthenticated: false, isHydrated: true });
             }
