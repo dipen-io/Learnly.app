@@ -9,6 +9,7 @@ import axios from 'axios';
 import { router } from 'expo-router';
 import {
     deleteTokens,
+    getAccessToken,
     getRefreshToken,
     updateAccessToken,
 } from '../utils/token-storage';
@@ -85,10 +86,10 @@ apiClient.interceptors.response.use(
 );
 
 
-
-apiClient.interceptors.request.use((req) => {
-    // const token = getStoredToken();
-    const token = "this_is_my_secret_token";
-    if (token) req.headers.Authorization = `Bearer ${token}`;
+apiClient.interceptors.request.use(async (req) => {
+    const token = await getAccessToken();
+    if (token) {
+        req.headers.Authorization = `Bearer ${token}`;
+    }
     return req;
-})
+});
